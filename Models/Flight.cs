@@ -1,25 +1,29 @@
-﻿using BookingTourWebApp_MVC.Data.Enum;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace BookingTourWebApp_MVC.Models
 {
     public class Flight
     {
-        [Key]
         public int Id { get; set; }
-        public string? LocationFrom { get; set; }
-        public string? LocationTo { get; set; }
-        public DateTime DepartureDate { get; set; }
-        public DateTime BoardingTime { get; set; }    
-        public int ReservedBusinessClassSeat { get; set; } = 0;
-        public int ReservedEconomyClassSeat { get; set; } = 0;
-        public int Price { get; set; }
-        public Pilot? Pilot { get; set; }
+        //public string GenerateFlightCode(string departure, string destination, DateTime departureTime)
+        //{
+        //    // Example: Code = DAD-HAN-202301011200 (Departure-Destination-DateTime)
+        //    string code = $"{departure.ToUpper()}-{destination.ToUpper()}-{departureTime:yyyyMMddHHmm}";
+        //    return code;
+        //}
+        public string Departure { get; set; }
+        public string Destination { get; set; }
+        public int BusinessCapacity { get; set; }
+        public int EconomyCapacity { get; set; }
+        public DateTime DepartureTime { get; set; }
+        public decimal BusinessPrice { get; set; }
+        public decimal EconomyPrice { get; set; }
+        public DateTime UploadTime { get; set; }
 
-        [ForeignKey("Plane")]
-        public int? PlaneId { get; set; }
-        public Plane? Plane { get; set; }
-        
+        public int PlaneId { get; set; }
+        public virtual Plane? Plane { get; set; }
+
+        public virtual ICollection<Booking>? Bookings { get; set; }
     }
 }
