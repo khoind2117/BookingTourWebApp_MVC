@@ -5,12 +5,6 @@ namespace BookingTourWebApp_MVC.Models
 {
     public class AppUser : IdentityUser
     {
-        [ForeignKey("Ticket")]
-        public int? TicketId { get; set; }
-        public ICollection<Ticket> Tickets { get; set; }
-        public AppUser() 
-        {
-            Tickets = new HashSet<Ticket>();
-        }
+        public virtual ICollection<Booking>? Bookings { get; set; }
     }
 }

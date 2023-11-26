@@ -28,7 +28,6 @@ namespace BookingTourWebApp_MVC.Migrations
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    TicketId = table.Column<int>(type: "int", nullable: true),
                     UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     NormalizedUserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     Email = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
@@ -50,18 +49,16 @@ namespace BookingTourWebApp_MVC.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Planes",
+                name: "Plane",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    BusinessClassSeat = table.Column<int>(type: "int", nullable: false),
-                    EconomyClassSeat = table.Column<int>(type: "int", nullable: false)
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Planes", x => x.Id);
+                    table.PrimaryKey("PK_Plane", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -171,54 +168,58 @@ namespace BookingTourWebApp_MVC.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Flights",
+                name: "Flight",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    LocationFrom = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    LocationTo = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    DepartureDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    BoardingTime = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    ReservedBusinessClassSeat = table.Column<int>(type: "int", nullable: false),
-                    ReservedEconomyClassSeat = table.Column<int>(type: "int", nullable: false),
-                    Price = table.Column<int>(type: "int", nullable: false),
-                    Pilot = table.Column<int>(type: "int", nullable: true),
-                    PlaneId = table.Column<int>(type: "int", nullable: true)
+                    Departure = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Destination = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    BusinessCapacity = table.Column<int>(type: "int", nullable: false),
+                    EconomyCapacity = table.Column<int>(type: "int", nullable: false),
+                    DepartureTime = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    BusinessPrice = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    EconomyPrice = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    UploadTime = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    PlaneId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Flights", x => x.Id);
+                    table.PrimaryKey("PK_Flight", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Flights_Planes_PlaneId",
+                        name: "FK_Flight_Plane_PlaneId",
                         column: x => x.PlaneId,
-                        principalTable: "Planes",
-                        principalColumn: "Id");
+                        principalTable: "Plane",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Tickets",
+                name: "Booking",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    SeatClass = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    AppUserId = table.Column<string>(type: "nvarchar(450)", nullable: true),
-                    FlightId = table.Column<int>(type: "int", nullable: true)
+                    AppUserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    FlightId = table.Column<int>(type: "int", nullable: false),
+                    BusinessTickets = table.Column<int>(type: "int", nullable: false),
+                    EconomyTickets = table.Column<int>(type: "int", nullable: false),
+                    TotalPrice = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    BookingTime = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Tickets", x => x.Id);
+                    table.PrimaryKey("PK_Booking", x => new { x.AppUserId, x.FlightId });
                     table.ForeignKey(
-                        name: "FK_Tickets_AspNetUsers_AppUserId",
+                        name: "FK_Booking_AspNetUsers_AppUserId",
                         column: x => x.AppUserId,
                         principalTable: "AspNetUsers",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_Tickets_Flights_FlightId",
+                        name: "FK_Booking_Flight_FlightId",
                         column: x => x.FlightId,
-                        principalTable: "Flights",
-                        principalColumn: "Id");
+                        principalTable: "Flight",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateIndex(
@@ -261,19 +262,14 @@ namespace BookingTourWebApp_MVC.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Flights_PlaneId",
-                table: "Flights",
-                column: "PlaneId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Tickets_AppUserId",
-                table: "Tickets",
-                column: "AppUserId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Tickets_FlightId",
-                table: "Tickets",
+                name: "IX_Booking_FlightId",
+                table: "Booking",
                 column: "FlightId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Flight_PlaneId",
+                table: "Flight",
+                column: "PlaneId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -294,7 +290,7 @@ namespace BookingTourWebApp_MVC.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
-                name: "Tickets");
+                name: "Booking");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
@@ -303,10 +299,10 @@ namespace BookingTourWebApp_MVC.Migrations
                 name: "AspNetUsers");
 
             migrationBuilder.DropTable(
-                name: "Flights");
+                name: "Flight");
 
             migrationBuilder.DropTable(
-                name: "Planes");
+                name: "Plane");
         }
     }
 }
