@@ -6,12 +6,6 @@ namespace BookingTourWebApp_MVC.Models
     public class Flight
     {
         public int Id { get; set; }
-        //public string GenerateFlightCode(string departure, string destination, DateTime departureTime)
-        //{
-        //    // Example: Code = DAD-HAN-202301011200 (Departure-Destination-DateTime)
-        //    string code = $"{departure.ToUpper()}-{destination.ToUpper()}-{departureTime:yyyyMMddHHmm}";
-        //    return code;
-        //}
         public string Departure { get; set; }
         public string Destination { get; set; }
         public int BusinessCapacity { get; set; }

@@ -5,6 +5,7 @@ namespace BookingTourWebApp_MVC.Models
 {
     public class AppUser : IdentityUser
     {
+        public string FullName { get; set; }
         public virtual ICollection<Booking>? Bookings { get; set; }
     }
 }
