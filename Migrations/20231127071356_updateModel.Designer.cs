@@ -4,6 +4,7 @@ using BookingTourWebApp_MVC.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BookingTourWebApp_MVC.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20231127071356_updateModel")]
+    partial class updateModel
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -177,52 +179,6 @@ namespace BookingTourWebApp_MVC.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Plane", (string)null);
-                });
-
-            modelBuilder.Entity("BookingTourWebApp_MVC.ViewModels.FlightViewModel", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<int>("BusinessCapacity")
-                        .HasColumnType("int");
-
-                    b.Property<decimal>("BusinessPrice")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<string>("Departure")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("DepartureTime")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Destination")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("EconomyCapacity")
-                        .HasColumnType("int");
-
-                    b.Property<decimal>("EconomyPrice")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<int>("PlaneId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("PlaneName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("UploadTime")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("FlightViewModel");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
