@@ -99,7 +99,9 @@ namespace BookingTourWebApp_MVC.Controllers
                     var result = await _userManager.CreateAsync(user, registerViewModel.Password);
                     if (result.Succeeded)
                     {
+                        #region Role
                         await _userManager.AddToRoleAsync(user, "User"); // Gán role Admin/User
+                        #endregion
                         await _signInManager.SignInAsync(user, isPersistent: false);
                         return LocalRedirect(returnUrl);
                     }
