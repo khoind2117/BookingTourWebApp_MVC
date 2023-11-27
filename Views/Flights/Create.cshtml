@@ -1,0 +1,73 @@
+﻿@model BookingTourWebApp_MVC.ViewModels.FlightViewModel
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Create</h1>
+
+<h4>FlightViewModel</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="PlaneId" class="control-label"></label>
+                <input asp-for="PlaneId" class="form-control" />
+                <span asp-validation-for="PlaneId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Departure" class="control-label"></label>
+                <input asp-for="Departure" class="form-control" />
+                <span asp-validation-for="Departure" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Destination" class="control-label"></label>
+                <input asp-for="Destination" class="form-control" />
+                <span asp-validation-for="Destination" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="BusinessCapacity" class="control-label"></label>
+                <input asp-for="BusinessCapacity" class="form-control" />
+                <span asp-validation-for="BusinessCapacity" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="EconomyCapacity" class="control-label"></label>
+                <input asp-for="EconomyCapacity" class="form-control" />
+                <span asp-validation-for="EconomyCapacity" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DepartureTime" class="control-label"></label>
+                <input asp-for="DepartureTime" class="form-control" />
+                <span asp-validation-for="DepartureTime" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="BusinessPrice" class="control-label"></label>
+                <input asp-for="BusinessPrice" class="form-control" />
+                <span asp-validation-for="BusinessPrice" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="EconomyPrice" class="control-label"></label>
+                <input asp-for="EconomyPrice" class="form-control" />
+                <span asp-validation-for="EconomyPrice" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="UploadTime" class="control-label"></label>
+                <input asp-for="UploadTime" class="form-control" />
+                <span asp-validation-for="UploadTime" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
