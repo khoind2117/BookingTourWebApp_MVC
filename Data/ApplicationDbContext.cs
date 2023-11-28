@@ -1,6 +1,7 @@
 ﻿using BookingTourWebApp_MVC.Models;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using BookingTourWebApp_MVC.ViewModels;
 
 namespace BookingTourWebApp_MVC.Data
 {
@@ -66,6 +67,10 @@ namespace BookingTourWebApp_MVC.Data
                     .OnDelete(DeleteBehavior.Restrict);
             });
         }
+        #endregion
+
+        #region FluentAPI
+        public DbSet<BookingTourWebApp_MVC.ViewModels.CustomerInfo>? CustomerInfo { get; set; }
         #endregion
     }
 }
