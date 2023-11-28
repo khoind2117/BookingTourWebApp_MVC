@@ -5,49 +5,77 @@
 }
 
 <h1>Index</h1>
-<p>
-    <a asp-action="SearchUser">Search</a>
-</p>
-
+<h2>Tìm kiếm theo tên</h2>
+<select id="typeKeyword">
+	<option value="fullname" selected>UserName</option>
+	<option value="phonenumber" >PhoneNumber</option>
+	<option value="gmail" >Gmail</option>
+</select>
+<input id="txtKeyword" placeholder="Tìm gì?" />
+<button id="btnSearch" type="submit">Tìm kiếm</button>
 <p>
     <a asp-action="Create">Create New</a>
 </p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.userName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.fullName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.gmail)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.phoneNumber)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.userName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.gmail)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.phoneNumber)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.userName">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.userName">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.userName">Delete</a>
-            </td>
-        </tr>
+<div id="result">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.userName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.fullName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.gmail)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.phoneNumber)
+                </th>
+                
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.userName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.fullName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.gmail)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.phoneNumber)
+                    </td>
+
+                </tr>
+            }
+        </tbody>
+    </table>
+
+</div>
+
+@section Scripts {
+	<script>
+		$(document).ready(function () {
+			$("#btnSearch").click(function () {
+				let giaTriTim = $("#txtKeyword").val().trim();
+				let loaiTim = $("#typeKeyword").val();
+				if (giaTriTim.length > 0) {
+					$.ajax({
+						url: "/CustomerManagement/HandleSearchUser",
+						data: { "keyword": giaTriTim, "typekw": loaiTim},
+						success: function(res){
+							$("#result").html(res);
+						}
+					});
+				}
+			});
+		});
+	</script>
 }
-    </tbody>
-</table>
+

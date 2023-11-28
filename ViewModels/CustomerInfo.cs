@@ -17,7 +17,7 @@ namespace BookingTourWebApp_MVC.ViewModels
         [EmailAddress(ErrorMessage = "Định dạng gmail không đúng, Vui lòng nhập lại")]
         public string gmail { get; set; }
         [Required(ErrorMessage = "Không được để trống Số điện thoại của tài khoản này")]
-        [RegularExpression("\\d{10}")]
+        [RegularExpression("\\d{10}",ErrorMessage = "Chỉ được giới hạn số từ 0-9 và tối đa 10 chữ số")]
         public string phoneNumber { get; set; }
 
 

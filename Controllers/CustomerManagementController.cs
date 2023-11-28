@@ -31,27 +31,27 @@ namespace BookingTourWebApp_MVC.Controllers
             });
             return View(result);
         }
-  //      public async Task<IActionResult> GetList()
-  //      {
-  //          var data = await _context.Users.FromSqlInterpolated($"select * from dbo.AspNetUsers").Select(u=> new CustomerInfo
-  //          {
-  //              Id=u.Id,
-  //              userName  =u.UserName,
-  //              fullName = u.FullName,
-  //              gmail=u.Email,
-  //              phoneNumber=u.PhoneNumber,
-  //          }).ToListAsync();
-  //          return View(data);
-  //      }
-		//public async Task<IActionResult> GetPlane()
-		//{
-		//	var data = await _context.Planes.FromSqlInterpolated($"select * from dbo.Plane").ToListAsync();
-		//	return View(data);
-		//}
-		public IActionResult SearchUser()
-        {
-            return View("SearchUser");
-        }
+        //public async Task<IActionResult> GetList()
+        //{
+        //    var data = await _context.Users.FromSqlInterpolated($"select * from dbo.AspNetUsers").Select(u => new CustomerInfo
+        //    {
+        //        Id = u.Id,
+        //        userName = u.UserName,
+        //        fullName = u.FullName,
+        //        gmail = u.Email,
+        //        phoneNumber = u.PhoneNumber,
+        //    }).ToListAsync();
+        //    return View(data);
+        //}
+        //public async Task<IActionResult> GetPlane()
+        //{
+        //    var data = await _context.Planes.FromSqlInterpolated($"select * from dbo.Plane").ToListAsync();
+        //    return View(data);
+        //}
+        //public IActionResult SearchUser()
+        //{
+        //    return View("SearchUser");
+        //}
         public async Task<IActionResult> HandleSearchUser(string keyword,string typekw)
         {
 
@@ -72,7 +72,7 @@ namespace BookingTourWebApp_MVC.Controllers
 				}
 				return PartialView("HandleSearchUser", data);
 			}
-			else if(typekw == "phonenumber ")
+			else if(typekw == "phonenumber")
             {
                 var data = await _context.Users.Where(u => u.PhoneNumber.Contains(keyword)).Select(u => new CustomerInfo
 				{
