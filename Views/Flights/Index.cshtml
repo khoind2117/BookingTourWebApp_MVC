@@ -7,11 +7,21 @@
 <p>
     <a asp-action="Create">Thêm chuyến bay</a>
 </p>
+<form asp-action="Index" asp-controller="Flights" method="get">
+    Tìm kiếm theo mã chuyến: <input name="id" /><button>Tìm</button>
+    <br />
+</form>
 <table class="table">
     <thead>
         <tr>
             <th>
+                @Html.DisplayNameFor(model => model.Id)
+            </th>
+            <th>
                 @Html.DisplayNameFor(model => model.PlaneId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PlaneName)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Departure)
@@ -44,7 +54,13 @@
 @foreach (var item in Model) {
         <tr>
             <td>
+                @Html.DisplayFor(modelItem => item.Id)
+            </td>
+            <td>
                 @Html.DisplayFor(modelItem => item.PlaneId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PlaneName)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Departure)

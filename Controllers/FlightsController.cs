@@ -19,7 +19,7 @@ namespace BookingTourWebApp_MVC.Controllers
         {
             _context = context;
         }
-
+        #region GET flights
         // GET: FlightViewModels
         public async Task<ActionResult<IEnumerable<FlightViewModel>>> Index(string? id)
         {
@@ -67,9 +67,10 @@ namespace BookingTourWebApp_MVC.Controllers
                                       EconomyPrice = f.EconomyPrice,
                                       UploadTime = f.UploadTime
                                   }).ToListAsync();
-                return View(flightList[0]);
+                return View(flightList);
             }
         }
+        #endregion
         //=========================================================================
         // GET: FlightViewModels/Details/5
         //public async Task<IActionResult> Details(int? id)
@@ -100,31 +101,20 @@ namespace BookingTourWebApp_MVC.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,PlaneId,Departure,Destination,BusinessCapacity,EconomyCapacity,DepartureTime,BusinessPrice,EconomyPrice,UploadTime")] FlightViewModel flightViewModel)
+        public async Task<IActionResult> Create([Bind("Id,PlaneId,Departure,Destination,BusinessCapacity,EconomyCapacity,DepartureTime,BusinessPrice,EconomyPrice,UploadTime")] Flight addFlightRequest)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(flightViewModel);
+                _context.Add(addFlightRequest);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(flightViewModel);
+            return View(addFlightRequest);
         }
 
         // GET: FlightViewModels/Edit/5
         public async Task<IActionResult> Edit(string id)
         {
-            //if (id == null || _context.FlightViewModel == null)
-            //{
-            //    return NotFound();
-            //}
-
-            //var flightViewModel = await _context.FlightViewModel.FindAsync(id);
-            //if (flightViewModel == null)
-            //{
-            //    return NotFound();
-            //}
-            //return View(flightViewModel);
             var flightList = await (from f in _context.Flights
                                     join m in _context.Planes
                                     on f.PlaneId equals m.Id
@@ -142,8 +132,8 @@ namespace BookingTourWebApp_MVC.Controllers
                                         BusinessPrice = f.BusinessPrice,
                                         EconomyPrice = f.EconomyPrice,
                                         UploadTime = f.UploadTime
-                                    }).ToListAsync();
-            return View(flightList[0]);
+                                    }).FirstOrDefaultAsync();
+            return View(flightList);
         }
 
         // POST: FlightViewModels/Edit/5
@@ -151,18 +141,32 @@ namespace BookingTourWebApp_MVC.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,PlaneId,Departure,Destination,BusinessCapacity,EconomyCapacity,DepartureTime,BusinessPrice,EconomyPrice,UploadTime")] FlightViewModel flightViewModel)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,PlaneName,PlaneId,Departure,Destination,BusinessCapacity,EconomyCapacity,DepartureTime,BusinessPrice,EconomyPrice,UploadTime")] FlightViewModel flightViewModel)
         {
             if (id != flightViewModel.Id)
             {
                 return NotFound();
             }
+            var flight = await _context.Flights.FindAsync(id);
+            if (flight == null)
+            {
+                return NotFound("Flight not found");
+            }
+            flight.PlaneId = flightViewModel.PlaneId;
+            flight.Departure = flightViewModel.Departure;
+            flight.Destination = flightViewModel.Destination;
+            flight.BusinessCapacity = flightViewModel.BusinessCapacity;
+            flight.EconomyCapacity = flightViewModel.EconomyCapacity;
+            flight.DepartureTime = flightViewModel.DepartureTime;
+            flight.BusinessPrice = flightViewModel.BusinessPrice;
+            flight.EconomyPrice = flightViewModel.EconomyPrice;
+            flight.UploadTime = flightViewModel.UploadTime;
 
             if (ModelState.IsValid)
             {
                 try
                 {
-                    _context.Update(flightViewModel);
+                    //_context.Update(flightViewModel);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
@@ -184,19 +188,33 @@ namespace BookingTourWebApp_MVC.Controllers
         // GET: FlightViewModels/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
-            if (id == null || _context.FlightViewModel == null)
+            if (id == null || _context.Flights == null)
             {
                 return NotFound();
             }
-
-            var flightViewModel = await _context.FlightViewModel
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (flightViewModel == null)
+            var flightList = await (from f in _context.Flights
+                                    join m in _context.Planes
+                                    on f.PlaneId equals m.Id
+                                    where f.Id.Equals(id)
+                                    select new FlightViewModel()
+                                    {
+                                        Id = f.Id,
+                                        PlaneId = f.PlaneId,
+                                        PlaneName = m.Name,
+                                        Departure = f.Departure,
+                                        Destination = f.Destination,
+                                        BusinessCapacity = f.BusinessCapacity,
+                                        EconomyCapacity = f.EconomyCapacity,
+                                        DepartureTime = f.DepartureTime,
+                                        BusinessPrice = f.BusinessPrice,
+                                        EconomyPrice = f.EconomyPrice,
+                                        UploadTime = f.UploadTime
+                                    }).FirstOrDefaultAsync();
+            if (flightList == null)
             {
                 return NotFound();
             }
-
-            return View(flightViewModel);
+            return View(flightList);
         }
 
         // POST: FlightViewModels/Delete/5
@@ -204,16 +222,16 @@ namespace BookingTourWebApp_MVC.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            if (_context.FlightViewModel == null)
+            if (_context.Flights == null)
             {
                 return Problem("Entity set 'ApplicationDbContext.FlightViewModel'  is null.");
             }
-            var flightViewModel = await _context.FlightViewModel.FindAsync(id);
-            if (flightViewModel != null)
+            var flight = await _context.Flights.FindAsync(id);
+            if (flight != null)
             {
-                _context.FlightViewModel.Remove(flightViewModel);
+                _context.Flights.Remove(flight);
             }
-            
+
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }

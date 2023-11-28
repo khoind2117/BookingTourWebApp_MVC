@@ -3,20 +3,37 @@
 @{
     ViewData["Title"] = "Edit";
 }
+<script>
+    function onSubmit() {
+        //const result = Swal.fire({
+        //    title: 'Error!',
+        //    text: 'Do you want to continue',
+        //    icon: 'error',
+        //    confirmButtonText: 'Cool'
+        //});
 
+        //return result.isConfirmed;
+        return confirm('Bạn có chắc chắn muốn thay đổi thông tin chuyến bay này?');
+    }
+</script>
 <h1>Edit</h1>
 
 <h4>FlightViewModel</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Edit">
+        <form asp-action="Edit" onsubmit="return onSubmit()">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="Id" />
             <div class="form-group">
                 <label asp-for="PlaneId" class="control-label"></label>
                 <input asp-for="PlaneId" class="form-control" />
                 <span asp-validation-for="PlaneId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="PlaneName" class="control-label"></label>
+                <input asp-for="PlaneName" class="form-control" />
+                <span asp-validation-for="PlaneName" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Departure" class="control-label"></label>
@@ -59,7 +76,7 @@
                 <span asp-validation-for="UploadTime" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
+                <input type="submit" value="Save" class="btn btn-primary"/>
             </div>
         </form>
     </div>
@@ -71,4 +88,5 @@
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 }
