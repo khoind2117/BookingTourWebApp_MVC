@@ -101,11 +101,23 @@ namespace BookingTourWebApp_MVC.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,PlaneId,Departure,Destination,BusinessCapacity,EconomyCapacity,DepartureTime,BusinessPrice,EconomyPrice,UploadTime")] Flight addFlightRequest)
+        public async Task<IActionResult> Create([Bind("Id,PlaneId,PlaneName,Departure,Destination,BusinessCapacity,EconomyCapacity,DepartureTime,BusinessPrice,EconomyPrice,UploadTime")] FlightViewModel addFlightRequest)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(addFlightRequest);
+                var flight = new Flight()
+                {
+                    PlaneId = addFlightRequest.PlaneId,
+                    Departure = addFlightRequest.Departure,
+                    Destination = addFlightRequest.Destination,
+                    BusinessCapacity = addFlightRequest.BusinessCapacity,
+                    EconomyCapacity = addFlightRequest.EconomyCapacity,
+                    DepartureTime = addFlightRequest.DepartureTime,
+                    BusinessPrice = addFlightRequest.BusinessPrice,
+                    EconomyPrice = addFlightRequest.EconomyPrice,
+                    UploadTime = addFlightRequest.UploadTime
+                };
+                _context.Add(flight);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }

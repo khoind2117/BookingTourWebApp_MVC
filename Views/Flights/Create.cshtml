@@ -1,4 +1,4 @@
-﻿@model BookingTourWebApp_MVC.Models.Flight
+﻿@model BookingTourWebApp_MVC.ViewModels.FlightViewModel
 
 @{
     ViewData["Title"] = "Create";
@@ -16,6 +16,11 @@
                 <label asp-for="PlaneId" class="control-label"></label>
                 <input asp-for="PlaneId" class="form-control" />
                 <span asp-validation-for="PlaneId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="PlaneName" class="control-label"></label>
+                <input asp-for="PlaneName" class="form-control"/>
+                <span asp-validation-for="PlaneName" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Departure" class="control-label"></label>
