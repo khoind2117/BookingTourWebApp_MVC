@@ -51,6 +51,7 @@ namespace BookingTourWebApp_MVC.Data
             // Booking n-n AppUser - Flight
             modelBuilder.Entity<Booking>(entity =>
             {
+                entity.ToTable("Booking").HasKey(b => b.Id);
                 entity.ToTable("Booking")
                     .HasKey(b => new { b.AppUserId, b.FlightId });
                 entity.Property(b => b.TotalPrice)
