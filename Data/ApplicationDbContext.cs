@@ -76,5 +76,9 @@ namespace BookingTourWebApp_MVC.Data
         #region FluentAPI
         public DbSet<BookingTourWebApp_MVC.ViewModels.StatisticalFlightSales>? StatisticalFlightSales { get; set; }
         #endregion
+
+        #region FluentAPI
+        public DbSet<BookingTourWebApp_MVC.ViewModels.StatisticalView>? StatisticalView { get; set; }
+        #endregion
     }
 }
