@@ -52,6 +52,7 @@ namespace BookingTourWebApp_MVC.Controllers
         //{
         //    return View("SearchUser");
         //}
+        
         public async Task<IActionResult> HandleSearchUser(string keyword,string typekw)
         {
 

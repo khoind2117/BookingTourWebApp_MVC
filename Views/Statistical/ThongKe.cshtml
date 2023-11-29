@@ -1,0 +1,65 @@
+﻿@model BookingTourWebApp_MVC.ViewModels.StatisticalView
+
+@{
+    ViewData["Title"] = "ThongKe";
+}
+
+<h1>ThongKe</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+ 
+        <tr>
+                <td>
+                    @Html.DisplayNameFor(Model => Model.HighSales.First().flightId)
+                </td>
+            <td>
+                @Html.DisplayNameFor(Model => Model.HighSales.First().businessTickets)
+            </td>
+            <td>
+                @Html.DisplayNameFor(Model => Model.HighSales.First().businessPrice)
+            </td>
+            <td>
+                @Html.DisplayNameFor(Model => Model.HighSales.First().economyTickets)
+            </td>
+            <td>
+                @Html.DisplayNameFor(Model => Model.HighSales.First().economyPrice)
+            </td>
+            <td>
+                @Html.DisplayNameFor(Model => Model.HighSales.First().Sales)
+            </td>
+
+                
+            
+        </tr>
+
+    </thead>
+    <tbody>
+@foreach (var item in Model.HighSales) {
+        <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.flightId)
+                </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.businessTickets)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.businessPrice)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.economyTickets)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.economyPrice)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Sales)
+            </td>
+
+        </tr>
+}
+    </tbody>
+</table>
