@@ -3,6 +3,34 @@
 @{
     ViewData["Title"] = "Quản lý chuyến bay";
 }
+@*<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // Lưu giữ giá trị của các trường input khi trang được load
+        var departure = document.getElementById('departure');
+        var destination = document.getElementById('destination');
+        //var departureTime = document.getElementById('departureTime');
+        var id = document.getElementById('id');
+
+        sessionStorage.setItem('departure', departure.value);
+        sessionStorage.setItem('destination', destination.value);
+        //sessionStorage.setItem('departureTime', departureTime.value);
+        sessionStorage.setItem('id', id.value);
+    });
+
+    function onFilterButtonClick() {
+        // Lưu giữ giá trị của các trường input khi nhấn nút Lọc
+        var departure = document.getElementById('departure');
+        var destination = document.getElementById('destination');
+        //var departureTime = document.getElementById('departureTime');
+        var id = document.getElementById('id');
+
+        sessionStorage.setItem('departure', departure.value);
+        sessionStorage.setItem('destination', destination.value);
+        //sessionStorage.setItem('departureTime', departureTime.value);
+        sessionStorage.setItem('id', id.value);
+    }
+</script>*@
+
 <style>
     th {
         text-align: center;
@@ -13,7 +41,48 @@
     <a asp-action="Create">Thêm chuyến bay</a>
 </p>
 <form asp-action="Index" asp-controller="Flights" method="get">
-    Tìm kiếm theo mã chuyến: <input name="id" /><button>Tìm</button>
+    @*Tìm kiếm theo mã chuyến: <input name="id" />*@
+    <div>
+        <label for="id">Mã chuyến: </label>
+        <input name="id" id="id" />
+    </div>
+    <div>
+        <label for="id">Ngày xuất phát: </label>
+        <input name="departureTime" id="departureTime" type="date" />
+    </div>
+    <div>
+        <label for="departure">Nơi xuất phát: </label>
+        @*<input name="departure" id="departure" />*@
+        <select name="departure" id="departure">
+            <option value=""></option>
+            <option value="Nha Trang">Nha Trang</option>
+            <option value="Sài Gòn">Sài Gòn</option>
+            <option value="Đà Nẵng">Đà Nẵng</option>
+            <option value="Cà Mau">Cà Mau</option>
+            <option value="Hà Nội">Hà Nội</option>
+            <option value="Vinh">Vinh</option>
+            <option value="Hội An">Hội An</option>
+            <option value="Đà Lạt">Đà Lạt</option>
+            <option value="Bắc Ninh">Bắc Ninh</option>
+        </select>
+    </div>
+
+    <div>
+        <label for="destination">Nơi đến: </label>
+        <select name="destination" id="destination">
+            <option value=""></option>
+            <option value="Nha Trang">Nha Trang</option>
+            <option value="Sài Gòn">Sài Gòn</option>
+            <option value="Đà Nẵng">Đà Nẵng</option>
+            <option value="Cà Mau">Cà Mau</option>
+            <option value="Hà Nội">Hà Nội</option>
+            <option value="Vinh">Vinh</option>
+            <option value="Hội An">Hội An</option>
+            <option value="Đà Lạt">Đà Lạt</option>
+            <option value="Bắc Ninh">Bắc Ninh</option>
+        </select>
+    </div>
+    <button>Tìm</button>
     <br />
 </form>
 <table class="table">
