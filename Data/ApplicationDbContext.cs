@@ -52,7 +52,7 @@ namespace BookingTourWebApp_MVC.Data
             modelBuilder.Entity<Booking>(entity =>
             {
                 entity.ToTable("Booking")
-                    .HasKey(b => new { b.AppUserId, b.FlightId });
+                    .HasKey(b => b.Id);
                 entity.Property(b => b.TotalPrice)
                     .HasColumnType("decimal(18, 2)");
 
