@@ -3,70 +3,84 @@
 @{
     ViewData["Title"] = "Details";
 }
-
-<h1>Details</h1>
-
+<style>
+    * {
+    text-wrap:nowrap;
+}
+</style>
+<h1>Thông tin chi tiết</h1>
+<hr />
 <div>
-    <h4>FlightViewModel</h4>
-    <hr />
     <dl class="row">
-        <dt class = "col-sm-2">
+        <dt class = "col-sm-3">
+            @Html.DisplayNameFor(model => model.Id)
+        </dt>
+        <dd class = "col-sm-9">
+            @Html.DisplayFor(model => model.Id)
+        </dd>
+        <dt class = "col-sm-3">
             @Html.DisplayNameFor(model => model.PlaneId)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class = "col-sm-9">
             @Html.DisplayFor(model => model.PlaneId)
         </dd>
-        <dt class = "col-sm-2">
+        <dt class = "col-sm-3">
+            @Html.DisplayNameFor(model => model.PlaneName)
+        </dt>
+        <dd class = "col-sm-9">
+            @Html.DisplayFor(model => model.PlaneName)
+        </dd>
+        <dt class = "col-sm-3">
             @Html.DisplayNameFor(model => model.Departure)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class = "col-sm-9">
             @Html.DisplayFor(model => model.Departure)
         </dd>
-        <dt class = "col-sm-2">
+        <dt class = "col-sm-3">
             @Html.DisplayNameFor(model => model.Destination)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class = "col-sm-9">
             @Html.DisplayFor(model => model.Destination)
         </dd>
-        <dt class = "col-sm-2">
+        <dt class = "col-sm-3">
             @Html.DisplayNameFor(model => model.BusinessCapacity)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class = "col-sm-9">
             @Html.DisplayFor(model => model.BusinessCapacity)
         </dd>
-        <dt class = "col-sm-2">
+        <dt class = "col-sm-3">
             @Html.DisplayNameFor(model => model.EconomyCapacity)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class = "col-sm-9">
             @Html.DisplayFor(model => model.EconomyCapacity)
         </dd>
-        <dt class = "col-sm-2">
+        <dt class = "col-sm-3">
             @Html.DisplayNameFor(model => model.DepartureTime)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class = "col-sm-9">
             @Html.DisplayFor(model => model.DepartureTime)
         </dd>
-        <dt class = "col-sm-2">
+        <dt class = "col-sm-3">
             @Html.DisplayNameFor(model => model.BusinessPrice)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class = "col-sm-9">
             @Html.DisplayFor(model => model.BusinessPrice)
         </dd>
-        <dt class = "col-sm-2">
+        <dt class = "col-sm-3">
             @Html.DisplayNameFor(model => model.EconomyPrice)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class = "col-sm-9">
             @Html.DisplayFor(model => model.EconomyPrice)
         </dd>
-        <dt class = "col-sm-2">
+        <dt class = "col-sm-3">
             @Html.DisplayNameFor(model => model.UploadTime)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class = "col-sm-9">
             @Html.DisplayFor(model => model.UploadTime)
         </dd>
     </dl>
 </div>
 <div>
-    <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Edit" asp-route-id="@Model?.Id">Chỉnh sửa</a> |
+    <a asp-action="Index">Danh sách chuyến bay</a>
 </div>

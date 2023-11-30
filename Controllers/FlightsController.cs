@@ -124,25 +124,39 @@ namespace BookingTourWebApp_MVC.Controllers
         }
         #endregion
         //=========================================================================
-        // GET: FlightViewModels/Details/5
-        //public async Task<IActionResult> Details(int? id)
-        //{
-        //    if (id == null || _context.FlightViewModel == null)
-        //    {
-        //        return NotFound();
-        //    }
+        //GET: FlightViewModels/Details/5
+        public async Task<IActionResult> Details(int? id)
+        {
+            if (id == null || _context.Flights == null)
+            {
+                return NotFound();
+            }
 
-        //    var flightViewModel = await _context.FlightViewModel
-        //        .FirstOrDefaultAsync(m => m.Id == id);
-        //    if (flightViewModel == null)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    return View(flightViewModel);
-        //}
+            //var flightViewModel = await _context.FlightViewModel
+            //    .FirstOrDefaultAsync(m => m.Id == id);
+            //if (flightViewModel == null)
+            //{
+            //    return NotFound();
+            //}
+            var query = _context.Flights.Include(f => f.Plane).AsQueryable();
+            var flightDetail = await query.Select(f => new FlightViewModel
+            {
+                Id = f.Id,
+                PlaneId = f.PlaneId,
+                PlaneName = f.Plane.Name,
+                Departure = f.Departure,
+                Destination = f.Destination,
+                BusinessCapacity = f.BusinessCapacity,
+                EconomyCapacity = f.EconomyCapacity,
+                DepartureTime = f.DepartureTime,
+                BusinessPrice = f.BusinessPrice,
+                EconomyPrice = f.EconomyPrice,
+                UploadTime = f.UploadTime
+            }).FirstOrDefaultAsync();
+            return View(flightDetail);
+        }
         //=========================================================================
-        // GET: FlightViewModels/Create
+         //GET: FlightViewModels/Create
         public IActionResult Create()
         {
 

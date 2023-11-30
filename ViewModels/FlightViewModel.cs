@@ -45,7 +45,7 @@ namespace BookingTourWebApp_MVC.ViewModels
         [ValidateNever]
         public string PlaneName { get; set; }
 
-        [Display(Name = "Nơi xuất phát")]
+        [Display(Name = "Nơi đi")]
         [Required(ErrorMessage = "Vui lòng nhập nơi xuất phát.")]
         public string Departure { get; set; }
 
@@ -53,13 +53,13 @@ namespace BookingTourWebApp_MVC.ViewModels
         [Required(ErrorMessage = "Vui lòng nhập nơi đến.")]
         public string Destination { get; set; }
 
-        [Display(Name = "Số lượng ghế BSN còn")]
-        [Required(ErrorMessage = "Vui lòng nhập số lượng ghế Business.")]
+        [Display(Name = "Ghế hạng thương gia")]
+        [Required(ErrorMessage = "Vui lòng nhập số lượng ghế hạng thương gia.")]
         [Range(1, int.MaxValue, ErrorMessage = "Số lượng ghế Business không hợp lệ.")]
         public int BusinessCapacity { get; set; }
 
-        [Display(Name = "Số lượng ghế ECO còn")]
-        [Required(ErrorMessage = "Vui lòng nhập số lượng ghế Economy.")]
+        [Display(Name = "Ghế hạng phổ thông")]
+        [Required(ErrorMessage = "Vui lòng nhập số lượng ghế hạng phổ thông.")]
         [Range(1, int.MaxValue, ErrorMessage = "Số lượng ghế Economy không hợp lệ.")]
         public int EconomyCapacity { get; set; }
 
@@ -67,17 +67,17 @@ namespace BookingTourWebApp_MVC.ViewModels
         [Required(ErrorMessage = "Vui lòng nhập thời gian bay.")]
         public DateTime DepartureTime { get; set; }
 
-        [Display(Name = "Giá vé BSN")]
+        [Display(Name = "Giá vé hạng thương gia")]
         [Required(ErrorMessage = "Vui lòng nhập giá vé Business.")]
         [Range(0, double.MaxValue, ErrorMessage = "Giá vé Business không hợp lệ.")]
         public decimal BusinessPrice { get; set; }
 
-        [Display(Name = "Giá vé ECO")]
+        [Display(Name = "Giá vé hạng phổ thông")]
         [Required(ErrorMessage = "Vui lòng nhập giá vé Economy.")]
         [Range(0, double.MaxValue, ErrorMessage = "Giá vé Economy không hợp lệ.")]
         public decimal EconomyPrice { get; set; }
 
-        [Display(Name = "Thời điểm Upload")]
+        [Display(Name = "Thời điểm upload")]
         [ValidateNever]
         public DateTime UploadTime { get; set; }
 
