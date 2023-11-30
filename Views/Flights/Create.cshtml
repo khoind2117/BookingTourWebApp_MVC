@@ -3,64 +3,25 @@
 @{
     ViewData["Title"] = "Create";
 }
-<h1>Create</h1>
-@*<select>
-    @foreach (var item in Model.Planes)
-    {
-        <option value="@item.Name">@item.Name</option>
-    }
-</select>*@
+<script>
+    $(document).ready(function(){
+    $("#planeIdSelect").on("change", function(){
+        $("#PlaneIdText").val($(this).find("option:selected").text());
+    });
+});
+</script>
+<h1>Thêm chuyến bay mới</h1>
 
-<h4>FlightViewModel</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
         <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            @*<div class="form-group">
-                <label asp-for="PlaneId" class="control-label"></label>
-                <input asp-for="PlaneId" class="form-control" />
-                <span asp-validation-for="PlaneId" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="PlaneName" class="control-label"></label>
-                <input asp-for="PlaneName" class="form-control"/>
-                <span asp-validation-for="PlaneName" class="text-danger"></span>
-            </div>*@
-            
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>         
             <div class="form-group">
                 <label asp-for="PlaneId" class="control-label"></label>
-                @*<select asp-for="PlaneId" class="form-control">
-                    <option value="1">1</option>
-                    <option value="2">2</option>
-                </select>*@
                 <select asp-for="PlaneId" asp-items="@(new SelectList(ViewBag.planeList, "Id", "Name"))" id="planeIdSelect">
                 </select>
-                <input type="hidden" id="PlaneIdText" asp-for="PlaneId" readonly="readonly" hidden/>
             </div>
-            @*<div class="form-group">
-                <label asp-for="PlaneName" class="control-label"></label>
-                <input asp-for="PlaneName" class="form-control"/>
-            </div>*@
-            <div class="form-group">
-                <label asp-for="PlaneName" class="control-label"></label>
-                <input asp-for="PlaneName" class="form-control" data-val="false" data-val-ignore="true"/>
-            </div>
-
-            @*<div class="form-group">
-                <label asp-for="PlaneId" class="control-label">Select Plane:</label>
-                <select asp-for="PlaneId" asp-items="@(new SelectList(Model.Planes, "Id", "Name"))" id="planeIdSelect">
-                    <option value="">Select a Plane</option>
-                </select>
-                <span asp-validation-for="PlaneId" class="text-danger"></span>
-            </div>
-
-            <div class="form-group">
-                <label asp-for="PlaneName" class="control-label">Plane Name:</label>
-                <input asp-for="PlaneName" class="form-control" readonly />
-                <span asp-validation-for="PlaneName" class="text-danger"></span>
-            </div>*@
-
             <div class="form-group">
                 <label asp-for="Departure" class="control-label"></label>
                 <input asp-for="Departure" class="form-control" />
@@ -115,10 +76,3 @@
 @*@section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }*@
-<script>
-    $(document).ready(function(){
-    $("#planeIdSelect").on("change", function(){
-        $("#PlaneIdText").val($(this).find("option:selected").text());
-    });
-});
-</script>

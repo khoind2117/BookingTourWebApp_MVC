@@ -1,5 +1,6 @@
 ﻿using BookingTourWebApp_MVC.Models;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
+using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Xml.Linq;
@@ -35,13 +36,13 @@ namespace BookingTourWebApp_MVC.ViewModels
 
         [Display(Name = "Mã chuyến bay")]
         public int Id { get; set; }
-        [BindNever]
         [Display(Name = "Mã máy bay")]
 
         public int PlaneId { get; set; }
 
         [Display(Name = "Tên máy bay")]
         [BindNever]
+        [ValidateNever]
         public string PlaneName { get; set; }
 
         [Display(Name = "Nơi xuất phát")]

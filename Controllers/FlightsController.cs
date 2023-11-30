@@ -101,10 +101,7 @@ namespace BookingTourWebApp_MVC.Controllers
             };
 
             var planes = _context.Planes.FromSqlInterpolated($"select * from dbo.Plane").ToList();
-            //foreach (var item in planes)
-            //{
-            //    ViewBag.planeList.Add();
-            //}
+
             ViewBag.planeList = planes;
             return View(flightDetail);
         }
@@ -121,43 +118,34 @@ namespace BookingTourWebApp_MVC.Controllers
             //{
             //    ModelState.AddModelError("PlaneId", "Invalid PlaneId. Please select a valid plane.");
             //}
-            //ViewBag.planeList = _context.Planes.FromSqlInterpolated($"select * from dbo.Plane").ToList();
-
-            //if (ModelState.IsValid)
-            //{
-            //    var flight = new Flight()
-            //    {
-            //        PlaneId = addFlightRequest.PlaneId,
-            //        Departure = addFlightRequest.Departure,
-            //        Destination = addFlightRequest.Destination,
-            //        BusinessCapacity = addFlightRequest.BusinessCapacity,
-            //        EconomyCapacity = addFlightRequest.EconomyCapacity,
-            //        DepartureTime = addFlightRequest.DepartureTime,
-            //        BusinessPrice = addFlightRequest.BusinessPrice,
-            //        EconomyPrice = addFlightRequest.EconomyPrice,
-            //        UploadTime = addFlightRequest.UploadTime
-            //    };
-
-            //    _context.Add(flight);
-            //    await _context.SaveChangesAsync();
-            //    return RedirectToAction(nameof(Index));
-            //}
-            var flight = new Flight()
+            if (addFlightRequest.DepartureTime <= addFlightRequest.UploadTime)
             {
-                PlaneId = addFlightRequest.PlaneId,
-                Departure = addFlightRequest.Departure,
-                Destination = addFlightRequest.Destination,
-                BusinessCapacity = addFlightRequest.BusinessCapacity,
-                EconomyCapacity = addFlightRequest.EconomyCapacity,
-                DepartureTime = addFlightRequest.DepartureTime,
-                BusinessPrice = addFlightRequest.BusinessPrice,
-                EconomyPrice = addFlightRequest.EconomyPrice,
-                UploadTime = addFlightRequest.UploadTime
-            };
+                ModelState.AddModelError(nameof(addFlightRequest.DepartureTime), "Thời gian bay phải sau thời điểm upload.");
+            }
+            if (addFlightRequest.DepartureTime.Year > DateTime.Now.Year + 1)
+            {
+                ModelState.AddModelError(nameof(addFlightRequest.DepartureTime), "Thời gian bay chỉ được chọn cách năm hiện tại đúng 1 năm.");
+            }
 
-            _context.Add(flight);
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            if (ModelState.IsValid)
+            {
+                var flight = new Flight()
+                {
+                    PlaneId = addFlightRequest.PlaneId,
+                    Departure = addFlightRequest.Departure,
+                    Destination = addFlightRequest.Destination,
+                    BusinessCapacity = addFlightRequest.BusinessCapacity,
+                    EconomyCapacity = addFlightRequest.EconomyCapacity,
+                    DepartureTime = addFlightRequest.DepartureTime,
+                    BusinessPrice = addFlightRequest.BusinessPrice,
+                    EconomyPrice = addFlightRequest.EconomyPrice,
+                    UploadTime = addFlightRequest.UploadTime
+                };
+
+                _context.Add(flight);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
+            }
             ViewBag.planeList = _context.Planes.FromSqlInterpolated($"select * from dbo.Plane").ToList();
             return View(addFlightRequest);
         }
