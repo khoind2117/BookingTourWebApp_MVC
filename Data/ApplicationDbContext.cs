@@ -66,6 +66,10 @@ namespace BookingTourWebApp_MVC.Data
                     .HasForeignKey(b => b.FlightId)
                     .OnDelete(DeleteBehavior.Restrict);
             });
+            modelBuilder.Entity<FlightViewModel>(entity =>
+            {
+                entity.HasNoKey();
+            });
         }
         #endregion
 

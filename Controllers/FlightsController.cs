@@ -8,6 +8,8 @@ using Microsoft.EntityFrameworkCore;
 using BookingTourWebApp_MVC.Data;
 using BookingTourWebApp_MVC.ViewModels;
 using BookingTourWebApp_MVC.Models;
+using System.Numerics;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace BookingTourWebApp_MVC.Controllers
 {
@@ -93,34 +95,70 @@ namespace BookingTourWebApp_MVC.Controllers
         // GET: FlightViewModels/Create
         public IActionResult Create()
         {
-            return View();
-        }
+            var flightDetail = new FlightViewModel()
+            {
+                UploadTime = DateTime.Now
+            };
 
+            var planes = _context.Planes.FromSqlInterpolated($"select * from dbo.Plane").ToList();
+            //foreach (var item in planes)
+            //{
+            //    ViewBag.planeList.Add();
+            //}
+            ViewBag.planeList = planes;
+            return View(flightDetail);
+        }
         // POST: FlightViewModels/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,PlaneId,PlaneName,Departure,Destination,BusinessCapacity,EconomyCapacity,DepartureTime,BusinessPrice,EconomyPrice,UploadTime")] FlightViewModel addFlightRequest)
+        public async Task<IActionResult> Create(FlightViewModel addFlightRequest)
         {
-            if (ModelState.IsValid)
+            //var isValidPlaneId = await _context.Planes.AnyAsync(p => p.Id == addFlightRequest.PlaneId);
+
+            //if (!isValidPlaneId)
+            //{
+            //    ModelState.AddModelError("PlaneId", "Invalid PlaneId. Please select a valid plane.");
+            //}
+            //ViewBag.planeList = _context.Planes.FromSqlInterpolated($"select * from dbo.Plane").ToList();
+
+            //if (ModelState.IsValid)
+            //{
+            //    var flight = new Flight()
+            //    {
+            //        PlaneId = addFlightRequest.PlaneId,
+            //        Departure = addFlightRequest.Departure,
+            //        Destination = addFlightRequest.Destination,
+            //        BusinessCapacity = addFlightRequest.BusinessCapacity,
+            //        EconomyCapacity = addFlightRequest.EconomyCapacity,
+            //        DepartureTime = addFlightRequest.DepartureTime,
+            //        BusinessPrice = addFlightRequest.BusinessPrice,
+            //        EconomyPrice = addFlightRequest.EconomyPrice,
+            //        UploadTime = addFlightRequest.UploadTime
+            //    };
+
+            //    _context.Add(flight);
+            //    await _context.SaveChangesAsync();
+            //    return RedirectToAction(nameof(Index));
+            //}
+            var flight = new Flight()
             {
-                var flight = new Flight()
-                {
-                    PlaneId = addFlightRequest.PlaneId,
-                    Departure = addFlightRequest.Departure,
-                    Destination = addFlightRequest.Destination,
-                    BusinessCapacity = addFlightRequest.BusinessCapacity,
-                    EconomyCapacity = addFlightRequest.EconomyCapacity,
-                    DepartureTime = addFlightRequest.DepartureTime,
-                    BusinessPrice = addFlightRequest.BusinessPrice,
-                    EconomyPrice = addFlightRequest.EconomyPrice,
-                    UploadTime = addFlightRequest.UploadTime
-                };
-                _context.Add(flight);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            }
+                PlaneId = addFlightRequest.PlaneId,
+                Departure = addFlightRequest.Departure,
+                Destination = addFlightRequest.Destination,
+                BusinessCapacity = addFlightRequest.BusinessCapacity,
+                EconomyCapacity = addFlightRequest.EconomyCapacity,
+                DepartureTime = addFlightRequest.DepartureTime,
+                BusinessPrice = addFlightRequest.BusinessPrice,
+                EconomyPrice = addFlightRequest.EconomyPrice,
+                UploadTime = addFlightRequest.UploadTime
+            };
+
+            _context.Add(flight);
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
+            ViewBag.planeList = _context.Planes.FromSqlInterpolated($"select * from dbo.Plane").ToList();
             return View(addFlightRequest);
         }
 
