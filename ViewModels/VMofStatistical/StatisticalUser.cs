@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace BookingTourWebApp_MVC.ViewModels
+namespace BookingTourWebApp_MVC.ViewModels.VMofStatistical
 {
     public class StatisticalUser
     {

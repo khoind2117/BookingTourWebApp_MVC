@@ -1,7 +1,7 @@
 ﻿using BookingTourWebApp_MVC.Models;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using BookingTourWebApp_MVC.ViewModels;
+using BookingTourWebApp_MVC.ViewModels.VMofStatistical;
 
 namespace BookingTourWebApp_MVC.Data
 {
@@ -75,11 +75,11 @@ namespace BookingTourWebApp_MVC.Data
         #endregion
 
         #region FluentAPI
-        public DbSet<BookingTourWebApp_MVC.ViewModels.StatisticalFlightSales>? StatisticalFlightSales { get; set; }
+        public DbSet<StatisticalFlightSales>? StatisticalFlightSales { get; set; }
         #endregion
 
         #region FluentAPI
-        public DbSet<BookingTourWebApp_MVC.ViewModels.StatisticalView>? StatisticalView { get; set; }
+        public DbSet<StatisticalView>? StatisticalView { get; set; }
         #endregion
     }
 }

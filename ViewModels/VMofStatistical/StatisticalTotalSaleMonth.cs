@@ -1,10 +1,10 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace BookingTourWebApp_MVC.ViewModels
+namespace BookingTourWebApp_MVC.ViewModels.VMofStatistical
 {
     public class StatisticalTotalSaleMonth
     {
-        [Key] 
+        [Key]
         public int Id { get; set; }
         public int CountFlight { get; set; }
         public decimal TotalSales { get; set; }

@@ -1,0 +1,39 @@
+﻿@model IEnumerable<BookingTourWebApp_MVC.ViewModels.VMofStatistical.StatisticalFlightSales>
+
+@{
+    ViewData["Title"] = "HandleSearchStatistical";
+}
+
+    <h2>Doanh thu của các chuyến bay</h2>
+    <div>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.flightId)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Sales)
+                </th>
+
+
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.flightId)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Sales)
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    </div>
+
+
+

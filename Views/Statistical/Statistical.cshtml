@@ -1,11 +1,106 @@
-﻿@model BookingTourWebApp_MVC.ViewModels.StatisticalView
+﻿@model BookingTourWebApp_MVC.ViewModels.VMofStatistical.StatisticalView
 
 @{
     ViewData["Title"] = "ThongKe";
 }
-
+@{
+    var currmonth = DateTime.Now.Month;
+    var curryear = DateTime.Now.Year;
+    var currnow = currmonth + "/" + curryear;
+    var now = DateTime.Now;
+    int daysInMonth = DateTime.DaysInMonth(now.Year, now.Month);
+    var firstDay = new DateTime(now.Year, now.Month, 1).Date;
+    var lastDay = new DateTime(now.Year, now.Month, daysInMonth).Date;
+}
 <h1>ThongKe</h1>
+<h2>Thong ke doanh thu theo:</h2>
+<div>
+    <span>Từ: </span>
+    <input id="fDay" type="date" value="@firstDay.ToString("yyyy-MM-dd")" />
+    <span> đến </span>
+    <input id="lDay" type="date" value="@lastDay.ToString("yyyy-MM-dd")" />
+    <button id="btnSearch" type="submit">Search</button>
+    <button id="btnRefresh">Refresh</button>
+</div>
+<div id="result">
+    <h2>Doanh thu của các chuyến bay tháng @currnow này</h2>
+    <div>
+        <table class="table">
+            <thead>
 
+                <tr>
+                    <td>
+                        @Html.DisplayNameFor(Model => Model.AllSaleInMonth.First().flightId)
+                    </td>
+                    <td>
+                        @Html.DisplayNameFor(Model => Model.AllSaleInMonth.First().Sales)
+                    </td>
+
+
+
+                </tr>
+
+            </thead>
+            <tbody>
+                @foreach (var item in Model.AllSaleInMonth)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.flightId)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Sales)
+                        </td>
+
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    <br />
+</div>
+<div id="Sresult">
+    <h2> Tổng doanh thu tháng @currnow này</h2>
+    <div>
+        <span>
+            Số lượng chuyến bay: @Model.TotalSaleInMonth.CountFlight
+        </span>
+        <br />
+        <span>
+            Tổng doanh thu: @Model.TotalSaleInMonth.TotalSales
+        </span>
+    </div>
+    <br />
+</div>
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $("#btnSearch").click(function () {
+                let firstDate = $("#fDay").val().trim();
+                let lastDate = $("#lDay").val().trim(); 
+                    $.ajax({
+                        url: "/Statistical/HandleSearchStatistical",
+                        data: { "firstDate": firstDate, "lastDate": lastDate },
+                            success: function (res1) {
+                                $("#result").html(res1);
+                            }
+                    }).then($.ajax({
+                    url: "/Statistical/HandleTotalSaleSearchStatistical",
+                        data: { "firstDate": firstDate, "lastDate": lastDate },
+                        success: function (res2) {
+                            $("#Sresult").html(res2);
+                        }
+                    }));
+                
+            });
+            $("#btnRefresh").click(function () {
+                $("#fDay").val("@firstDay.ToString("yyyy-MM-dd")");
+                $("#lDay").val("@lastDay.ToString("yyyy-MM-dd")");
+
+            });
+        });
+    </script>
+}
 <h2>Doanh thu cao nhất</h2>
 <div>
     <table class="table">
@@ -64,6 +159,7 @@
         </tbody>
     </table>
 </div>
+<br />
 <h2>Doanh thu thấp nhất</h2>
 <div>
     <table class="table">
@@ -122,50 +218,8 @@
         </tbody>
     </table>
 </div>
-<h2>Doanh thu của các chuyến bay tháng này</h2>
-<div>
-    <table class="table">
-        <thead>
+<br />
 
-            <tr>
-                <td>
-                    @Html.DisplayNameFor(Model => Model.AllSaleInMonth.First().flightId)
-                </td>
-                <td>
-                    @Html.DisplayNameFor(Model => Model.AllSaleInMonth.First().Sales)
-                </td>
-
-
-
-            </tr>
-
-        </thead>
-        <tbody>
-            @foreach (var item in Model.AllSaleInMonth)
-            {
-                <tr>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.flightId)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Sales)
-                    </td>
-
-                </tr>
-            }
-        </tbody>
-    </table>
-</div>
-<h2> Tổng Doanh thu của tháng này</h2>
-<div>
-    <span>
-        @Model.TotalSaleInMonth.CountFlight
-    </span>
-    <br />
-    <span>
-        @Model.TotalSaleInMonth.TotalSales
-    </span>
-</div>
 <h2>Top 3 Khách hàng có lượt mua vé nhiều nhất</h2>
 <div>
     <table class="table">
@@ -200,6 +254,7 @@
         </tbody>
     </table>
 </div>
+<br />
 <h2>Top 3 Khách hàng có lượt mua vé ít nhất</h2>
 <div>
     <table class="table">
@@ -234,3 +289,50 @@
         </tbody>
     </table>
 </div>
+<br />
+<h2>Lich su Ve</h2>
+<div>
+    <table class="table">
+        <thead>
+
+            <tr>
+                <td>
+                    @Html.DisplayNameFor(Model => Model.HistoryBookingTime.First().FullName)
+                </td>
+                <td>
+                    @Html.DisplayNameFor(Model => Model.HistoryBookingTime.First().Gmail)
+                </td>
+                <td>
+                    @Html.DisplayNameFor(Model => Model.HistoryBookingTime.First().phoneNumber)
+                </td>
+                <td>
+                    @Html.DisplayNameFor(Model => Model.HistoryBookingTime.First().bookingTime)
+                </td>
+            </tr>
+
+        </thead>
+        <tbody>
+            @foreach (var item in Model.HistoryBookingTime)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.FullName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Gmail)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.phoneNumber)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.bookingTime)
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+<br />
+
+
+
