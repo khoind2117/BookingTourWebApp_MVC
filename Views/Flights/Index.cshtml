@@ -3,57 +3,37 @@
 @{
     ViewData["Title"] = "Quản lý chuyến bay";
 }
-@*<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        // Lưu giữ giá trị của các trường input khi trang được load
-        var departure = document.getElementById('departure');
-        var destination = document.getElementById('destination');
-        //var departureTime = document.getElementById('departureTime');
-        var id = document.getElementById('id');
-
-        sessionStorage.setItem('departure', departure.value);
-        sessionStorage.setItem('destination', destination.value);
-        //sessionStorage.setItem('departureTime', departureTime.value);
-        sessionStorage.setItem('id', id.value);
-    });
-
-    function onFilterButtonClick() {
-        // Lưu giữ giá trị của các trường input khi nhấn nút Lọc
-        var departure = document.getElementById('departure');
-        var destination = document.getElementById('destination');
-        //var departureTime = document.getElementById('departureTime');
-        var id = document.getElementById('id');
-
-        sessionStorage.setItem('departure', departure.value);
-        sessionStorage.setItem('destination', destination.value);
-        //sessionStorage.setItem('departureTime', departureTime.value);
-        sessionStorage.setItem('id', id.value);
-    }
-</script>*@
 
 <style>
     th {
         text-align: center;
         text-wrap: wrap;
     }
+    .form-label {
+        width: 40%
+    }
+    .form-input {
+        width: 60%
+    }
+    form div {
+        margin: 20px auto;
+        display: flex;
+        width:50%;
+        justify-content:center
+    }
 </style>
 <p>
     <a asp-action="Create">Thêm chuyến bay</a>
 </p>
-<form asp-action="Index" asp-controller="Flights" method="get">
-    @*Tìm kiếm theo mã chuyến: <input name="id" />*@
+<div style="display:flex; flex-direction:column;margin: 0 auto; border: 1px solid black;border-radius:15px;width:70%">
+    <form asp-action="Index" asp-controller="Flights" method="get">
     <div>
-        <label for="id">Mã chuyến: </label>
-        <input name="id" id="id" />
+        <label for="id" class="form-label">Ngày xuất phát: </label>
+        <input name="departureTime" id="departureTime" type="date" class="form-input"/>
     </div>
     <div>
-        <label for="id">Ngày xuất phát: </label>
-        <input name="departureTime" id="departureTime" type="date" />
-    </div>
-    <div>
-        <label for="departure">Nơi xuất phát: </label>
-        @*<input name="departure" id="departure" />*@
-        <select name="departure" id="departure">
+        <label for="departure" class="form-label">Nơi xuất phát: </label>
+        <select name="departure" id="departure" class="form-input">
             <option value=""></option>
             <option value="Nha Trang">Nha Trang</option>
             <option value="Sài Gòn">Sài Gòn</option>
@@ -68,8 +48,8 @@
     </div>
 
     <div>
-        <label for="destination">Nơi đến: </label>
-        <select name="destination" id="destination">
+        <label for="destination" class="form-label">Nơi đến: </label>
+        <select name="destination" id="destination" class="form-input">
             <option value=""></option>
             <option value="Nha Trang">Nha Trang</option>
             <option value="Sài Gòn">Sài Gòn</option>
@@ -82,9 +62,16 @@
             <option value="Bắc Ninh">Bắc Ninh</option>
         </select>
     </div>
-    <button>Tìm</button>
+    <div>
+        <label for="id" class="form-label">Mã chuyến: </label>
+        <input name="id" id="id" class="form-input"/>
+    </div>
+    
+    <button style="margin-left:45%; margin-bottom:20px; padding:7px 20px; border: 2px black solid; border-radius:15px">Tìm</button>
     <br />
 </form>
+</div>
+
 <table class="table">
     <thead>
         <tr>

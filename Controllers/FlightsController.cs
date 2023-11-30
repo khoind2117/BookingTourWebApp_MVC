@@ -145,15 +145,10 @@ namespace BookingTourWebApp_MVC.Controllers
         // GET: FlightViewModels/Create
         public IActionResult Create()
         {
-            var flightDetail = new FlightViewModel()
-            {
-                UploadTime = DateTime.Now
-            };
 
-            var planes = _context.Planes.FromSqlInterpolated($"select * from dbo.Plane").ToList();
+            ViewBag.planeList = _context.Planes.FromSqlInterpolated($"select * from dbo.Plane").ToList();
 
-            ViewBag.planeList = planes;
-            return View(flightDetail);
+            return View();
         }
         // POST: FlightViewModels/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
@@ -174,7 +169,12 @@ namespace BookingTourWebApp_MVC.Controllers
             }
             if (addFlightRequest.DepartureTime.Year > DateTime.Now.Year + 1)
             {
-                ModelState.AddModelError(nameof(addFlightRequest.DepartureTime), "Thời gian bay chỉ được chọn cách năm hiện tại đúng 1 năm.");
+                ModelState.AddModelError(nameof(addFlightRequest.DepartureTime), "Thời gian bay chỉ cách thời điểm hiện tại tối đa 1 năm.");
+            }
+            if (addFlightRequest.Departure == addFlightRequest.Destination)
+            {
+                ModelState.AddModelError(nameof(addFlightRequest.Departure), "Nơi xuất phát và nơi đến không được trùng nhau.");
+                ModelState.AddModelError(nameof(addFlightRequest.Destination), "Nơi xuất phát và nơi đến không được trùng nhau.");
             }
 
             if (ModelState.IsValid)
@@ -221,6 +221,7 @@ namespace BookingTourWebApp_MVC.Controllers
                                         EconomyPrice = f.EconomyPrice,
                                         UploadTime = f.UploadTime
                                     }).FirstOrDefaultAsync();
+            ViewBag.planeList = _context.Planes.FromSqlInterpolated($"select * from dbo.Plane").ToList();
             return View(flightList);
         }
 
@@ -239,6 +240,19 @@ namespace BookingTourWebApp_MVC.Controllers
             if (flight == null)
             {
                 return NotFound("Flight not found");
+            }
+            if (flightViewModel.DepartureTime <= DateTime.Now)
+            {
+                ModelState.AddModelError(nameof(flightViewModel.DepartureTime), "Thời gian bay phải sau thời điểm upload.");
+            }
+            if (flightViewModel.DepartureTime.Year > DateTime.Now.Year + 1)
+            {
+                ModelState.AddModelError(nameof(flightViewModel.DepartureTime), "Thời gian bay chỉ cách thời điểm hiện tại tối đa 1 năm.");
+            }
+            if (flightViewModel.Departure == flightViewModel.Destination)
+            {
+                ModelState.AddModelError(nameof(flightViewModel.Departure), "Nơi xuất phát và nơi đến không được trùng nhau.");
+                ModelState.AddModelError(nameof(flightViewModel.Destination), "Nơi xuất phát và nơi đến không được trùng nhau.");
             }
             flight.PlaneId = flightViewModel.PlaneId;
             flight.Departure = flightViewModel.Departure;
@@ -270,6 +284,7 @@ namespace BookingTourWebApp_MVC.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
+            ViewBag.planeList = _context.Planes.FromSqlInterpolated($"select * from dbo.Plane").ToList();
             return View(flightViewModel);
         }
 

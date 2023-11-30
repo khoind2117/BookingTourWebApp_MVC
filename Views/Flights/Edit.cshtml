@@ -25,7 +25,7 @@
         <form asp-action="Edit" onsubmit="return onSubmit()">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="Id" />
-            <div class="form-group">
+            @*<div class="form-group">
                 <label asp-for="PlaneId" class="control-label"></label>
                 <input asp-for="PlaneId" class="form-control" />
                 <span asp-validation-for="PlaneId" class="text-danger"></span>
@@ -34,15 +34,42 @@
                 <label asp-for="PlaneName" class="control-label"></label>
                 <input asp-for="PlaneName" class="form-control" />
                 <span asp-validation-for="PlaneName" class="text-danger"></span>
+            </div>*@
+            <div class="form-group">
+                <label asp-for="PlaneId" class="control-label"></label>
+                <select asp-for="PlaneId" asp-items="@(new SelectList(ViewBag.planeList, "Id", "Name"))" id="planeIdSelect">
+                </select>
             </div>
             <div class="form-group">
                 <label asp-for="Departure" class="control-label"></label>
-                <input asp-for="Departure" class="form-control" />
+                <select asp-for="Departure" class="form-control">
+                    <option value=""></option>
+                    <option value="Nha Trang">Nha Trang</option>
+                    <option value="Sài Gòn">Sài Gòn</option>
+                    <option value="Đà Nẵng">Đà Nẵng</option>
+                    <option value="Cà Mau">Cà Mau</option>
+                    <option value="Hà Nội">Hà Nội</option>
+                    <option value="Vinh">Vinh</option>
+                    <option value="Hội An">Hội An</option>
+                    <option value="Đà Lạt">Đà Lạt</option>
+                    <option value="Bắc Ninh">Bắc Ninh</option>
+                </select>
                 <span asp-validation-for="Departure" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Destination" class="control-label"></label>
-                <input asp-for="Destination" class="form-control" />
+                <select asp-for="Destination" class="form-control">
+                    <option value=""></option>
+                    <option value="Nha Trang">Nha Trang</option>
+                    <option value="Sài Gòn">Sài Gòn</option>
+                    <option value="Đà Nẵng">Đà Nẵng</option>
+                    <option value="Cà Mau">Cà Mau</option>
+                    <option value="Hà Nội">Hà Nội</option>
+                    <option value="Vinh">Vinh</option>
+                    <option value="Hội An">Hội An</option>
+                    <option value="Đà Lạt">Đà Lạt</option>
+                    <option value="Bắc Ninh">Bắc Ninh</option>
+                </select>
                 <span asp-validation-for="Destination" class="text-danger"></span>
             </div>
             <div class="form-group">
