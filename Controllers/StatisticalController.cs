@@ -40,6 +40,7 @@ namespace BookingTourWebApp_MVC.Controllers
             }).ToList();
             return PartialView("HandleSearchStatistical", data3);
         }
+
         public async Task<IActionResult> HandleTotalSaleSearchStatistical(string firstDate, string lastDate)
         {
             var firstD = DateTime.Parse(firstDate);
