@@ -78,7 +78,7 @@ namespace BookingTourWebApp_MVC.ViewModels
         public decimal EconomyPrice { get; set; }
 
         [Display(Name = "Thời điểm Upload")]
-        [Required(ErrorMessage = "Vui lòng nhập thời điểm upload.")]
+        [ValidateNever]
         public DateTime UploadTime { get; set; }
 
         //public IEnumerable<Plane>? Planes { get; set; }

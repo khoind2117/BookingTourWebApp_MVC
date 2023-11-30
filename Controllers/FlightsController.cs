@@ -118,7 +118,7 @@ namespace BookingTourWebApp_MVC.Controllers
             //{
             //    ModelState.AddModelError("PlaneId", "Invalid PlaneId. Please select a valid plane.");
             //}
-            if (addFlightRequest.DepartureTime <= addFlightRequest.UploadTime)
+            if (addFlightRequest.DepartureTime <= DateTime.Now)
             {
                 ModelState.AddModelError(nameof(addFlightRequest.DepartureTime), "Thời gian bay phải sau thời điểm upload.");
             }
@@ -139,7 +139,7 @@ namespace BookingTourWebApp_MVC.Controllers
                     DepartureTime = addFlightRequest.DepartureTime,
                     BusinessPrice = addFlightRequest.BusinessPrice,
                     EconomyPrice = addFlightRequest.EconomyPrice,
-                    UploadTime = addFlightRequest.UploadTime
+                    UploadTime = DateTime.Now
                 };
 
                 _context.Add(flight);
