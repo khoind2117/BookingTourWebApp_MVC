@@ -9,35 +9,47 @@
         margin-block:15px;
     }
 </style>
-<h1>Customer Management</h1>
+<div style="margin-block:20px">
+    <h1 style="color:#146C94;font-weight:bold">Customer Management</h1>
+</div>
+
 <div class="row div-center" style="margin-block:20px">
-    <div class="col-3 div-center" style="padding-left:160px;background-color:red">
-        <div style="width:200px;height:30px;border-radius:5px;">
-            <span>Tìm kiếm danh sách theo:</span><span> </span>
+    <div class="col-3 div-center" style="padding-left:150px;">
+        <div style="width:200px;height:35px;border-radius:5px;color:#146C94;font-weight:bold;font-size:16px;text-align:left;padding-top:5px">
+            Tìm kiếm danh sách theo:
         </div>
 
     </div>
-    <div class="col-2 div-center" style="background-color:yellow">
-        <select id="typeKeyword" style="width:200px;height:30px;border-radius:5px;">
+    <div class="col-2 div-center" style="">
+        <select id="typeKeyword" style="width:200px;height:35px;border-radius:5px;border: 2px solid #19A7CE">
             <option value="fullname" selected>UserName</option>
             <option value="phonenumber">PhoneNumber</option>
             <option value="gmail">Gmail</option>
         </select>
     </div>
-    <div class="col-4" style="background-color:red">
-        <input style="width:400px;height:30px;border-radius:5px;" id="txtKeyword" placeholder="Tìm gì?" />
+    <div class="col-3" style="">
+        <input style="width:350px;height:35px;border-radius:5px;border: 2px solid #19A7CE;padding-inline:10px" id="txtKeyword" placeholder="Tìm gì?" />
     </div>
-    <div class="col-3" style="background-color:yellow">
-        <button style="width:100px;height:30px;border-radius:5px;" id="btnSearch" type="submit">Tìm kiếm</button>
+    <div class="col-4" style="">
+        <button style="margin-left:20px;width:150px;height:35px;border-radius:5px;color:#F6F1F1;background-color:#19A7CE;border:none;font-weight:bold" id="btnSearch" type="submit">TÌM KIẾM</button>
     </div>
 </div>
 
-<button id="btnSortASC" type="submit">Sap xep tang dan</button>
-<button id="btnSortDESC" type="submit">Sap xep giam dan</button>
-<button id="btnRefresh" type="submit">Refresh</button>
-<div style="margin-inline:5px;height:10px">
-
+<div class="row div-center" style="margin-block:20px">
+    <div class="col-5 div-center" style="display:flex;justify-content:flex-end;align-items:center">
+        <button id="btnSortASC" type="submit" style="width:150px;height:35px;border-radius:5px;font-weight:bold;color:#F6F1F1;background-color:#146C94;border:none">SẮP XẾP TĂNG</button>
+    </div>
+    <div class="col-2 div-center" style="display:flex;justify-content:center;align-items:center">
+        <button id="btnSortDESC" type="submit" style="width:150px;height:35px;border-radius:5px;font-weight:bold;color:#F6F1F1;background-color:#146C94;border:none">SẮP XẾP GIẢM</button>
+    </div>
+    <div class="col-5 div-center" style="display:flex;justify-content:flex-start;align-items:center">
+        <button id="btnRefresh" type="submit" style="width:150px;height:35px;border-radius:5px;font-weight:bold;color:#F6F1F1;background-color:#146C94;border:none">REFRESH</button>
+    </div>
 </div>
+
+
+
+
 <div id="result" >
 
 
@@ -124,7 +136,7 @@
                 
             });
             $("#btnRefresh").click(function () {
-
+                $("#txtKeyword").val("");
                 $.ajax({
                     url: "/CustomerManagement/RefreshUserList",
                     type: 'GET',
