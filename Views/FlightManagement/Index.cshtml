@@ -22,8 +22,16 @@
         align-items:center;
         /*border:1px solid black;
         box-shadow: 0px 0px 0px 8px rgba(0,0,0,0.3);*/
+        opacity: 5;
     }
     table tr td {
+        /*align-items: center;*/
+        justify-content: center;
+        align-items: center;
+        text-align:center;
+        vertical-align: middle;
+    }
+    tr th {
         /*align-items: center;*/
         justify-content: center;
         align-items: center;
@@ -37,8 +45,8 @@
         justify-content:center
     }
     td a {
-        background-color: #19A7CE;
-        border: 1px solid #19A7CE;
+        background-color: #146C94;
+        border: 1px solid #146C94;
         color: white;
         width: 50px;
         padding: 5px;
@@ -48,10 +56,30 @@
     }
     td a:hover {
         background-color: white;
-        border: 1px solid #19A7CE;
+        border: 1px solid #146C94;
         color: #19A7CE;
         cursor: pointer;
         width: 50px;
+        padding: 5px;
+        border-radius: 10px;
+        text-decoration:none
+    }
+    .button {
+        background-color: #146C94;
+        border: 1px solid #146C94;
+        color: white;
+        /*width: 50px;*/
+        padding: 5px;
+        border-radius: 10px;
+        transition: 0.3s;
+        text-decoration:none
+    }
+    .button:hover {
+        background-color: white;
+        border: 1px solid #146C94;
+        color: #19A7CE;
+        cursor: pointer;
+        /*width: 50px;*/
         padding: 5px;
         border-radius: 10px;
         text-decoration:none
@@ -100,52 +128,52 @@
         <input name="id" id="id" class="form-input"/>
     </div>
     
-    <button style="margin-left:45%; margin-bottom:20px; padding:7px 20px; border: 2px black solid; border-radius:15px">Tìm</button>
+    <button style="margin-left:45%; margin-bottom:20px; padding:7px 20px" class="button">Tìm</button>
     <br />
 </form>
 </div>
 <p style="margin: 20px 0px">
     <a asp-action="Create" class="btn btn-primary" style="background-color:#146C94">Thêm chuyến bay</a>
 </p>
-<table class="table" style="border-color:black">
+<table class="table" style="border-color:black;border-style: solid;border-width:0px 0px 1px 0px">
     <thead>
-        <tr>
-            <th style="background-color:#19A7CE;color:white">
+        <tr style="border-radius:12px;border-bottom:1px solid black">
+            <th style="background-color:#146C94;color:white;border-top-left-radius:12px">
                 @Html.DisplayNameFor(model => model.Id)
             </th>
-            <th style="background-color:#19A7CE;color:white">
+            <th style="background-color:#146C94;color:white">
                 @Html.DisplayNameFor(model => model.PlaneId)
             </th>
-            <th style="background-color:#19A7CE;color:white">
+            <th style="background-color:#146C94;color:white">
                 @Html.DisplayNameFor(model => model.PlaneName)
             </th>
-            <th style="background-color:#19A7CE;color:white">
+            <th style="background-color:#146C94;color:white">
                 @Html.DisplayNameFor(model => model.Departure)
             </th>
-            <th style="background-color:#19A7CE;color:white">
+            <th style="background-color:#146C94;color:white">
                 @Html.DisplayNameFor(model => model.Destination)
             </th>
-            <th style="background-color:#19A7CE;color:white">
+            <th style="background-color:#146C94;color:white">
                 @Html.DisplayNameFor(model => model.BusinessCapacity)
             </th>
-            <th style="background-color:#19A7CE;color:white">
+            <th style="background-color:#146C94;color:white">
                 @Html.DisplayNameFor(model => model.EconomyCapacity)
             </th>
-            <th style="background-color:#19A7CE;color:white">
+            <th style="background-color:#146C94;color:white">
                 @Html.DisplayNameFor(model => model.DepartureTime)
             </th>
-            <th style="background-color:#19A7CE;color:white">
+            <th style="background-color:#146C94;color:white">
                 @Html.DisplayNameFor(model => model.BusinessPrice)
             </th>
-            <th style="background-color:#19A7CE;color:white">
+            <th style="background-color:#146C94;color:white">
                 @Html.DisplayNameFor(model => model.EconomyPrice)
             </th>
-            <th style="background-color:#19A7CE;color:white">
+            <th style="background-color:#146C94;color:white">
                 @Html.DisplayNameFor(model => model.UploadTime)
             </th>
-            <th style="background-color:#19A7CE;color:white"></th>
-            <th style="background-color:#19A7CE;color:white"></th>
-            <th style="background-color:#19A7CE;color:white"></th>
+            <th style="background-color:#146C94;color:white"></th>
+            <th style="background-color:#146C94;color:white"></th>
+            <th style="background-color:#146C94;color:white;border-top-right-radius:12px"></th>
         </tr>
     </thead>
     <tbody>
@@ -176,10 +204,12 @@
                 @Html.DisplayFor(modelItem => item.DepartureTime)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.BusinessPrice)
+                @*@Html.DisplayFor(modelItem => item.BusinessPrice)*@
+                @string.Format("{0:#,##0} đ", item.BusinessPrice)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.EconomyPrice)
+                @*@Html.DisplayFor(modelItem => item.EconomyPrice)*@
+                @string.Format("{0:#,##0} đ", item.EconomyPrice)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.UploadTime)

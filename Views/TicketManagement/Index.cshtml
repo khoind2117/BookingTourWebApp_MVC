@@ -4,36 +4,71 @@
     ViewData["Title"] = "Danh sách vé";
     Layout = "_LayoutAdminManagement";
 }
-
+<style>
+    table tr td {
+        /*align-items: center;*/
+        justify-content: center;
+        align-items: center;
+        text-align:center;
+        vertical-align: middle;
+    }
+    tr th {
+        /*align-items: center;*/
+        justify-content: center;
+        align-items: center;
+        text-align:center;
+        vertical-align: middle;
+    }
+    td a {
+        background-color: #146C94;
+        border: 1px solid #146C94;
+        color: white;
+        width: 50px;
+        padding: 5px;
+        border-radius: 10px;
+        transition: 0.3s;
+        text-decoration:none
+    }
+    td a:hover {
+        background-color: white;
+        border: 1px solid #146C94;
+        color: #146C94;
+        cursor: pointer;
+        width: 50px;
+        padding: 5px;
+        border-radius: 10px;
+        text-decoration:none
+    }
+</style>
 <h1>Danh sách vé</h1>
 
 <hr />
-<table class="table">
+<table class="table" style="border-color:black;">
     <thead>
         <tr>
-            <th>
+            <th style="background-color:#146C94;color:white;border-top-left-radius:15px">
                 Tên tài khoản
             </th>
-            <th>
+            <th style="background-color:#146C94;color:white">
                 Mã chuyến
             </th>
-            <th>
+            <th style="background-color:#146C94;color:white">
                 Số ghế hạng
                 <br />
                 thương gia đã đặt
             </th>
-            <th>
+            <th style="background-color:#146C94;color:white">
                 Số ghế hạng
                 <br />
                 phổ thông đã đặt
             </th>
-            <th>
+            <th style="background-color:#146C94;color:white">
                 Tổng giá
             </th>
-            <th>
+            <th style="background-color:#146C94;color:white">
                 Thời điểm đặt vé
             </th>
-            <th></th>
+            <th style="background-color:#146C94;color:white;border-top-right-radius:15px"></th>
         </tr>
     </thead>
     <tbody>
@@ -52,7 +87,8 @@
                 @Html.DisplayFor(modelItem => item.EconomyTickets)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.TotalPrice)
+                @*@Html.DisplayFor(modelItem => item.TotalPrice)*@
+                @string.Format("{0:#,##0} đ", item.TotalPrice)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.BookingTime)
