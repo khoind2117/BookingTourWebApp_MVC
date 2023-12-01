@@ -37,10 +37,22 @@
             padding-inline:50px;
         }
 
+        .body {
+            width: 100%;
+            height: 100%;
+            margin: 0px;
+            padding: 0px;
+            overflow-x: hidden;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+        }
     </style>
 </head>
 <body>
-
+    <div class="body">
     <header id="header-admin" class="row div-center">
         <div class="col-1 div-center" >
             <partial name="_OffcanvasAdminPartial" />
@@ -54,9 +66,9 @@
     </header>
 
     <main class="container-fluid div-padding">
-        @RenderBody()
+            @RenderBody()
     </main>
-
+    </div>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

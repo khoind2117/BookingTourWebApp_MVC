@@ -65,13 +65,13 @@
             @Html.DisplayNameFor(model => model.BusinessPrice)
         </dt>
         <dd class = "col-sm-9">
-            @Html.DisplayFor(model => model.BusinessPrice)
+            @string.Format("{0:#,##0} đ", Model.BusinessPrice)
         </dd>
         <dt class = "col-sm-3">
             @Html.DisplayNameFor(model => model.EconomyPrice)
         </dt>
         <dd class = "col-sm-9">
-            @Html.DisplayFor(model => model.EconomyPrice)
+            @string.Format("{0:#,##0} đ", Model.EconomyPrice)
         </dd>
         <dt class = "col-sm-3">
             @Html.DisplayNameFor(model => model.UploadTime)
