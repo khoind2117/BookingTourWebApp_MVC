@@ -10,11 +10,11 @@ using BookingTourWebApp_MVC.Models;
 
 namespace BookingTourWebApp_MVC.Controllers
 {
-    public class BookingsController : Controller
+    public class TicketManagementController : Controller
     {
         private readonly ApplicationDbContext _context;
 
-        public BookingsController(ApplicationDbContext context)
+        public TicketManagementController(ApplicationDbContext context)
         {
             _context = context;
         }
@@ -22,7 +22,7 @@ namespace BookingTourWebApp_MVC.Controllers
         // GET: Bookings
         public async Task<IActionResult> Index()
         {
-            var applicationDbContext = _context.Bookings.Include(b => b.Flight);
+            var applicationDbContext = _context.Bookings.Include(a => a.AppUser).Include(b => b.Flight);
             return View(await applicationDbContext.ToListAsync());
         }
 

@@ -1,0 +1,59 @@
+﻿@model BookingTourWebApp_MVC.Models.Booking
+
+@{
+    ViewData["Title"] = "Quản lý chuyến bay";
+    Layout = "_LayoutAdminManagement";
+}
+
+<h1>Thông tin chi tiết vé</h1>
+
+<div>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-3">
+            Tên tài khoản
+        </dt>
+        <dd class = "col-sm-9">
+            @Html.DisplayFor(model => model.AppUser.UserName)
+        </dd>
+        <dt class = "col-sm-3">
+            Họ tên
+        </dt>
+        <dd class = "col-sm-9">
+            @Html.DisplayFor(model => model.AppUser.FullName)
+        </dd>
+        <dt class = "col-sm-3">
+            Mã chuyến bay
+        </dt>
+        <dd class = "col-sm-9">
+            @Html.DisplayFor(model => model.Flight.Id)
+        </dd>
+        <dt class = "col-sm-3">
+            Số ghế hạng thương gia đã đặt
+        </dt>
+        <dd class = "col-sm-9">
+            @Html.DisplayFor(model => model.BusinessTickets)
+        </dd>
+        <dt class = "col-sm-3">
+            Số ghế hạng phổ thông đã đặt
+        </dt>
+        <dd class = "col-sm-9">
+            @Html.DisplayFor(model => model.EconomyTickets)
+        </dd>
+        <dt class = "col-sm-3">
+            Tổng giá
+        </dt>
+        <dd class = "col-sm-9">
+            @Html.DisplayFor(model => model.TotalPrice)
+        </dd>
+        <dt class = "col-sm-3">
+            Thời điểm đặt vé
+        </dt>
+        <dd class = "col-sm-9">
+            @Html.DisplayFor(model => model.BookingTime)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Index">Danh sách vé</a>
+</div>

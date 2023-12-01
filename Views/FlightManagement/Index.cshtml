@@ -1,9 +1,5 @@
 ﻿@model IEnumerable<BookingTourWebApp_MVC.ViewModels.FlightViewModel>
 
-@*@{
-    ViewData["Title"] = "Quản lý chuyến bay";
-}*@
-
 @{
     ViewData["Title"] = "Quản lý chuyến bay";
     Layout = "_LayoutAdminManagement";
@@ -20,17 +16,49 @@
     .form-input {
         width: 60%
     }
+    table {
+        /*align-items: center;*/
+        vertical-align: bottom;
+        align-items:center;
+        /*border:1px solid black;
+        box-shadow: 0px 0px 0px 8px rgba(0,0,0,0.3);*/
+    }
+    table tr td {
+        /*align-items: center;*/
+        justify-content: center;
+        align-items: center;
+        text-align:center;
+        vertical-align: middle;
+    }
     form div {
         margin: 20px auto;
         display: flex;
         width:50%;
         justify-content:center
     }
+    td a {
+        background-color: #19A7CE;
+        border: 1px solid #19A7CE;
+        color: white;
+        width: 50px;
+        padding: 5px;
+        border-radius: 10px;
+        transition: 0.3s;
+        text-decoration:none
+    }
+    td a:hover {
+        background-color: white;
+        border: 1px solid #19A7CE;
+        color: #19A7CE;
+        cursor: pointer;
+        width: 50px;
+        padding: 5px;
+        border-radius: 10px;
+        text-decoration:none
+    }
 </style>
-<p>
-    <a asp-action="Create">Thêm chuyến bay</a>
-</p>
-<div style="display:flex; flex-direction:column;margin: 0 auto; border: 1px solid black;border-radius:15px;width:70%">
+
+<div style="display:flex; flex-direction:column;margin: 0 auto; margin-top: 3%; border: 1px solid black;border-radius:15px;width:70%">
     <form asp-action="Index" asp-controller="FlightManagement" method="get">
     <div>
         <label for="id" class="form-label">Ngày xuất phát: </label>
@@ -76,52 +104,54 @@
     <br />
 </form>
 </div>
-
-<table class="table">
+<p style="margin: 20px 0px">
+    <a asp-action="Create" class="btn btn-primary" style="background-color:#146C94">Thêm chuyến bay</a>
+</p>
+<table class="table" style="border-color:black">
     <thead>
         <tr>
-            <th>
+            <th style="background-color:#19A7CE;color:white">
                 @Html.DisplayNameFor(model => model.Id)
             </th>
-            <th>
+            <th style="background-color:#19A7CE;color:white">
                 @Html.DisplayNameFor(model => model.PlaneId)
             </th>
-            <th>
+            <th style="background-color:#19A7CE;color:white">
                 @Html.DisplayNameFor(model => model.PlaneName)
             </th>
-            <th>
+            <th style="background-color:#19A7CE;color:white">
                 @Html.DisplayNameFor(model => model.Departure)
             </th>
-            <th>
+            <th style="background-color:#19A7CE;color:white">
                 @Html.DisplayNameFor(model => model.Destination)
             </th>
-            <th>
+            <th style="background-color:#19A7CE;color:white">
                 @Html.DisplayNameFor(model => model.BusinessCapacity)
             </th>
-            <th>
+            <th style="background-color:#19A7CE;color:white">
                 @Html.DisplayNameFor(model => model.EconomyCapacity)
             </th>
-            <th>
+            <th style="background-color:#19A7CE;color:white">
                 @Html.DisplayNameFor(model => model.DepartureTime)
             </th>
-            <th>
+            <th style="background-color:#19A7CE;color:white">
                 @Html.DisplayNameFor(model => model.BusinessPrice)
             </th>
-            <th>
+            <th style="background-color:#19A7CE;color:white">
                 @Html.DisplayNameFor(model => model.EconomyPrice)
             </th>
-            <th>
+            <th style="background-color:#19A7CE;color:white">
                 @Html.DisplayNameFor(model => model.UploadTime)
             </th>
-            <th></th>
-            <th></th>
-            <th></th>
+            <th style="background-color:#19A7CE;color:white"></th>
+            <th style="background-color:#19A7CE;color:white"></th>
+            <th style="background-color:#19A7CE;color:white"></th>
         </tr>
     </thead>
     <tbody>
 @foreach (var item in Model) {
         <tr>
-            <td>
+            <td >
                 @Html.DisplayFor(modelItem => item.Id)
             </td>
             <td>
@@ -154,13 +184,13 @@
             <td>
                 @Html.DisplayFor(modelItem => item.UploadTime)
             </td>
-            <td>
+            <td style="white-space:nowrap">
                 <a asp-action="Details" asp-route-id="@item.Id">Chi tiết</a>
             </td>
-            <td>
+            <td style="white-space:nowrap">
                 <a asp-action="Edit" asp-route-id="@item.Id">Sửa</a>
             </td>
-            <td>
+            <td style="white-space:nowrap">
                 <a asp-action="Delete" asp-route-id="@item.Id">Xóa</a>
             </td>
         </tr>

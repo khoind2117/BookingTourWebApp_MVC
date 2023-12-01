@@ -1,7 +1,8 @@
 ﻿@model IEnumerable<BookingTourWebApp_MVC.Models.Booking>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Danh sách vé";
+    Layout = "_LayoutAdminManagement";
 }
 
 <h1>Danh sách vé</h1>
@@ -11,19 +12,26 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Flight)
+                Tên tài khoản
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.BusinessTickets)
+                Mã chuyến
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.EconomyTickets)
+                Số ghế hạng
+                <br />
+                thương gia đã đặt
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.TotalPrice)
+                Số ghế hạng
+                <br />
+                phổ thông đã đặt
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.BookingTime)
+                Tổng giá
+            </th>
+            <th>
+                Thời điểm đặt vé
             </th>
             <th></th>
         </tr>
@@ -31,6 +39,9 @@
     <tbody>
 @foreach (var item in Model) {
         <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.AppUser.UserName)
+            </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Flight.Id)
             </td>
