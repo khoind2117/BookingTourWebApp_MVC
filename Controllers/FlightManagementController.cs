@@ -26,54 +26,6 @@ namespace BookingTourWebApp_MVC.Controllers
         // GET: FlightViewModels
         public async Task<ActionResult<IEnumerable<FlightViewModel>>> Index(string? id, string? departure, string? destination, DateTime departureTime)
         {
-            //return _context.Flights != null ? 
-            //            View(await _context.Flights.ToListAsync()) :
-            //            Problem("Entity set 'ApplicationDbContext.FlightViewModel'  is null.");
-
-
-            //if (id == null)
-            //{
-            //    var flightList = await (from f in _context.Flights
-            //                      join m in _context.Planes
-            //                      on f.PlaneId equals m.Id
-            //                      select new FlightViewModel()
-            //                      {
-            //                          Id = f.Id,
-            //                          PlaneId = f.PlaneId,
-            //                          PlaneName = m.Name,
-            //                          Departure = f.Departure,
-            //                          Destination = f.Destination,
-            //                          BusinessCapacity = f.BusinessCapacity,
-            //                          EconomyCapacity = f.EconomyCapacity,
-            //                          DepartureTime = f.DepartureTime,
-            //                          BusinessPrice = f.BusinessPrice,
-            //                          EconomyPrice = f.EconomyPrice,
-            //                          UploadTime = f.UploadTime
-            //                      }).ToListAsync();
-            //    return View(flightList);
-            //}
-            //else
-            //{
-            //    var flightList = await (from f in _context.Flights
-            //                      join m in _context.Planes
-            //                      on f.PlaneId equals m.Id
-            //                      where f.Id.ToString().Contains(id)
-            //                      select new FlightViewModel()
-            //                      {
-            //                          Id = f.Id,
-            //                          PlaneId = f.PlaneId,
-            //                          PlaneName = m.Name,
-            //                          Departure = f.Departure,
-            //                          Destination = f.Destination,
-            //                          BusinessCapacity = f.BusinessCapacity,
-            //                          EconomyCapacity = f.EconomyCapacity,
-            //                          DepartureTime = f.DepartureTime,
-            //                          BusinessPrice = f.BusinessPrice,
-            //                          EconomyPrice = f.EconomyPrice,
-            //                          UploadTime = f.UploadTime
-            //                      }).ToListAsync();
-            //    return View(flightList);
-            //}
 
             var query = _context.Flights.Include(f => f.Plane).AsQueryable();
 
@@ -87,10 +39,6 @@ namespace BookingTourWebApp_MVC.Controllers
                 query = query.Where(f => f.Destination == destination);
             }
 
-            //if (departureTime != null)
-            //{
-            //    query = query.Where(f => f.DepartureTime.ToString().Substring(0,10) == departureTime.ToString());
-            //}
             if (departureTime.ToString().Substring(0,8) != "1/1/0001" && departureTime.ToString().Substring(0, 10) != "01/01/0001")
             {
                 query = query.Where(f => f.DepartureTime.Year == departureTime.Year && f.DepartureTime.Month == departureTime.Month && f.DepartureTime.Day == departureTime.Day);
@@ -100,9 +48,6 @@ namespace BookingTourWebApp_MVC.Controllers
             {
                 query = query.Where(f => f.Id.ToString().Contains(id));
             }
-            //ModelState[nameof(departure)].RawValue = departure;
-            //ModelState[nameof(destination)].RawValue = destination;
-            //ModelState[nameof(id)].RawValue = id;
 
 
             var flightList = await query.Select(f => new FlightViewModel
@@ -132,12 +77,6 @@ namespace BookingTourWebApp_MVC.Controllers
                 return NotFound();
             }
 
-            //var flightViewModel = await _context.FlightViewModel
-            //    .FirstOrDefaultAsync(m => m.Id == id);
-            //if (flightViewModel == null)
-            //{
-            //    return NotFound();
-            //}
             var query = _context.Flights.Include(f => f.Plane).AsQueryable();
             var flightDetail = await query.Select(f => new FlightViewModel
             {
@@ -155,7 +94,6 @@ namespace BookingTourWebApp_MVC.Controllers
             }).FirstOrDefaultAsync();
             return View(flightDetail);
         }
-        //=========================================================================
          //GET: FlightViewModels/Create
         public IActionResult Create()
         {
@@ -165,18 +103,11 @@ namespace BookingTourWebApp_MVC.Controllers
             return View();
         }
         // POST: FlightViewModels/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(FlightViewModel addFlightRequest)
         {
-            //var isValidPlaneId = await _context.Planes.AnyAsync(p => p.Id == addFlightRequest.PlaneId);
 
-            //if (!isValidPlaneId)
-            //{
-            //    ModelState.AddModelError("PlaneId", "Invalid PlaneId. Please select a valid plane.");
-            //}
             if (addFlightRequest.DepartureTime <= DateTime.Now)
             {
                 ModelState.AddModelError(nameof(addFlightRequest.DepartureTime), "Thời gian bay phải sau thời điểm upload.");
@@ -240,8 +171,6 @@ namespace BookingTourWebApp_MVC.Controllers
         }
 
         // POST: FlightViewModels/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,PlaneName,PlaneId,Departure,Destination,BusinessCapacity,EconomyCapacity,DepartureTime,BusinessPrice,EconomyPrice,UploadTime")] FlightViewModel flightViewModel)
@@ -287,7 +216,7 @@ namespace BookingTourWebApp_MVC.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!FlightViewModelExists(flightViewModel.Id))
+                    if (!FlightlExists(flightViewModel.Id))
                     {
                         return NotFound();
                     }
@@ -353,9 +282,9 @@ namespace BookingTourWebApp_MVC.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        private bool FlightViewModelExists(int id)
+        private bool FlightlExists(int id)
         {
-          return (_context.FlightViewModel?.Any(e => e.Id == id)).GetValueOrDefault();
+          return (_context.Flights?.Any(e => e.Id == id)).GetValueOrDefault();
         }
     }
 }

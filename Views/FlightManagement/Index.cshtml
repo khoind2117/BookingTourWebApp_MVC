@@ -1,7 +1,12 @@
 ﻿@model IEnumerable<BookingTourWebApp_MVC.ViewModels.FlightViewModel>
 
+@*@{
+    ViewData["Title"] = "Quản lý chuyến bay";
+}*@
+
 @{
     ViewData["Title"] = "Quản lý chuyến bay";
+    Layout = "_LayoutAdminManagement";
 }
 
 <style>
@@ -109,6 +114,8 @@
                 @Html.DisplayNameFor(model => model.UploadTime)
             </th>
             <th></th>
+            <th></th>
+            <th></th>
         </tr>
     </thead>
     <tbody>
@@ -149,7 +156,11 @@
             </td>
             <td>
                 <a asp-action="Details" asp-route-id="@item.Id">Chi tiết</a>
+            </td>
+            <td>
                 <a asp-action="Edit" asp-route-id="@item.Id">Sửa</a>
+            </td>
+            <td>
                 <a asp-action="Delete" asp-route-id="@item.Id">Xóa</a>
             </td>
         </tr>
