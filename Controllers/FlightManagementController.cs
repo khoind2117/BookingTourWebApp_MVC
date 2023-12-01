@@ -14,11 +14,11 @@ using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace BookingTourWebApp_MVC.Controllers
 {
-    public class FlightsController : Controller
+    public class FlightManagementController : Controller
     {
         private readonly ApplicationDbContext _context;
 
-        public FlightsController(ApplicationDbContext context)
+        public FlightManagementController(ApplicationDbContext context)
         {
             _context = context;
         }

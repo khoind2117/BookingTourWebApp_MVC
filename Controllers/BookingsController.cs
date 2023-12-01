@@ -22,7 +22,7 @@ namespace BookingTourWebApp_MVC.Controllers
         // GET: Bookings
         public async Task<IActionResult> Index()
         {
-            var applicationDbContext = _context.Bookings.Include(b => b.AppUser).Include(b => b.Flight);
+            var applicationDbContext = _context.Bookings.Include(b => b.Flight);
             return View(await applicationDbContext.ToListAsync());
         }
 

@@ -4,17 +4,12 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
+<h1>Danh sách vé</h1>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
+<hr />
 <table class="table">
     <thead>
         <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.AppUser)
-            </th>
             <th>
                 @Html.DisplayNameFor(model => model.Flight)
             </th>
@@ -37,9 +32,6 @@
 @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.AppUser.Id)
-            </td>
-            <td>
                 @Html.DisplayFor(modelItem => item.Flight.Id)
             </td>
             <td>
@@ -55,9 +47,7 @@
                 @Html.DisplayFor(modelItem => item.BookingTime)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                <a asp-action="Details" asp-route-id="@item.Id">Chi tiết</a>
             </td>
         </tr>
 }
