@@ -21,10 +21,8 @@ namespace BookingTourWebApp_MVC.Controllers
         }
 
         // GET: Bookings
-        public async Task<ActionResult<IEnumerable<Booking>>> Index(string? flightId, string? ticketId, string? departure, string? destination, DateTime departureTime, DateTime bookingTime)
+        public async Task<ActionResult<IEnumerable<Booking>>> Index(string? searchValue, string searchType, string? departure, string? destination, DateTime departureTime, DateTime bookingTime)
         {
-            //var applicationDbContext = _context.Bookings.Include(a => a.AppUser).Include(b => b.Flight);
-            //return View(await applicationDbContext.ToListAsync());
             var query = _context.Bookings.Include(a => a.AppUser).Include(b => b.Flight).AsQueryable();
 
             if (!string.IsNullOrEmpty(departure))
@@ -47,17 +45,29 @@ namespace BookingTourWebApp_MVC.Controllers
                 query = query.Where(f => f.BookingTime.Year == bookingTime.Year && f.BookingTime.Month == bookingTime.Month && f.BookingTime.Day == bookingTime.Day);
             }
 
-            if (!string.IsNullOrEmpty(flightId))
+            if (!string.IsNullOrEmpty(searchValue))
             {
-                query = query.Where(f => f.Id.ToString().Contains(flightId));
-            }
-            if (!string.IsNullOrEmpty(ticketId))
-            {
-                query = query.Where(f => f.Id.ToString().Contains(ticketId));
+                if (searchType == "flightId")
+                {
+                    query = query.Where(f => f.FlightId.ToString().Contains(searchValue));
+                }
+                if (searchType == "ticketId")
+                {
+                    query = query.Where(f => f.Id.ToString().Contains(searchValue));
+                }
             }
 
-            var ticketList = await query.Select(f => f).ToListAsync();
-
+            var ticketList = await query.Select(f => new Booking {
+                Id = f.Id,
+                AppUser = f.AppUser,
+                AppUserId = f.AppUserId,
+                FlightId = f.FlightId,
+                Flight = f.Flight,
+                BusinessTickets = f.BusinessTickets,
+                EconomyTickets = f.EconomyTickets,
+                TotalPrice = f.TotalPrice,
+                BookingTime = f.BookingTime
+            }).ToListAsync();
             return View(ticketList);
         }
 
