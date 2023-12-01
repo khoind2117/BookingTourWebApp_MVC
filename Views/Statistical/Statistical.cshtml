@@ -13,8 +13,8 @@
     var firstDay = new DateTime(now.Year, now.Month, 1).Date;
     var lastDay = new DateTime(now.Year, now.Month, daysInMonth).Date;
 }
-<h1>ThongKe</h1>
-<h2>Thong ke doanh thu theo:</h2>
+<h1>Statistical</h1>
+<h2>Thong ke doanh thu:</h2>
 <div>
     <span>Từ: </span>
     <input id="fDay" type="date" value="@firstDay.ToString("yyyy-MM-dd")" />
@@ -74,7 +74,7 @@
     <br />
 </div>
 @section Scripts {
-    <script>
+    <script >
         $(document).ready(function () {
             $("#btnSearch").click(function () {
                 let firstDate = $("#fDay").val().trim();
@@ -97,7 +97,21 @@
             $("#btnRefresh").click(function () {
                 $("#fDay").val("@firstDay.ToString("yyyy-MM-dd")");
                 $("#lDay").val("@lastDay.ToString("yyyy-MM-dd")");
-
+                let firstDate = $("#fDay").val().trim();
+                let lastDate = $("#lDay").val().trim();
+                $.ajax({
+                        url: "/Statistical/HandleSearchStatistical",
+                        data: { "firstDate": firstDate, "lastDate": lastDate },
+                            success: function (res1) {
+                                $("#result").html(res1);
+                            }
+                    }).then($.ajax({
+                    url: "/Statistical/HandleTotalSaleSearchStatistical",
+                        data: { "firstDate": firstDate, "lastDate": lastDate },
+                        success: function (res2) {
+                            $("#Sresult").html(res2);
+                        }
+                    }));
             });
         });
     </script>

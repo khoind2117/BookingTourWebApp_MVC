@@ -29,84 +29,91 @@ namespace BookingTourWebApp_MVC.Controllers
                 gmail = us.Email,
                 phoneNumber = us.PhoneNumber,
             });
-            return View(result);
+            return View("CustomerManagement",result);
         }
-        //public async Task<IActionResult> GetList()
-        //{
-        //    var data = await _context.Users.FromSqlInterpolated($"select * from dbo.AspNetUsers").Select(u => new CustomerInfo
-        //    {
-        //        Id = u.Id,
-        //        userName = u.UserName,
-        //        fullName = u.FullName,
-        //        gmail = u.Email,
-        //        phoneNumber = u.PhoneNumber,
-        //    }).ToListAsync();
-        //    return View(data);
-        //}
-        //public async Task<IActionResult> GetPlane()
-        //{
-        //    var data = await _context.Planes.FromSqlInterpolated($"select * from dbo.Plane").ToListAsync();
-        //    return View(data);
-        //}
-        //public IActionResult SearchUser()
-        //{
-        //    return View("SearchUser");
-        //}
-        
+
+        public async Task<IActionResult> SortASC()
+        {
+            if (_context.Users == null)
+            {
+                return Problem("Entity set 'ApplicationDbContext.User'  is null.");
+            }
+            var userInfo = await _context.Users.ToListAsync();
+            var result = userInfo.Select(us => new CustomerInfo
+            {
+                Id = us.Id,
+                userName = us.UserName,
+                fullName = us.FullName,
+                gmail = us.Email,
+                phoneNumber = us.PhoneNumber,
+            });
+            return PartialView("CustomerSortASC", result.OrderBy(u => u.fullName).ToList());
+        }
+        public async Task<IActionResult> SortDESC()
+        {
+            if (_context.Users == null)
+            {
+                return Problem("Entity set 'ApplicationDbContext.User'  is null.");
+            }
+            var userInfo = await _context.Users.ToListAsync();
+            var result = userInfo.Select(us => new CustomerInfo
+            {
+                Id = us.Id,
+                userName = us.UserName,
+                fullName = us.FullName,
+                gmail = us.Email,
+                phoneNumber = us.PhoneNumber,
+            });
+            return PartialView("CustomerSortDESC", result.OrderByDescending(u => u.fullName).ToList());
+        }
+        public async Task<IActionResult> RefreshUserList()
+        {
+            if (_context.Users == null)
+            {
+                return Problem("Entity set 'ApplicationDbContext.User'  is null.");
+            }
+            var userInfo = await _context.Users.ToListAsync();
+            var result = userInfo.Select(us => new CustomerInfo
+            {
+                Id = us.Id,
+                userName = us.UserName,
+                fullName = us.FullName,
+                gmail = us.Email,
+                phoneNumber = us.PhoneNumber,
+            }).ToList();
+            return PartialView("CustomerRefresh", result);
+        }
         public async Task<IActionResult> HandleSearchUser(string keyword,string typekw)
         {
 
-            
-			if (typekw == "fullname")
-            {
-                var data = await _context.Users.Where(u => u.UserName.Contains(keyword)).Select(u => new CustomerInfo
-				{
-					Id = u.Id,
-					userName = u.UserName,
-					fullName = u.FullName,
-					gmail = u.Email,
-					phoneNumber = u.PhoneNumber,
-				}).ToListAsync();
-				if (data == null)
-				{
-					return NotFound();
-				}
-				return PartialView("HandleSearchUser", data);
-			}
-			else if(typekw == "phonenumber")
-            {
-                var data = await _context.Users.Where(u => u.PhoneNumber.Contains(keyword)).Select(u => new CustomerInfo
-				{
-					Id = u.Id,
-					userName = u.UserName,
-					fullName = u.FullName,
-					gmail = u.Email,
-					phoneNumber = u.PhoneNumber,
-				}).ToListAsync();
-				if (data == null)
-				{
-					return NotFound();
-				}
-				return PartialView("HandleSearchUser", data);
-			}
-            else
-            {
-				var data = await _context.Users.Where(u => u.Email.Contains(keyword)).Select(u => new CustomerInfo
-				{
-					Id = u.Id,
-					userName = u.UserName,
-					fullName = u.FullName,
-					gmail = u.Email,
-					phoneNumber = u.PhoneNumber,
-				}).ToListAsync();
-                if(data == null)
-                {
-                    return NotFound();
-                }
-				return PartialView("HandleSearchUser", data);
+            var dt = _context.Users.AsQueryable();
 
-			}
-            
+                if (typekw == "fullname")
+                {
+                    dt = dt.Where(u => u.UserName.Contains(keyword));
+
+                }
+                if (typekw == "phonenumber")
+                {
+                    dt = dt.Where(u => u.PhoneNumber.Contains(keyword));
+                }
+                if (typekw == "gmail")
+                {
+                    dt = dt.Where(u => u.Email.Contains(keyword));
+                }
+                var data = await dt.Select(u => new CustomerInfo()
+                {
+                    Id = u.Id,
+                    userName = u.UserName,
+                    fullName = u.FullName,
+                    gmail = u.Email,
+                    phoneNumber = u.PhoneNumber,
+                }).ToListAsync();
+                return PartialView("HandleSearchUser", data);
+                
+
+
+
         }
 
     }
