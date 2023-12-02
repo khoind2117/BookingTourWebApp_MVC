@@ -4,6 +4,43 @@
     ViewData["Title"] = "Thêm chuyến bay";
     Layout = "_LayoutAdminManagement";
 }
+<style>
+    .button {
+        background-color: #146C94;
+        border: 1px solid #146C94;
+        color: white;
+        /*width: 50px;*/
+        padding: 5px;
+        border-radius: 5px;
+        transition: 0.3s;
+        text-decoration:none
+    }
+    .button:hover {
+        background-color: white;
+        border: 1px solid #146C94;
+        color: #146C94;
+        cursor: pointer;
+        /*width: 50px;*/
+        padding: 5px;
+        border-radius: 5px;
+        text-decoration:none
+    }
+    .create-btn:hover {
+        background-color:white;
+        border: 1px solid #146C94;
+        color: #146C94;
+    }
+    .form-group label {
+        margin-top: 10px;
+        margin-bottom: 10px
+    }
+    .form-group select,.form-group input {
+        padding: 7px;
+        border-radius: 10px;
+        border-color: #146C94;
+        border-width: 2px;
+    }
+</style>
 <h1>Thêm chuyến bay mới</h1>
 
 <hr />
@@ -12,13 +49,13 @@
         <form asp-action="Create" id="myForm" onsubmit="createAlert(event)">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>         
             <div class="form-group">
-                <label asp-for="PlaneId" class="control-label"></label>
-                <select asp-for="PlaneId" asp-items="@(new SelectList(ViewBag.planeList, "Id", "Name"))" id="planeIdSelect">
+                <label class="control-label">Máy bay chuyên chở</label>
+                <select asp-for="PlaneId" style="padding-left:5px" asp-items="@(new SelectList(ViewBag.planeList, "Id", "Name"))" id="planeIdSelect">
                 </select>
             </div>
             <div class="form-group">
                 <label asp-for="Departure" class="control-label"></label>
-                <select asp-for="Departure" class="form-control">
+                <select asp-for="Departure" class="form-control" style="text-align:center">
                     <option value=""></option>
                     <option value="Nha Trang">Nha Trang</option>
                     <option value="Sài Gòn">Sài Gòn</option>
@@ -34,7 +71,7 @@
             </div>
             <div class="form-group">
                 <label asp-for="Destination" class="control-label"></label>
-                <select asp-for="Destination" class="form-control">
+                <select asp-for="Destination" class="form-control" style="text-align:center">
                     <option value=""></option>
                     <option value="Nha Trang">Nha Trang</option>
                     <option value="Sài Gòn">Sài Gòn</option>
@@ -50,12 +87,12 @@
             </div>
             <div class="form-group">
                 <label asp-for="BusinessCapacity" class="control-label"></label>
-                <input asp-for="BusinessCapacity" class="form-control" />
+                <input asp-for="BusinessCapacity" class="form-control" oninput="verifyInput(this)" />
                 <span asp-validation-for="BusinessCapacity" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="EconomyCapacity" class="control-label"></label>
-                <input asp-for="EconomyCapacity" class="form-control" />
+                <input asp-for="EconomyCapacity" class="form-control" oninput="verifyInput(this)"/>
                 <span asp-validation-for="EconomyCapacity" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -64,28 +101,30 @@
                 <span asp-validation-for="DepartureTime" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="BusinessPrice" class="control-label"></label>
-                <input asp-for="BusinessPrice" class="form-control" />
+                <label class="control-label">Giá vé hạng thương gia (đ)</label>
+                <input asp-for="BusinessPrice" class="form-control" oninput="formatCurrency(this)"/>
                 <span asp-validation-for="BusinessPrice" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="EconomyPrice" class="control-label"></label>
-                <input asp-for="EconomyPrice" class="form-control" />
+                <label class="control-label">Giá vé hạng phổ thông (đ)</label>
+                <input asp-for="EconomyPrice" class="form-control" oninput="formatCurrency(this)"/>
                 <span asp-validation-for="EconomyPrice" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <input type="submit" value="Thêm chuyến bay" class="btn btn-primary"/>
+            <div class="form-group" style="margin-top: 20px">
+                <input type="submit" value="Thêm chuyến bay" class="button create-btn"/>
+                <a class="button" asp-action="Index" style="padding:7px">Danh sách chuyến bay</a>
             </div>
         </form>
     </div>
 </div>
 
-<div>
-    <a asp-action="Index">Danh sách chuyến bay</a>
-</div>
+@*<div>
+    <a class="button" asp-action="Index">Danh sách chuyến bay</a>
+</div>*@
 
 @section Scripts {
     @*@{await Html.RenderPartialAsync("_ValidationScriptsPartial");}*@
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
         function createAlert(e){
             e.preventDefault();
@@ -105,6 +144,33 @@
                     myForm.submit();
                 }
             });
+        }
+    </script>
+    <script>
+        function formatCurrency(input) {
+            // Lấy giá trị người dùng nhập vào
+            let value = input.value;
+
+            // Xóa bỏ tất cả các ký tự không phải số
+            value = value.replace(/[^0-9]/g, '');
+
+            // Định dạng số với dấu phẩy mỗi 3 chữ số
+            value = value.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+
+            // Gán giá trị đã định dạng trở lại ô nhập liệu
+            input.value = value;
+        }
+    </script>
+    <script>
+        function verifyInput(input) {
+            // Lấy giá trị người dùng nhập vào
+            let value = input.value;
+
+            // Xóa bỏ tất cả các ký tự không phải số
+            value = value.replace(/[^0-9]/g, '');
+
+            // Gán giá trị đã định dạng trở lại ô nhập liệu
+            input.value = value;
         }
     </script>
 }

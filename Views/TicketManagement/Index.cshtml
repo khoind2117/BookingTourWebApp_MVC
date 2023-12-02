@@ -54,7 +54,7 @@
     td a:hover {
         background-color: white;
         border: 1px solid #146C94;
-        color: #19A7CE;
+        color: #146C94;
         cursor: pointer;
         width: 50px;
         padding: 5px;
@@ -67,7 +67,7 @@
         color: white;
         /*width: 50px;*/
         padding: 5px;
-        border-radius: 10px;
+        border-radius: 5px;
         transition: 0.3s;
         text-decoration:none
     }
@@ -78,7 +78,7 @@
         cursor: pointer;
         /*width: 50px;*/
         padding: 5px;
-        border-radius: 10px;
+        border-radius: 5px;
         text-decoration:none
     }
     select {
@@ -134,14 +134,6 @@
         <label for="bookingTime" class="form-label">Ngày đặt vé: </label>
         <input name="bookingTime" id="bookingTime" type="date" class="form-input" style="text-align:center"/>
     </div>
-    @*<div>
-        <label for="flightId" class="form-label">Mã chuyến: </label>
-        <input name="flightId" id="flightId" class="form-input"/>
-    </div>
-    <div>
-        <label for="ticketId" class="form-label">Mã vé: </label>
-        <input name="ticketId" id="ticketId" class="form-input"/>
-    </div>*@
 
     <div>
         <label for="searchType" class="form-label">Tìm theo: </label>
@@ -149,13 +141,13 @@
             <option value="flightId">Mã chuyến</option>
             <option value="ticketId">Mã vé</option>
         </select>
-        <input name="searchValue" id="searchValue" class="form-input" style="width:33%"/>
+        <input name="searchValue" id="searchValue" class="form-input" style="width:33%; padding-left:10px"/>
     </div>
 
     <div style="justify-content:center">
 
         <button style="margin:20px; padding:7px 20px" class="button">Tìm</button>
-        <button id="resetButton" style="width:40px;height:40px;background-color:transparent;border:2px solid #146C94; border-radius:10px; margin: 20px">
+        <button id="resetButton" style="width:40px;height:40px;background-color:#146C94;border:2px solid #146C94; border-radius:5px; margin: 20px">
             <img src="~/src/refresh-icon.png" alt="Reset" style="width:20px;height:20px"/>
         </button>
     </div>
@@ -166,10 +158,13 @@
     <thead>
         <tr>
             <th style="background-color:#146C94;color:white;border-top-left-radius:15px">
-                Tên tài khoản
+                Mã vé
             </th>
             <th style="background-color:#146C94;color:white">
                 Mã chuyến
+            </th>
+            <th style="background-color:#146C94;color:white">
+                Khách hàng
             </th>
             <th style="background-color:#146C94;color:white">
                 Số ghế hạng
@@ -183,7 +178,7 @@
             </th>
             
             <th style="background-color:#146C94;color:white">
-                Ngày xuất phát
+                Thời điểm khởi hành
             </th>
             <th style="background-color:#146C94;color:white">
                 Thời điểm đặt vé
@@ -198,10 +193,13 @@
 @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.AppUser.UserName)
+                @Html.DisplayFor(modelItem => item.Id)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Flight.Id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AppUser.FullName)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.BusinessTickets)
@@ -210,10 +208,11 @@
                 @Html.DisplayFor(modelItem => item.EconomyTickets)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Flight.DepartureTime)
+                @Convert.ToDateTime(item.Flight.DepartureTime).ToString("dd/MM/yyyy - HH:mm tt")
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.BookingTime)
+                @*@Html.DisplayFor(modelItem => item.BookingTime)*@
+                @Convert.ToDateTime(item.BookingTime).ToString("dd/MM/yyyy - HH:mm tt")
             </td>
             <td>
                 @*@Html.DisplayFor(modelItem => item.TotalPrice)*@

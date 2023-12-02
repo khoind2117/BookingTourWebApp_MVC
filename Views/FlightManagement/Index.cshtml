@@ -14,7 +14,11 @@
         width: 40%
     }
     .form-input {
-        width: 60%
+        width: 60%;
+        padding: 3px;
+        border-radius: 10px;
+        border-color: #146C94;
+        border-width: 2px;
     }
     table {
         vertical-align: bottom;
@@ -51,7 +55,7 @@
     td a:hover {
         background-color: white;
         border: 1px solid #146C94;
-        color: #19A7CE;
+        color: #146C94;
         cursor: pointer;
         width: 50px;
         padding: 5px;
@@ -64,32 +68,38 @@
         color: white;
         /*width: 50px;*/
         padding: 5px;
-        border-radius: 10px;
+        border-radius: 5px;
         transition: 0.3s;
         text-decoration:none
     }
     .button:hover {
         background-color: white;
         border: 1px solid #146C94;
-        color: #19A7CE;
+        color: #146C94;
         cursor: pointer;
         /*width: 50px;*/
         padding: 5px;
-        border-radius: 10px;
+        border-radius: 5px;
         text-decoration:none
     }
-    
+    select {
+        padding: 5px;
+        border-radius: 10px;
+        border-color: #146C94;
+        border-width: 2px;
+
+    }
 </style>
 <h1 style="margin: 20px 0px 20px 0px">Quản lý chuyến bay</h1>
 <div style="display:flex; flex-direction:column;margin: 0 auto; margin-top: 3%; border: 4px solid #146C94;border-radius:15px;width:70%">
     <form asp-action="Index" asp-controller="FlightManagement" method="get">
     <div>
         <label for="id" class="form-label">Ngày xuất phát: </label>
-        <input name="departureTime" id="departureTime" type="date" class="form-input"/>
+        <input name="departureTime" id="departureTime" type="date" class="form-input" style="text-align:center"/>
     </div>
     <div>
         <label for="departure" class="form-label">Nơi xuất phát: </label>
-        <select name="departure" id="departure" class="form-input">
+        <select name="departure" id="departure" class="form-input" style="text-align:center">
             <option value=""></option>
             <option value="Nha Trang">Nha Trang</option>
             <option value="Sài Gòn">Sài Gòn</option>
@@ -105,7 +115,7 @@
 
     <div>
         <label for="destination" class="form-label">Nơi đến: </label>
-        <select name="destination" id="destination" class="form-input">
+        <select name="destination" id="destination" class="form-input" style="text-align:center">
             <option value=""></option>
             <option value="Nha Trang">Nha Trang</option>
             <option value="Sài Gòn">Sài Gòn</option>
@@ -120,12 +130,12 @@
     </div>
     <div>
         <label for="id" class="form-label">Mã chuyến: </label>
-        <input name="id" id="id" class="form-input"/>
+        <input name="id" id="id" class="form-input" style="padding-left:10px"/>
     </div>
     <div style="justify-content:center">
 
         <button style="margin:20px; padding:7px 20px" class="button">Tìm</button>
-        <button id="resetButton" style="width:40px;height:40px;background-color:transparent;border:2px solid #146C94; border-radius:10px; margin: 20px">
+        <button id="resetButton" style="width:40px;height:40px;background-color:#146C94;border:2px solid #146C94; border-radius:5px; margin: 20px">
             <img src="~/src/refresh-icon.png" alt="Reset" style="width:20px;height:20px"/>
         </button>
     </div>
@@ -142,9 +152,6 @@
         <tr style="border-radius:12px;border-bottom:1px solid black">
             <th style="background-color:#146C94;color:white;border-top-left-radius:12px">
                 @Html.DisplayNameFor(model => model.Id)
-            </th>
-            <th style="background-color:#146C94;color:white">
-                @Html.DisplayNameFor(model => model.PlaneId)
             </th>
             <th style="background-color:#146C94;color:white">
                 @Html.DisplayNameFor(model => model.PlaneName)
@@ -185,9 +192,6 @@
                 @Html.DisplayFor(modelItem => item.Id)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.PlaneId)
-            </td>
-            <td>
                 @Html.DisplayFor(modelItem => item.PlaneName)
             </td>
             <td>
@@ -203,7 +207,8 @@
                 @Html.DisplayFor(modelItem => item.EconomyCapacity)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.DepartureTime)
+                @*@Html.DisplayFor(modelItem => item.DepartureTime)*@
+                @Convert.ToDateTime(item.DepartureTime).ToString("dd/MM/yyyy HH:mm tt")
             </td>
             <td>
                 @*@Html.DisplayFor(modelItem => item.BusinessPrice)*@
@@ -214,7 +219,8 @@
                 @string.Format("{0:#,##0} đ", item.EconomyPrice)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.UploadTime)
+                @*@Html.DisplayFor(modelItem => item.UploadTime)*@
+                @Convert.ToDateTime(item.UploadTime).ToString("dd/MM/yyyy HH:mm tt")
             </td>
             <td style="white-space:nowrap">
                 <a asp-action="Details" asp-route-id="@item.Id">Chi tiết</a>

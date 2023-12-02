@@ -6,10 +6,31 @@
 }
 <style>
     * {
-    text-wrap:nowrap;
-}
+        text-wrap:nowrap;
+    }
+    .button {
+        background-color: #146C94;
+        border: 1px solid #146C94;
+        color: white;
+        /*width: 50px;*/
+        padding: 5px;
+        border-radius: 10px;
+        transition: 0.3s;
+        text-decoration:none;
+        margin: 10px 20px 20px 0px;
+    }
+    .button:hover {
+        background-color: white;
+        border: 1px solid #146C94;
+        color: #146C94;
+        cursor: pointer;
+        /*width: 50px;*/
+        padding: 5px;
+        border-radius: 10px;
+        text-decoration:none
+    }
 </style>
-<h1>Thông tin chi tiết</h1>
+<h1>Chi tiết chuyến bay</h1>
 <hr />
 <div>
     <dl class="row">
@@ -20,13 +41,7 @@
             @Html.DisplayFor(model => model.Id)
         </dd>
         <dt class = "col-sm-3">
-            @Html.DisplayNameFor(model => model.PlaneId)
-        </dt>
-        <dd class = "col-sm-9">
-            @Html.DisplayFor(model => model.PlaneId)
-        </dd>
-        <dt class = "col-sm-3">
-            @Html.DisplayNameFor(model => model.PlaneName)
+            Máy bay chuyên chở
         </dt>
         <dd class = "col-sm-9">
             @Html.DisplayFor(model => model.PlaneName)
@@ -56,10 +71,16 @@
             @Html.DisplayFor(model => model.EconomyCapacity)
         </dd>
         <dt class = "col-sm-3">
-            @Html.DisplayNameFor(model => model.DepartureTime)
+            Ngày khởi hành
         </dt>
         <dd class = "col-sm-9">
-            @Html.DisplayFor(model => model.DepartureTime)
+            @Model.DepartureTime.ToString("dd/MM/yyyy")
+        </dd>
+        <dt class = "col-sm-3">
+            Thời điểm khởi hành
+        </dt>
+        <dd class = "col-sm-9">
+            @Model.DepartureTime.ToString("HH:mm tt")
         </dd>
         <dt class = "col-sm-3">
             @Html.DisplayNameFor(model => model.BusinessPrice)
@@ -77,11 +98,12 @@
             @Html.DisplayNameFor(model => model.UploadTime)
         </dt>
         <dd class = "col-sm-9">
-            @Html.DisplayFor(model => model.UploadTime)
+            @*@Html.DisplayFor(model => model.UploadTime)*@
+            @Model.UploadTime.ToString("dd/MM/yyyy - HH:mm tt")
         </dd>
     </dl>
 </div>
 <div>
-    <a asp-action="Edit" asp-route-id="@Model?.Id">Chỉnh sửa</a> |
-    <a asp-action="Index">Danh sách chuyến bay</a>
+    <a class="button" asp-action="Edit" asp-route-id="@Model?.Id">Chỉnh sửa</a>
+    <a class="button" asp-action="Index">Danh sách chuyến bay</a>
 </div>

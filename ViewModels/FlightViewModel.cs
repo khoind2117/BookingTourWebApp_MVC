@@ -53,17 +53,17 @@ namespace BookingTourWebApp_MVC.ViewModels
         [Required(ErrorMessage = "Vui lòng nhập nơi đến.")]
         public string Destination { get; set; }
 
-        [Display(Name = "Ghế hạng thương gia")]
+        [Display(Name = "Ghế hạng thương gia còn trống")]
         [Required(ErrorMessage = "Vui lòng nhập số lượng ghế hạng thương gia.")]
         [Range(1, int.MaxValue, ErrorMessage = "Số lượng ghế Business không hợp lệ.")]
         public int BusinessCapacity { get; set; }
 
-        [Display(Name = "Ghế hạng phổ thông")]
+        [Display(Name = "Ghế hạng phổ thông còn trống")]
         [Required(ErrorMessage = "Vui lòng nhập số lượng ghế hạng phổ thông.")]
         [Range(1, int.MaxValue, ErrorMessage = "Số lượng ghế Economy không hợp lệ.")]
         public int EconomyCapacity { get; set; }
 
-        [Display(Name = "Thời gian bay")]
+        [Display(Name = "Thời điểm khởi hành")]
         [Required(ErrorMessage = "Vui lòng nhập thời gian bay.")]
         public DateTime DepartureTime { get; set; }
 

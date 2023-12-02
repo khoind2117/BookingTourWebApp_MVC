@@ -82,6 +82,7 @@ namespace BookingTourWebApp_MVC.Controllers
             var booking = await _context.Bookings
                 .Include(b => b.AppUser)
                 .Include(b => b.Flight)
+                .Include(b => b.Flight.Plane)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (booking == null)
             {
