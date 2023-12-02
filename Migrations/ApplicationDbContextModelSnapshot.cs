@@ -93,14 +93,11 @@ namespace BookingTourWebApp_MVC.Migrations
 
             modelBuilder.Entity("BookingTourWebApp_MVC.Models.Booking", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
                     b.Property<string>("AppUserId")
                         .HasColumnType("nvarchar(450)");
+
+                    b.Property<int?>("FlightId")
+                        .HasColumnType("int");
 
                     b.Property<DateTime>("BookingTime")
                         .HasColumnType("datetime2");
@@ -111,15 +108,10 @@ namespace BookingTourWebApp_MVC.Migrations
                     b.Property<int>("EconomyTickets")
                         .HasColumnType("int");
 
-                    b.Property<int?>("FlightId")
-                        .HasColumnType("int");
-
                     b.Property<decimal>("TotalPrice")
                         .HasColumnType("decimal(18,2)");
 
-                    b.HasKey("Id");
-
-                    b.HasIndex("AppUserId");
+                    b.HasKey("AppUserId", "FlightId");
 
                     b.HasIndex("FlightId");
 
@@ -325,12 +317,14 @@ namespace BookingTourWebApp_MVC.Migrations
                     b.HasOne("BookingTourWebApp_MVC.Models.AppUser", "AppUser")
                         .WithMany("Bookings")
                         .HasForeignKey("AppUserId")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
 
                     b.HasOne("BookingTourWebApp_MVC.Models.Flight", "Flight")
                         .WithMany("Bookings")
                         .HasForeignKey("FlightId")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
 
                     b.Navigation("AppUser");
 

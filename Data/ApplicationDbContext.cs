@@ -45,13 +45,13 @@ namespace BookingTourWebApp_MVC.Data
                 entity.HasMany(p => p.Flights) // Một máy bay có nhiều chuyến bay
                     .WithOne(f => f.Plane) // Mỗi chuyến bay thuộc về một máy bay
                     .HasForeignKey(f => f.PlaneId); // Khóa ngoại trong bảng chuyến bay tham chiếu đến khóa chính trong bảng máy bay
-            });                
+            });
 
             // Booking n-n AppUser - Flight
             modelBuilder.Entity<Booking>(entity =>
             {
                 entity.ToTable("Booking")
-                    .HasKey(b => b.Id );
+                    .HasKey(b => b.Id);
                 entity.Property(b => b.TotalPrice)
                     .HasColumnType("decimal(18, 2)");
 
