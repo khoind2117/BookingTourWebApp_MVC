@@ -1,11 +1,11 @@
 ﻿@model IEnumerable<BookingTourWebApp_MVC.ViewModels.VMofStatistical.StatisticalFlightSales>
 
 @{
-    ViewData["Title"] = "HandleSearchStatistical";
+    ViewData["Title"] = "StatisticalSortDESC";
 }
 
 <div style="margin-block:20px">
-    <h2 style="color:#146C94;font-weight:bold">Doanh thu các chuyến bay được tìm thấy:</h2>
+    <h2 style="color:#146C94;font-weight:bold">Doanh thu các chuyến bay được sắp xếp tăng dần:</h2>
 </div>
 <div>
     <table class="table table-striped table-bordered" style="border-radius:12px;overflow:hidden;">
@@ -16,8 +16,8 @@
                 </td>
                 <td>
                     @Html.DisplayNameFor(Model => Model.Sales)
-                    
-                    
+
+
                 </td>
 
             </tr>
@@ -30,7 +30,7 @@
                         @Html.DisplayFor(modelItem => item.flightId)
                     </td>
                     <td>
-                        
+
                         @string.Format("{0:#,##0} đ", item.Sales)
                     </td>
 

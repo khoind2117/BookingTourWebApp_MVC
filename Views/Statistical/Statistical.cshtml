@@ -55,8 +55,11 @@
 
     </div>
     <div style="display:flex;justify-content:center;align-items:center;margin-block:20px">
-        <div class=" div-center" style="margin-inline:10px;">
-            <button style="margin-inline:10px;min-width:100px;height:35px;border-radius:5px;color:#F6F1F1;background-color:#19A7CE;border:none;font-weight:bold" id="btnSearch" type="submit">TÌM KIẾM</button>
+        <div class="div-center" style="margin-inline:10px;">
+            <button style="margin-inline:10px;min-width:150px;height:35px;border-radius:5px;color:#F6F1F1;background-color:#146C94;border:none;font-weight:bold" id="btnSortASC">SẮP XẾP TĂNG</button>
+        </div>
+        <div class="div-center" style="margin-inline:10px;">
+            <button style="margin-inline:10px;min-width:150px;height:35px;border-radius:5px;color:#F6F1F1;background-color:#146C94;border:none;font-weight:bold" id="btnSortDESC">SẮP XẾP GIẢM</button>
         </div>
         <div class="div-center" style="margin-inline:10px;">
             <button style="margin-inline:10px;min-width:100px;height:35px;border-radius:5px;color:#F6F1F1;background-color:#146C94;border:none;font-weight:bold" id="btnRefresh">LÀM MỚI</button>
@@ -68,7 +71,7 @@
 
 <div id="result">
     <div style="margin-block:20px">
-        <h2 style="color:#146C94;font-weight:bold">Doanh thu các chuyến bay tháng @currnow</h2>
+        <h2 id="titleResult" style="color:#146C94;font-weight:bold">Doanh thu các chuyến bay tháng @currnow</h2>
     </div>
     <div>
         <table class="table table-striped table-bordered" style="border-radius:12px;overflow:hidden;">
@@ -91,7 +94,7 @@
                             @Html.DisplayFor(modelItem => item.flightId)
                         </td>
                         <td>
-                            @Html.DisplayFor(modelItem => item.Sales)
+                            @string.Format("{0:#,##0} đ", item.Sales)
                         </td>
 
                     </tr>
@@ -111,7 +114,7 @@
                 Số lượng chuyến bay: @Model.TotalSaleInMonth.CountFlight
             </div>
             <div style="color:#146C94;font-weight:bold;font-size:20px">
-                Tổng doanh thu: @Model.TotalSaleInMonth.TotalSales đ
+                Tổng doanh thu: @string.Format("{0:#,##0} đ", @Model.TotalSaleInMonth.TotalSales)
             </div>
         </div>
     </div>
@@ -138,22 +141,47 @@
                     }));
                 
             });
+            $("#btnSortASC").click(function () {
+                                        let firstDate = $("#fDay").val().trim();
+                        let lastDate = $("#lDay").val().trim(); 
+                    $.ajax({
+                        url: "/Statistical/SortASC",
+                        data: { "firstDate": firstDate, "lastDate": lastDate },
+                            success: function (res3) {
+                                $("#result").html(res3);
+                            }
+                    })
+
+            });
+            $("#btnSortDESC").click(function () {
+                                        let firstDate = $("#fDay").val().trim();
+                        let lastDate = $("#lDay").val().trim(); 
+                    $.ajax({
+                        url: "/Statistical/SortDESC",
+                        data: { "firstDate": firstDate, "lastDate": lastDate },
+                            success: function (res4) {
+                                $("#result").html(res4);
+                            }
+                    })
+
+            });
             $("#btnRefresh").click(function () {
                 $("#fDay").val("@firstDay.ToString("yyyy-MM-dd")");
                 $("#lDay").val("@lastDay.ToString("yyyy-MM-dd")");
+                $("#titleResult").text("Doanh thu các chuyến bay tháng sau khi làm mới");
                 let firstDate = $("#fDay").val().trim();
                 let lastDate = $("#lDay").val().trim();
                 $.ajax({
                         url: "/Statistical/HandleSearchStatistical",
                         data: { "firstDate": firstDate, "lastDate": lastDate },
-                            success: function (res1) {
-                                $("#result").html(res1);
+                            success: function (res5) {
+                                $("#result").html(res5);
                             }
                     }).then($.ajax({
                     url: "/Statistical/HandleTotalSaleSearchStatistical",
                         data: { "firstDate": firstDate, "lastDate": lastDate },
-                        success: function (res2) {
-                            $("#Sresult").html(res2);
+                        success: function (res6) {
+                            $("#Sresult").html(res6);
                         }
                     }));
             });
@@ -185,6 +213,7 @@
                     </td>
                     <td>
                         @Html.DisplayNameFor(Model => Model.HighSales.First().Sales)
+
                     </td>
 
                 </tr>
@@ -200,16 +229,17 @@
                             @Html.DisplayFor(modelItem => item.businessTickets)
                         </td>
                         <td>
-                            @Html.DisplayFor(modelItem => item.businessPrice)
+                        @string.Format("{0:#,##0} đ", item.businessPrice)
                         </td>
                         <td>
                             @Html.DisplayFor(modelItem => item.economyTickets)
                         </td>
                         <td>
-                            @Html.DisplayFor(modelItem => item.economyPrice)
+                            
+                        @string.Format("{0:#,##0} đ", item.economyPrice)
                         </td>
                         <td>
-                            @Html.DisplayFor(modelItem => item.Sales)
+                        @string.Format("{0:#,##0} đ", item.Sales)
                         </td>
 
                     </tr>
@@ -262,16 +292,16 @@
                             @Html.DisplayFor(modelItem => item.businessTickets)
                         </td>
                         <td>
-                            @Html.DisplayFor(modelItem => item.businessPrice)
+                        @string.Format("{0:#,##0} đ", item.businessPrice)
                         </td>
                         <td>
                             @Html.DisplayFor(modelItem => item.economyTickets)
                         </td>
                         <td>
-                            @Html.DisplayFor(modelItem => item.economyPrice)
+                        @string.Format("{0:#,##0} đ", item.economyPrice)
                         </td>
                         <td>
-                            @Html.DisplayFor(modelItem => item.Sales)
+                        @string.Format("{0:#,##0} đ", item.Sales)
                         </td>
 
                     </tr>
@@ -327,16 +357,16 @@
         <thead style="background-color:#146C94">
             <tr style="text-align:center;color:#F6F1F1">
                 <td>
-                    @Html.DisplayNameFor(Model => Model.UserHaveHighTicket.First().FullName)
+                    @Html.DisplayNameFor(Model => Model.UserHaveLowTicket.First().FullName)
                 </td>
                 <td>
-                    @Html.DisplayNameFor(Model => Model.UserHaveHighTicket.First().TotalTickets)
+                    @Html.DisplayNameFor(Model => Model.UserHaveLowTicket.First().TotalTickets)
                 </td>
 
             </tr>
         </thead>
         <tbody>
-            @foreach (var item in Model.UserHaveHighTicket)
+            @foreach (var item in Model.UserHaveLowTicket)
             {
                 <tr style="text-align:center;text-decoration:none;">
                     <td>

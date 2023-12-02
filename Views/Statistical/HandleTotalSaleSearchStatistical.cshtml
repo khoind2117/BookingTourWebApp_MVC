@@ -7,7 +7,7 @@
             Số lượng chuyến bay: @Model.CountFlight
         </div>
         <div style="color:#146C94;font-weight:bold;font-size:20px">
-            Tổng doanh thu: @Model.CountFlight
+            Tổng doanh thu: @string.Format("{0:#,##0} đ", @Model.TotalSales)
         </div>
     </div>
 </div>

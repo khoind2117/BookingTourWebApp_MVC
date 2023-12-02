@@ -4,6 +4,7 @@ using BookingTourWebApp_MVC.ViewModels;
 using BookingTourWebApp_MVC.ViewModels.VMofStatistical;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace BookingTourWebApp_MVC.Controllers
@@ -15,11 +16,7 @@ namespace BookingTourWebApp_MVC.Controllers
         {
             _context = context;
         }
-        public IActionResult Index()
-        {
-            
-            return RedirectToAction("ThongKe");
-        }
+
         public async Task<IActionResult> HandleSearchStatistical(string firstDate, string lastDate)
         {
             var firstD = DateTime.Parse(firstDate);
@@ -69,9 +66,52 @@ namespace BookingTourWebApp_MVC.Controllers
             };
             return PartialView(data4);
         }
+
+
+        public async Task<IActionResult> SortASC(string firstDate, string lastDate)
+        {
+
+            var firstD = DateTime.Parse(firstDate);
+            var lastD = DateTime.Parse(lastDate);
+            var dataNow = await (from flight in _context.Flights
+                                 join booking in _context.Bookings
+                                 on flight.Id equals booking.FlightId
+                                 where (flight.DepartureTime >= firstD && flight.DepartureTime <= lastD)
+                                 select new StatisticalFlightSales()
+                                 {
+                                     flightId = flight.Id,
+                                     Sales = (booking.BusinessTickets * flight.BusinessPrice) + (booking.EconomyTickets * flight.EconomyPrice)
+                                 }).ToListAsync();
+            var data3 = dataNow.GroupBy(f => new { f.flightId }).Select(c => new StatisticalFlightSales()
+            {
+                flightId = c.Key.flightId,
+                Sales = c.Sum(f => f.Sales)
+            });
+            return PartialView("StatisticalSortASC", data3.OrderBy(f=>f.Sales).ToList());
+        }
+        public async Task<IActionResult> SortDESC(string firstDate, string lastDate)
+        {
+            var firstD = DateTime.Parse(firstDate);
+            var lastD = DateTime.Parse(lastDate);
+            var dataNow = await (from flight in _context.Flights
+                                 join booking in _context.Bookings
+                                 on flight.Id equals booking.FlightId
+                                 where (flight.DepartureTime >= firstD && flight.DepartureTime <= lastD)
+                                 select new StatisticalFlightSales()
+                                 {
+                                     flightId = flight.Id,
+                                     Sales = (booking.BusinessTickets * flight.BusinessPrice) + (booking.EconomyTickets * flight.EconomyPrice)
+                                 }).ToListAsync();
+            var data3 = dataNow.GroupBy(f => new { f.flightId }).Select(c => new StatisticalFlightSales()
+            {
+                flightId = c.Key.flightId,
+                Sales = c.Sum(f => f.Sales)
+            });
+            return PartialView("StatisticalSortDESC", data3.OrderByDescending(f => f.Sales).ToList());
+        }
+
         [Route("/Statistcal/")]
-        [Route("/Statistical/ThongKe")]
-        public async Task<IActionResult> ThongKe()
+        public async Task<IActionResult> Index()
         {
             
             //Doanh thu, số vé của chuyến bay thấp nhất
