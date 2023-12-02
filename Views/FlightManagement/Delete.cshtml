@@ -38,7 +38,7 @@
     }
 </style>
 
-<h1>Xóa thông tin chuyến bay</h1>
+<h1 style="margin: 20px 0px 20px 0px">Xóa thông tin chuyến bay</h1>
 
 <div>
 
@@ -113,9 +113,9 @@
         </dd>
     </dl>
     
-    <form asp-action="Delete" id="myForm" onsubmit="deleteAlert(event)">
+    <form asp-action="Delete" id="myForm" onsubmit="deleteAlert(event)" style="margin:10px 0px 20px 0px">
         <input type="hidden" asp-for="Id" />
-        <input class="button del-btn" type="submit" value="Xóa" />
+        <input class="button del-btn" type="submit" value="Xóa" style="margin-right:20px" />
         <a class="button" asp-action="Index" style="padding:7px">Danh sách chuyến bay</a>
     </form>
 </div>

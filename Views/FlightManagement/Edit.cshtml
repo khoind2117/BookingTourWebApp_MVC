@@ -5,6 +5,12 @@
     Layout = "_LayoutAdminManagement";
 }
 <style>
+    .form-input {
+        padding: 7px;
+        border-radius: 10px;
+        border-color: #146C94;
+        border-width: 2px;
+    }
     .button {
         background-color: #146C94;
         border: 1px solid #146C94;
@@ -40,7 +46,7 @@
     }
 </style>
 
-<h1>Chỉnh sửa thông tin chuyến bay</h1>
+<h1 style="margin: 20px 0px 20px 0px">Chỉnh sửa thông tin chuyến bay</h1>
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -49,12 +55,12 @@
             <input type="hidden" asp-for="Id" />
             <div class="form-group">
                 <label class="control-label">Máy bay chuyên chở</label>
-                <select asp-for="PlaneId" style="padding-left:5px" asp-items="@(new SelectList(ViewBag.planeList, "Id", "Name"))" id="planeIdSelect">
+                <select asp-for="PlaneId" class="form-input" style="padding-left:5px" asp-items="@(new SelectList(ViewBag.planeList, "Id", "Name"))" id="planeIdSelect">
                 </select>
             </div>
             <div class="form-group">
                 <label asp-for="Departure" class="control-label"></label>
-                <select asp-for="Departure" class="form-control">
+                <select asp-for="Departure" class="form-control form-input">
                     <option value=""></option>
                     <option value="Nha Trang">Nha Trang</option>
                     <option value="Sài Gòn">Sài Gòn</option>
@@ -70,7 +76,7 @@
             </div>
             <div class="form-group">
                 <label asp-for="Destination" class="control-label"></label>
-                <select asp-for="Destination" class="form-control">
+                <select asp-for="Destination" class="form-control form-input">
                     <option value=""></option>
                     <option value="Nha Trang">Nha Trang</option>
                     <option value="Sài Gòn">Sài Gòn</option>
@@ -86,35 +92,35 @@
             </div>
             <div class="form-group">
                 <label asp-for="BusinessCapacity" class="control-label"></label>
-                <input asp-for="BusinessCapacity" class="form-control" />
+                <input asp-for="BusinessCapacity" class="form-control form-input" />
                 <span asp-validation-for="BusinessCapacity" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="EconomyCapacity" class="control-label"></label>
-                <input asp-for="EconomyCapacity" class="form-control" />
+                <input asp-for="EconomyCapacity" class="form-control form-input" />
                 <span asp-validation-for="EconomyCapacity" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="DepartureTime" class="control-label"></label>
-                <input asp-for="DepartureTime" class="form-control" />
+                <input asp-for="DepartureTime" class="form-control form-input" />
                 <span asp-validation-for="DepartureTime" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label class="control-label">Giá vé hạng thương gia (đ)</label>
-                <input asp-for="BusinessPrice" class="form-control" oninput="formatCurrency(this)"/>
+                <input asp-for="BusinessPrice" class="form-control form-input" oninput="formatCurrency(this)"/>
                 <span asp-validation-for="BusinessPrice" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label class="control-label">Giá vé hạng phổ thông (đ)</label>
-                <input asp-for="EconomyPrice" class="form-control" oninput="formatCurrency(this)"/>
+                <input asp-for="EconomyPrice" class="form-control form-input" oninput="formatCurrency(this)"/>
                 <span asp-validation-for="EconomyPrice" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="UploadTime" class="control-label"></label>
-                <input asp-for="UploadTime" class="form-control" />
+                <input asp-for="UploadTime" class="form-control form-input" />
                 <span asp-validation-for="UploadTime" class="text-danger"></span>
             </div>
-            <div class="form-group">
+            <div class="form-group" style="margin-top:20px">
                 <input type="submit" value="Lưu chỉnh sửa" class="button edit-btn"/>
                 <a class="button" asp-action="Index" style="padding:7px">Danh sách chuyến bay</a>
             </div>

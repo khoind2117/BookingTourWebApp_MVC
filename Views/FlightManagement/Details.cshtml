@@ -14,7 +14,7 @@
         color: white;
         /*width: 50px;*/
         padding: 5px;
-        border-radius: 10px;
+        border-radius: 5px;
         transition: 0.3s;
         text-decoration:none;
         margin: 10px 20px 20px 0px;
@@ -26,11 +26,11 @@
         cursor: pointer;
         /*width: 50px;*/
         padding: 5px;
-        border-radius: 10px;
+        border-radius: 5px;
         text-decoration:none
     }
 </style>
-<h1>Chi tiết chuyến bay</h1>
+<h1 style="margin: 20px 0px 20px 0px">Chi tiết chuyến bay</h1>
 <hr />
 <div>
     <dl class="row">
@@ -103,7 +103,7 @@
         </dd>
     </dl>
 </div>
-<div>
+<div style="margin:10px 0px 20px 0px">
     <a class="button" asp-action="Edit" asp-route-id="@Model?.Id">Chỉnh sửa</a>
     <a class="button" asp-action="Index">Danh sách chuyến bay</a>
 </div>
