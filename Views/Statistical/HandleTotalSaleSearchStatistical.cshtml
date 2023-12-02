@@ -1,0 +1,16 @@
+﻿@model BookingTourWebApp_MVC.ViewModels.VMofStatistical.StatisticalTotalSaleMonth;
+
+<h2 style="color:#146C94;font-weight:bold">Kết quả tổng doanh thu các chuyến bay được tìm thấy</h2>
+<div style="display:flex;justify-content:center;align-items:center">
+    <div class="container row" style="padding-block:20px;margin-block:20px;border:2px solid #146C94;border-radius:12px;max-width:fit-content">
+        <div style="color:#146C94;font-weight:bold;font-size:20px">
+            Số lượng chuyến bay: @Model.CountFlight
+        </div>
+        <div style="color:#146C94;font-weight:bold;font-size:20px">
+            Tổng doanh thu: @string.Format("{0:#,##0} đ", @Model.TotalSales)
+        </div>
+    </div>
+</div>
+
+<br />
+
