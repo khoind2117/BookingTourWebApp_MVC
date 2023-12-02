@@ -1,7 +1,7 @@
 ﻿using BookingTourWebApp_MVC.Models;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using BookingTourWebApp_MVC.ViewModels;
+using BookingTourWebApp_MVC.ViewModels.VMofStatistical;
 
 namespace BookingTourWebApp_MVC.Data
 {
@@ -51,6 +51,7 @@ namespace BookingTourWebApp_MVC.Data
             // Booking n-n AppUser - Flight
             modelBuilder.Entity<Booking>(entity =>
             {
+                entity.ToTable("Booking").HasKey(b => b.Id);
                 entity.ToTable("Booking")
                     .HasKey(b => b.Id);
                 entity.Property(b => b.TotalPrice)
@@ -67,6 +68,18 @@ namespace BookingTourWebApp_MVC.Data
                     .OnDelete(DeleteBehavior.Restrict);
             });
         }
+        #endregion
+
+        #region FluentAPI
+        public DbSet<BookingTourWebApp_MVC.ViewModels.CustomerInfo>? CustomerInfo { get; set; }
+        #endregion
+
+        #region FluentAPI
+        public DbSet<StatisticalFlightSales>? StatisticalFlightSales { get; set; }
+        #endregion
+
+        #region FluentAPI
+        public DbSet<StatisticalView>? StatisticalView { get; set; }
         #endregion
     }
 }

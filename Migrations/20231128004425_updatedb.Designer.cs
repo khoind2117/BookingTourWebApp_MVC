@@ -4,6 +4,7 @@ using BookingTourWebApp_MVC.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BookingTourWebApp_MVC.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20231128004425_updatedb")]
+    partial class updatedb
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -93,14 +95,11 @@ namespace BookingTourWebApp_MVC.Migrations
 
             modelBuilder.Entity("BookingTourWebApp_MVC.Models.Booking", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
                     b.Property<string>("AppUserId")
                         .HasColumnType("nvarchar(450)");
+
+                    b.Property<int?>("FlightId")
+                        .HasColumnType("int");
 
                     b.Property<DateTime>("BookingTime")
                         .HasColumnType("datetime2");
@@ -110,17 +109,11 @@ namespace BookingTourWebApp_MVC.Migrations
 
                     b.Property<int>("EconomyTickets")
                         .HasColumnType("int");
-                        
-                    b.Property<int?>("FlightId")
-
-                        .HasColumnType("int");
 
                     b.Property<decimal>("TotalPrice")
                         .HasColumnType("decimal(18,2)");
 
-                    b.HasKey("Id");
-
-                    b.HasIndex("AppUserId");
+                    b.HasKey("AppUserId", "FlightId");
 
                     b.HasIndex("FlightId");
 
@@ -186,145 +179,6 @@ namespace BookingTourWebApp_MVC.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Plane", (string)null);
-                });
-
-            modelBuilder.Entity("BookingTourWebApp_MVC.ViewModels.CustomerInfo", b =>
-                {
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("fullName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("gmail")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("phoneNumber")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("userName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("CustomerInfo");
-                });
-
-            modelBuilder.Entity("BookingTourWebApp_MVC.ViewModels.StatisticalFlightSales", b =>
-                {
-                    b.Property<int>("flightId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("flightId"), 1L, 1);
-
-                    b.Property<decimal>("Sales")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<int?>("StatisticalViewId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("StatisticalViewId1")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("StatisticalViewId2")
-                        .HasColumnType("int");
-
-                    b.Property<decimal>("businessPrice")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<int>("businessTickets")
-                        .HasColumnType("int");
-
-                    b.Property<decimal>("economyPrice")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<int>("economyTickets")
-                        .HasColumnType("int");
-
-                    b.HasKey("flightId");
-
-                    b.HasIndex("StatisticalViewId");
-
-                    b.HasIndex("StatisticalViewId1");
-
-                    b.HasIndex("StatisticalViewId2");
-
-                    b.ToTable("StatisticalFlightSales");
-                });
-
-            modelBuilder.Entity("BookingTourWebApp_MVC.ViewModels.StatisticalTotalSaleMonth", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<int>("CountFlight")
-                        .HasColumnType("int");
-
-                    b.Property<decimal>("TotalSales")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("StatisticalTotalSaleMonth");
-                });
-
-            modelBuilder.Entity("BookingTourWebApp_MVC.ViewModels.StatisticalUser", b =>
-                {
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("FullName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int?>("StatisticalViewId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("StatisticalViewId1")
-                        .HasColumnType("int");
-
-                    b.Property<int>("TotalTickets")
-                        .HasColumnType("int");
-
-                    b.Property<int>("businessTickets")
-                        .HasColumnType("int");
-
-                    b.Property<int>("economyTickets")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("StatisticalViewId");
-
-                    b.HasIndex("StatisticalViewId1");
-
-                    b.ToTable("StatisticalUser");
-                });
-
-            modelBuilder.Entity("BookingTourWebApp_MVC.ViewModels.StatisticalView", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<int>("TotalSaleInMonthId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("TotalSaleInMonthId");
-
-                    b.ToTable("StatisticalView");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -465,12 +319,14 @@ namespace BookingTourWebApp_MVC.Migrations
                     b.HasOne("BookingTourWebApp_MVC.Models.AppUser", "AppUser")
                         .WithMany("Bookings")
                         .HasForeignKey("AppUserId")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
 
                     b.HasOne("BookingTourWebApp_MVC.Models.Flight", "Flight")
                         .WithMany("Bookings")
                         .HasForeignKey("FlightId")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
 
                     b.Navigation("AppUser");
 
@@ -486,43 +342,6 @@ namespace BookingTourWebApp_MVC.Migrations
                         .IsRequired();
 
                     b.Navigation("Plane");
-                });
-
-            modelBuilder.Entity("BookingTourWebApp_MVC.ViewModels.StatisticalFlightSales", b =>
-                {
-                    b.HasOne("BookingTourWebApp_MVC.ViewModels.StatisticalView", null)
-                        .WithMany("AllSaleInMonth")
-                        .HasForeignKey("StatisticalViewId");
-
-                    b.HasOne("BookingTourWebApp_MVC.ViewModels.StatisticalView", null)
-                        .WithMany("HighSales")
-                        .HasForeignKey("StatisticalViewId1");
-
-                    b.HasOne("BookingTourWebApp_MVC.ViewModels.StatisticalView", null)
-                        .WithMany("LowSales")
-                        .HasForeignKey("StatisticalViewId2");
-                });
-
-            modelBuilder.Entity("BookingTourWebApp_MVC.ViewModels.StatisticalUser", b =>
-                {
-                    b.HasOne("BookingTourWebApp_MVC.ViewModels.StatisticalView", null)
-                        .WithMany("UserHaveHighTicket")
-                        .HasForeignKey("StatisticalViewId");
-
-                    b.HasOne("BookingTourWebApp_MVC.ViewModels.StatisticalView", null)
-                        .WithMany("UserHaveLowTicket")
-                        .HasForeignKey("StatisticalViewId1");
-                });
-
-            modelBuilder.Entity("BookingTourWebApp_MVC.ViewModels.StatisticalView", b =>
-                {
-                    b.HasOne("BookingTourWebApp_MVC.ViewModels.StatisticalTotalSaleMonth", "TotalSaleInMonth")
-                        .WithMany()
-                        .HasForeignKey("TotalSaleInMonthId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("TotalSaleInMonth");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -589,19 +408,6 @@ namespace BookingTourWebApp_MVC.Migrations
             modelBuilder.Entity("BookingTourWebApp_MVC.Models.Plane", b =>
                 {
                     b.Navigation("Flights");
-                });
-
-            modelBuilder.Entity("BookingTourWebApp_MVC.ViewModels.StatisticalView", b =>
-                {
-                    b.Navigation("AllSaleInMonth");
-
-                    b.Navigation("HighSales");
-
-                    b.Navigation("LowSales");
-
-                    b.Navigation("UserHaveHighTicket");
-
-                    b.Navigation("UserHaveLowTicket");
                 });
 #pragma warning restore 612, 618
         }
