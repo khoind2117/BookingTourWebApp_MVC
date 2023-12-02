@@ -1,4 +1,3 @@
-﻿
 <!DOCTYPE html>
 <html>
 <head>
@@ -53,23 +52,24 @@
     </style>
 </head>
 <body>
+
     
     <header id="header-admin" class="row div-center">
         <div class="col-1 div-center" >
             <partial name="_OffcanvasAdminPartial" />
 
-            
+
         </div>
         <div class="col-11 div-center" >
             <img src="~/src/icons8-plane-48.png" alt="logo" height="36px" width="36px" />
             <span class="title-header-admin">FLIGHTDOT ADMIN</span>
         </div>
     </header>
-    
+
     <main class="container-fluid div-padding">
-        @RenderBody()
+            @RenderBody()
     </main>
-    
+
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

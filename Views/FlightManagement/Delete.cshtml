@@ -1,0 +1,146 @@
+﻿@model BookingTourWebApp_MVC.ViewModels.FlightViewModel
+
+@{
+    ViewData["Title"] = "Xóa chuyến bay";
+    Layout = "_LayoutAdminManagement";
+}
+
+<style>
+    .button {
+        background-color: #146C94;
+        border: 1px solid #146C94;
+        color: white;
+        /*width: 50px;*/
+        padding: 5px;
+        border-radius: 5px;
+        transition: 0.3s;
+        text-decoration:none
+    }
+    .button:hover {
+        background-color: white;
+        border: 1px solid #146C94;
+        color: #146C94;
+        cursor: pointer;
+        /*width: 50px;*/
+        padding: 5px;
+        border-radius: 5px;
+        text-decoration:none
+    }
+    .del-btn {
+        background-color:red;
+        border: 1px solid red;
+        transition: 0.3s;
+    }
+    .del-btn:hover {
+        background-color:white;
+        border: 1px solid red;
+        color: red;
+    }
+</style>
+
+<h1 style="margin: 20px 0px 20px 0px">Xóa thông tin chuyến bay</h1>
+
+<div>
+
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-3">
+            @Html.DisplayNameFor(model => model.Id)
+        </dt>
+        <dd class = "col-sm-9">
+            @Html.DisplayFor(model => model.Id)
+        </dd>
+        <dt class = "col-sm-3">
+            Máy bay chuyên chở
+        </dt>
+        <dd class = "col-sm-9">
+            @Html.DisplayFor(model => model.PlaneName)
+        </dd>
+        <dt class = "col-sm-3">
+            @Html.DisplayNameFor(model => model.Departure)
+        </dt>
+        <dd class = "col-sm-9">
+            @Html.DisplayFor(model => model.Departure)
+        </dd>
+        <dt class = "col-sm-3">
+            @Html.DisplayNameFor(model => model.Destination)
+        </dt>
+        <dd class = "col-sm-9">
+            @Html.DisplayFor(model => model.Destination)
+        </dd>
+        <dt class = "col-sm-3">
+            @Html.DisplayNameFor(model => model.BusinessCapacity)
+        </dt>
+        <dd class = "col-sm-9">
+            @Html.DisplayFor(model => model.BusinessCapacity)
+        </dd>
+        <dt class = "col-sm-3">
+            @Html.DisplayNameFor(model => model.EconomyCapacity)
+        </dt>
+        <dd class = "col-sm-9">
+            @Html.DisplayFor(model => model.EconomyCapacity)
+        </dd>
+        <dt class = "col-sm-3">
+            Ngày khởi hành
+        </dt>
+        <dd class = "col-sm-9">
+            @Model.DepartureTime.ToString("dd/MM/yyyy")
+        </dd>
+        <dt class = "col-sm-3">
+            Thời điểm khởi hành
+        </dt>
+        <dd class = "col-sm-9">
+            @Model.DepartureTime.ToString("HH:mm tt")
+        </dd>
+        <dt class = "col-sm-3">
+            @Html.DisplayNameFor(model => model.BusinessPrice)
+        </dt>
+        <dd class = "col-sm-9">
+            @string.Format("{0:#,##0} đ", Model.BusinessPrice)
+        </dd>
+        <dt class = "col-sm-3">
+            @Html.DisplayNameFor(model => model.EconomyPrice)
+        </dt>
+        <dd class = "col-sm-9">
+            @string.Format("{0:#,##0} đ", Model.EconomyPrice)
+        </dd>
+        <dt class = "col-sm-3">
+            @Html.DisplayNameFor(model => model.UploadTime)
+        </dt>
+        <dd class = "col-sm-9">
+            @*@Html.DisplayFor(model => model.UploadTime)*@
+            @Model.UploadTime.ToString("dd/MM/yyyy - HH:mm tt")
+        </dd>
+    </dl>
+    
+    <form asp-action="Delete" id="myForm" onsubmit="deleteAlert(event)" style="margin:10px 0px 20px 0px">
+        <input type="hidden" asp-for="Id" />
+        <input class="button del-btn" type="submit" value="Xóa" style="margin-right:20px" />
+        <a class="button" asp-action="Index" style="padding:7px">Danh sách chuyến bay</a>
+    </form>
+</div>
+@section Scripts {
+    @*@{await Html.RenderPartialAsync("_ValidationScriptsPartial");}*@
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        function deleteAlert(e){
+            e.preventDefault();
+
+            Swal.fire({
+                title: "Xóa chuyến bay này?",
+                text: "Bạn có chắc chắn muốn xóa chuyến bay này không? Thông tin chuyến bay sau khi bị xóa không thể được khôi phục lại",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "Đồng ý",
+                cancelButtonText: "Hủy"
+            }).then(result => {
+                if (result.isConfirmed) {
+                    const myForm = document.getElementById('myForm');
+                    myForm.submit();
+                }
+            });
+        }
+    </script>
+}
