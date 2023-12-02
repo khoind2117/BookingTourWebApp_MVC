@@ -4,36 +4,40 @@
     ViewData["Title"] = "HandleSearchStatistical";
 }
 
-    <h2>Doanh thu của các chuyến bay</h2>
-    <div>
-    <table class="table">
-        <thead>
-            <tr>
-                <th>
-                    @Html.DisplayNameFor(model => model.flightId)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Sales)
-                </th>
-
+<div style="margin-block:20px">
+    <h2 style="color:#146C94;font-weight:bold">Doanh thu các chuyến bay được tìm thấy:</h2>
+</div>
+<div>
+    <table class="table table-striped table-bordered" style="border-radius:12px;overflow:hidden;">
+        <thead style="background-color:#146C94">
+            <tr style="text-align:center;color:#F6F1F1">
+                <td>
+                    @Html.DisplayNameFor(Model => Model.flightId)
+                </td>
+                <td>
+                    @Html.DisplayNameFor(Model => Model.Sales)
+                </td>
 
             </tr>
         </thead>
         <tbody>
             @foreach (var item in Model)
             {
-                <tr>
+                <tr style="text-align:center;text-decoration:none;">
                     <td>
                         @Html.DisplayFor(modelItem => item.flightId)
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.Sales)
                     </td>
+
                 </tr>
             }
         </tbody>
-    </table>
-    </div>
 
+    </table>
+
+</div>
+<br />
 
 

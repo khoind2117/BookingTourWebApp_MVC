@@ -1,4 +1,4 @@
-﻿@model BookingTourWebApp_MVC.ViewModels.VMofStatistical.StatisticalView
+﻿ @model BookingTourWebApp_MVC.ViewModels.VMofStatistical.StatisticalView
 
 @{
     ViewData["Title"] = "ThongKe";
@@ -13,23 +13,67 @@
     var firstDay = new DateTime(now.Year, now.Month, 1).Date;
     var lastDay = new DateTime(now.Year, now.Month, daysInMonth).Date;
 }
-<h1>Statistical</h1>
-<h2>Thong ke doanh thu:</h2>
-<div>
+<style>
+    .div-margin {
+        margin-block: 15px;
+    }
+</style>
+<div style="margin-block:20px">
+    <h1 style="color:#146C94;font-weight:bold">Statistical</h1>
+</div>
+<div style="margin-block:20px">
+    <h2 style="color:#146C94;font-weight:bold">Thống kê danh sách </h2>
+</div>
+@* <div>
     <span>Từ: </span>
     <input id="fDay" type="date" value="@firstDay.ToString("yyyy-MM-dd")" />
     <span> đến </span>
     <input id="lDay" type="date" value="@lastDay.ToString("yyyy-MM-dd")" />
     <button id="btnSearch" type="submit">Search</button>
     <button id="btnRefresh">Refresh</button>
-</div>
-<div id="result">
-    <h2>Doanh thu của các chuyến bay tháng @currnow này</h2>
-    <div>
-        <table class="table">
-            <thead>
+    <br />
+    
+</div> *@
+<div class="container" style="margin-block:20px;border:2px solid #146C94;display:flex;justify-content:center;align-items:center;width:max-content;flex-direction:column;border-radius:12px">
+    <div style="margin-block:20px">
+        <span style="margin-inline:10px;width:200px;height:35px;border-radius:5px;color:#146C94;font-weight:bold;font-size:16px;padding-top:5px">
+            Từ: 
+        </span>
 
-                <tr>
+        <input style="margin-inline:10px;min-width:250px;height:35px;border-radius:5px;border: 2px solid #19A7CE;padding-inline:10px" id="fDay" type="date" value="@firstDay.ToString("yyyy-MM-dd")" />
+
+
+        <span style="margin-inline:10px;width:200px;height:35px;border-radius:5px;color:#146C94;font-weight:bold;font-size:16px;padding-top:5px">
+             đến 
+        </span>
+
+        <input style="margin-inline:10px;min-width:250px;height:35px;border-radius:5px;border: 2px solid #19A7CE;padding-inline:10px" id="lDay" type="date" value="@lastDay.ToString("yyyy-MM-dd")" />
+
+
+        <button style="margin-inline:10px;min-width:100px;height:35px;border-radius:5px;color:#F6F1F1;background-color:#19A7CE;border:none;font-weight:bold" id="btnSearch" type="submit">TÌM KIẾM</button>
+
+
+    </div>
+    <div style="display:flex;justify-content:center;align-items:center;margin-block:20px">
+        <div class=" div-center" style="margin-inline:10px;">
+            <button style="margin-inline:10px;min-width:100px;height:35px;border-radius:5px;color:#F6F1F1;background-color:#19A7CE;border:none;font-weight:bold" id="btnSearch" type="submit">TÌM KIẾM</button>
+        </div>
+        <div class="div-center" style="margin-inline:10px;">
+            <button style="margin-inline:10px;min-width:100px;height:35px;border-radius:5px;color:#F6F1F1;background-color:#146C94;border:none;font-weight:bold" id="btnRefresh">LÀM MỚI</button>
+        </div>
+
+    </div>
+
+</div>
+
+<div id="result">
+    <div style="margin-block:20px">
+        <h2 style="color:#146C94;font-weight:bold">Doanh thu các chuyến bay tháng @currnow</h2>
+    </div>
+    <div>
+        <table class="table table-striped table-bordered" style="border-radius:12px;overflow:hidden;">
+            <thead style="background-color:#146C94">
+                <tr style="text-align:center;color:#F6F1F1">
                     <td>
                         @Html.DisplayNameFor(Model => Model.AllSaleInMonth.First().flightId)
                     </td>
@@ -37,15 +81,12 @@
                         @Html.DisplayNameFor(Model => Model.AllSaleInMonth.First().Sales)
                     </td>
 
-
-
                 </tr>
-
             </thead>
             <tbody>
                 @foreach (var item in Model.AllSaleInMonth)
                 {
-                    <tr>
+                    <tr style="text-align:center;text-decoration:none;">
                         <td>
                             @Html.DisplayFor(modelItem => item.flightId)
                         </td>
@@ -56,20 +97,23 @@
                     </tr>
                 }
             </tbody>
+
         </table>
     </div>
     <br />
 </div>
-<div id="Sresult">
-    <h2> Tổng doanh thu tháng @currnow này</h2>
-    <div>
-        <span>
-            Số lượng chuyến bay: @Model.TotalSaleInMonth.CountFlight
-        </span>
-        <br />
-        <span>
-            Tổng doanh thu: @Model.TotalSaleInMonth.TotalSales
-        </span>
+<div id="Sresult" >
+
+    <h2 style="color:#146C94;font-weight:bold">Kết quả tổng doanh thu các chuyến bay được tìm thấy</h2>
+    <div style="display:flex;justify-content:center;align-items:center">
+        <div class="container row" style="padding-block:20px;margin-block:20px;border:2px solid #146C94;border-radius:12px;max-width:fit-content">
+            <div style="color:#146C94;font-weight:bold;font-size:20px">
+                Số lượng chuyến bay: @Model.TotalSaleInMonth.CountFlight
+            </div>
+            <div style="color:#146C94;font-weight:bold;font-size:20px">
+                Tổng doanh thu: @Model.TotalSaleInMonth.TotalSales đ
+            </div>
+        </div>
     </div>
     <br />
 </div>
@@ -116,130 +160,137 @@
         });
     </script>
 }
-<h2>Doanh thu cao nhất</h2>
+<div style="margin-block:20px">
+    <h2 style="color:#146C94;font-weight:bold">Top 3 Chuyến bay có doanh thu cao nhất</h2>
+</div>
 <div>
-    <table class="table">
-        <thead>
-
-            <tr>
-                <td>
-                    @Html.DisplayNameFor(Model => Model.HighSales.First().flightId)
-                </td>
-                <td>
-                    @Html.DisplayNameFor(Model => Model.HighSales.First().businessTickets)
-                </td>
-                <td>
-                    @Html.DisplayNameFor(Model => Model.HighSales.First().businessPrice)
-                </td>
-                <td>
-                    @Html.DisplayNameFor(Model => Model.HighSales.First().economyTickets)
-                </td>
-                <td>
-                    @Html.DisplayNameFor(Model => Model.HighSales.First().economyPrice)
-                </td>
-                <td>
-                    @Html.DisplayNameFor(Model => Model.HighSales.First().Sales)
-                </td>
-
-
-
-            </tr>
-
-        </thead>
-        <tbody>
-            @foreach (var item in Model.HighSales)
-            {
-                <tr>
+    
+        <table class="table table-striped table-bordered" style="border-radius:12px;overflow:hidden;">
+            <thead style="background-color:#146C94">
+                <tr style="text-align:center;color:#F6F1F1">
                     <td>
-                        @Html.DisplayFor(modelItem => item.flightId)
+                        @Html.DisplayNameFor(Model => Model.HighSales.First().flightId)
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.businessTickets)
+                        @Html.DisplayNameFor(Model => Model.HighSales.First().businessTickets)
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.businessPrice)
+                        @Html.DisplayNameFor(Model => Model.HighSales.First().businessPrice)
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.economyTickets)
+                        @Html.DisplayNameFor(Model => Model.HighSales.First().economyTickets)
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.economyPrice)
+                        @Html.DisplayNameFor(Model => Model.HighSales.First().economyPrice)
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.Sales)
+                        @Html.DisplayNameFor(Model => Model.HighSales.First().Sales)
                     </td>
 
                 </tr>
-            }
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.HighSales)
+                {
+                    <tr style="text-align:center;text-decoration:none;">
+                        <td>
+                            @Html.DisplayFor(modelItem => item.flightId)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.businessTickets)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.businessPrice)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.economyTickets)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.economyPrice)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Sales)
+                        </td>
+
+                    </tr>
+                }
+            </tbody>
+
+        </table>
+    
+    <br />
+    
 </div>
 <br />
-<h2>Doanh thu thấp nhất</h2>
+<div style="margin-block:20px">
+    <h2 style="color:#146C94;font-weight:bold">Top 3 Chuyến bay có doanh thu thấp nhất</h2>
+</div>
 <div>
-    <table class="table">
-        <thead>
-
-            <tr>
-                <td>
-                    @Html.DisplayNameFor(Model => Model.LowSales.First().flightId)
-                </td>
-                <td>
-                    @Html.DisplayNameFor(Model => Model.LowSales.First().businessTickets)
-                </td>
-                <td>
-                    @Html.DisplayNameFor(Model => Model.LowSales.First().businessPrice)
-                </td>
-                <td>
-                    @Html.DisplayNameFor(Model => Model.LowSales.First().economyTickets)
-                </td>
-                <td>
-                    @Html.DisplayNameFor(Model => Model.LowSales.First().economyPrice)
-                </td>
-                <td>
-                    @Html.DisplayNameFor(Model => Model.LowSales.First().Sales)
-                </td>
-
-
-
-            </tr>
-
-        </thead>
-        <tbody>
-            @foreach (var item in Model.LowSales)
-            {
-                <tr>
+    
+        <table class="table table-striped table-bordered" style="border-radius:12px;overflow:hidden;">
+            <thead style="background-color:#146C94">
+                <tr style="text-align:center;color:#F6F1F1">
                     <td>
-                        @Html.DisplayFor(modelItem => item.flightId)
+                        @Html.DisplayNameFor(Model => Model.HighSales.First().flightId)
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.businessTickets)
+                        @Html.DisplayNameFor(Model => Model.HighSales.First().businessTickets)
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.businessPrice)
+                        @Html.DisplayNameFor(Model => Model.HighSales.First().businessPrice)
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.economyTickets)
+                        @Html.DisplayNameFor(Model => Model.HighSales.First().economyTickets)
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.economyPrice)
+                        @Html.DisplayNameFor(Model => Model.HighSales.First().economyPrice)
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.Sales)
+                        @Html.DisplayNameFor(Model => Model.HighSales.First().Sales)
                     </td>
 
                 </tr>
-            }
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.HighSales)
+                {
+                    <tr style="text-align:center;text-decoration:none;">
+                        <td>
+                            @Html.DisplayFor(modelItem => item.flightId)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.businessTickets)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.businessPrice)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.economyTickets)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.economyPrice)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Sales)
+                        </td>
+
+                    </tr>
+                }
+            </tbody>
+
+        </table>
+    
+    <br />
+
 </div>
 <br />
-<h2>Top 3 Khách hàng có lượt mua vé nhiều nhất</h2>
+<div style="margin-block:20px">
+    <h2 style="color:#146C94;font-weight:bold">Top 3 Khách hàng có lượt mua vé nhiều nhất</h2>
+</div>
 <div>
-    <table class="table">
-        <thead>
-
-            <tr>
+    <table class="table table-striped table-bordered" style="border-radius:12px;overflow:hidden;">
+        <thead style="background-color:#146C94">
+            <tr style="text-align:center;color:#F6F1F1">
                 <td>
                     @Html.DisplayNameFor(Model => Model.UserHaveHighTicket.First().FullName)
                 </td>
@@ -247,15 +298,12 @@
                     @Html.DisplayNameFor(Model => Model.UserHaveHighTicket.First().TotalTickets)
                 </td>
 
-
-
             </tr>
-
         </thead>
         <tbody>
             @foreach (var item in Model.UserHaveHighTicket)
             {
-                <tr>
+                <tr style="text-align:center;text-decoration:none;">
                     <td>
                         @Html.DisplayFor(modelItem => item.FullName)
                     </td>
@@ -266,31 +314,31 @@
                 </tr>
             }
         </tbody>
+
     </table>
+    
 </div>
 <br />
-<h2>Top 3 Khách hàng có lượt mua vé ít nhất</h2>
+<div style="margin-block:20px">
+    <h2 style="color:#146C94;font-weight:bold">Top 3 Khách hàng có lượt mua vé ít nhất</h2>
+</div>
 <div>
-    <table class="table">
-        <thead>
-
-            <tr>
+    <table class="table table-striped table-bordered" style="border-radius:12px;overflow:hidden;">
+        <thead style="background-color:#146C94">
+            <tr style="text-align:center;color:#F6F1F1">
                 <td>
-                    @Html.DisplayNameFor(Model => Model.UserHaveLowTicket.First().FullName)
+                    @Html.DisplayNameFor(Model => Model.UserHaveHighTicket.First().FullName)
                 </td>
                 <td>
-                    @Html.DisplayNameFor(Model => Model.UserHaveLowTicket.First().TotalTickets)
+                    @Html.DisplayNameFor(Model => Model.UserHaveHighTicket.First().TotalTickets)
                 </td>
-
-
 
             </tr>
-
         </thead>
         <tbody>
-            @foreach (var item in Model.UserHaveLowTicket)
+            @foreach (var item in Model.UserHaveHighTicket)
             {
-                <tr>
+                <tr style="text-align:center;text-decoration:none;">
                     <td>
                         @Html.DisplayFor(modelItem => item.FullName)
                     </td>
@@ -301,52 +349,11 @@
                 </tr>
             }
         </tbody>
+
     </table>
 </div>
 <br />
-<h2>Lich su Ve</h2>
-<div>
-    <table class="table">
-        <thead>
 
-            <tr>
-                <td>
-                    @Html.DisplayNameFor(Model => Model.HistoryBookingTime.First().FullName)
-                </td>
-                <td>
-                    @Html.DisplayNameFor(Model => Model.HistoryBookingTime.First().Gmail)
-                </td>
-                <td>
-                    @Html.DisplayNameFor(Model => Model.HistoryBookingTime.First().phoneNumber)
-                </td>
-                <td>
-                    @Html.DisplayNameFor(Model => Model.HistoryBookingTime.First().bookingTime)
-                </td>
-            </tr>
-
-        </thead>
-        <tbody>
-            @foreach (var item in Model.HistoryBookingTime)
-            {
-                <tr>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.FullName)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Gmail)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.phoneNumber)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.bookingTime)
-                    </td>
-                </tr>
-            }
-        </tbody>
-    </table>
-</div>
-<br />
 
 
 
