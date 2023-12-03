@@ -1,0 +1,107 @@
+﻿@using BookingTourWebApp_MVC.ViewModels;
+@using System.Security.Claims;
+@model BookFlightViewModel
+
+<div class="container">
+    <div class="row">
+        <div class="card">
+            <div class="card-body">
+                <div class="col mb-3">
+                    <h2>Thông tin đăng ký</h2>
+                </div>
+                <div class="col">
+                    <form id="form" asp-action="ConfirmBookFlight" method="post">
+                        <input type="hidden" name="appUserId" value="@Model.appUser.Id" />
+                        <input type="hidden" name="flightId" value="@Model.flight.Id" />
+                        <div class="d-flex justify-content-between">
+                            <div class="col-md-5">
+                                <div class="mb-3">
+                                    <label for="appUserName">Họ và Tên:</label>
+                                    <input id="appUserName" name="appUserName" value="@Model.appUser.FullName" class="form-control" readonly>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="phoneNumber">Số điện thoại:</label>
+                                    <input id="phoneNumber" name="phoneNumber" value="@Model.appUser.PhoneNumber" class="form-control" readonly>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="email">Email:</label>
+                                    <input id="email" name="email" value="@Model.appUser.Email" class="form-control" readonly>
+                                </div>
+                            </div>
+
+                            <div class="col-md-5">
+                                <div class="mb-3">
+                                    <h3>Mã chuyến bay: @Model.flight.Id</h3>
+                                    <div class="d-flex justify-content-sm-between">
+                                        <div>
+                                            <h6>Nơi đi - Nơi đến</h6>
+                                            <h4>@Model.flight.Departure - @Model.flight.Destination</h4>
+                                        </div>
+                                        <div>
+                                            <h6>Khởi hành: Ngày - Giờ</h6>
+                                            <h4>@Model.flight.DepartureTime.ToShortDateString() - @Model.flight.DepartureTime.ToLongTimeString()</h4>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="d-flex justify-content-between">
+                                    <div class="mb-3">
+                                        <label for="businessPrice">Giá vé thương mại:</label>
+                                        <input id="businessPrice" name="businessPrice" value="@Model.flight.BusinessPrice" class="form-control" readonly>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="businessTickets">Số vé thương mại:</label>
+                                        <input type="number" id="businessTickets" name="businessTickets" class="form-control" value="0" min="0" required>
+                                    </div>
+                                </div>
+
+                                <div class="d-flex justify-content-between">
+                                    <div class="mb-3">
+                                        <label for="economyPrice">Giá vé phổ thông:</label>
+                                        <input id="economyPrice" name="economyPrice" value="@Model.flight.EconomyPrice" class="form-control" readonly>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="economyTickets">Số vé phổ thông:</label>
+                                        <input type="number" id="economyTickets" name="economyTickets" class="form-control" value="0" min="0" required>
+                                    </div>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="totalPrice">Tổng giá:</label>
+                                    <input id="totalPrice" name="totalPrice" class="form-control" readonly>
+                                </div>
+
+                                <a asp-controller="Booking" asp-action="Index" class="btn btn-danger mt-3 float-end">Quay lại</a>
+                                <button type="submit" class="btn btn-primary mt-3 mx-3 float-end">Xác nhận</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        $('#businessTickets, #economyTickets').on('input', function () {
+            const busTicket = parseFloat($('#businessTickets').val()) || 0;
+            const ecoTicket = parseFloat($('#economyTickets').val()) || 0;
+
+            const busPrice = parseFloat($('#businessPrice').val()) || 0;
+            const ecoPrice = parseFloat($('#economyPrice').val()) || 0;
+
+            const totalPrice = (busTicket * busPrice) + (ecoTicket * ecoPrice);
+            $('#totalPrice').val(totalPrice.toFixed(2));
+        });
+
+        document.getElementById('form').addEventListener('submit', function (event) {
+            var busTicketValue = parseInt(document.getElementById('businessTickets').value);
+            var ecoTicketValue = parseInt(document.getElementById('economyTickets').value);
+
+            if (busTicketValue === 0 || ecoTicketValue === 0) {
+                event.preventDefault(); // Ngăn chặn việc gửi form
+                alert('Vui lòng chọn số vé hợp lệ!');
+                // Hoặc có thể hiển thị một thông báo khác phù hợp với giao diện của bạn
+            }
+        });
+    });
+</script>

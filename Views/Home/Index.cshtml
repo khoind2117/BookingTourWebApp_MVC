@@ -1,5 +1,70 @@
 ﻿@model List<BookingTourWebApp_MVC.Models.Flight>
 
+@{
+    ViewData["Title"] = "Home Page";
+}
+   
+<div class="container">
+    <div class="row">
+        <div class="text-center">
+            <h1 class="display-4">Welcome</h1>
+        </div>
+    </div>
+    <div class="row justify-content-end">
+        <div class="col-md-4">
+            <div class="card box-shadow">
+                <div class="card-body">
+                    @using (Html.BeginForm("SearchByDepartureAndDestinationAndDate", "Home", FormMethod.Post, new { id = "formId" }))
+                    {
+                        <div class="col mb-4">
+                            <h5>Điểm khởi hành</h5>
+                            <select class="form-select" id="departure" name="departure">
+                                <option selected disabled>Chọn điểm khởi hành</option>
+                                <option value="Hà Nội">Hà Nội</option>
+                                <option value="Đà Nẵng">Đà Nẵng</option>
+                                <option value="Sài Gòn">Sài Gòn</option>
+                                <option value="Nha Trang">Nha Trang</option>
+                                <option value="Vinh">Vinh</option>
+                                <option value="Cà Mau">Cà Mau</option>
+                                <option value="Hội An">Hội An</option>
+                                <option value="Đà Lạt">Đà Lạt</option>
+                                <option value="Bắc Ninh">Bắc Ninh</option>
+                                <option value="Huế">Huế</option>
+                            </select>
+                        </div>
+                        <div class="col mb-4">
+                            <h5>Điểm đến</h5>
+                            <select class="form-select" id="destination" name="destination">
+                                <option selected disabled>Chọn điểm đến</option>
+                                <option value="Hà Nội">Hà Nội</option>
+                                <option value="Đà Nẵng">Đà Nẵng</option>
+                                <option value="Sài Gòn">Sài Gòn</option>
+                                <option value="Nha Trang">Nha Trang</option>
+                                <option value="Vinh">Vinh</option>
+                                <option value="Cà Mau">Cà Mau</option>
+                                <option value="Hội An">Hội An</option>
+                                <option value="Đà Lạt">Đà Lạt</option>
+                                <option value="Bắc Ninh">Bắc Ninh</option>
+                                <option value="Huế">Huế</option>
+                            </select>
+                        </div>
+                        <div class="col mb-4">
+                            <h5>Ngày đi</h5>
+                            <input type="date" id="departureTime" name="departureTime" class="form-select" />
+                        </div>
+                        <div class="col mb-4">
+                            <div class="d-flex justify-content-center align-items-center">
+                                <button id="searchBtn" class="btn btn-primary" type="submit">Tìm chuyến bay</button>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+    
+</div>
+ 
 <h2>Chuyến bay mới nhất</h2>
 
 <div class="container">
@@ -20,3 +85,28 @@
         </div>
     </div>
 </div>
+
+<script>
+    $(document).ready(function () {
+        $('#searchBtn').click(function (event) {
+            var departure = $('#departure').val();
+            var destination = $('#destination').val();
+            var departureTime = $('#departureTime').val();
+
+            var currentDate = new Date().toISOString().split('T')[0];
+
+            // Kiểm tra dữ liệu
+            if (!departure || !destination || !departureTime) {
+                alert('Vui lòng chọn nơi đi, nơi đến và ngày đi.');
+                event.preventDefault(); // Ngăn chặn chuyển trang mặc định
+                return;
+            }
+
+            if (departureTime < currentDate) {
+                alert('Ngày đi phải lớn hơn hoặc bằng ngày hiện tại.');
+                event.preventDefault(); // Ngăn chặn chuyển trang mặc định
+                return;
+            }
+        });
+    });
+</script>
