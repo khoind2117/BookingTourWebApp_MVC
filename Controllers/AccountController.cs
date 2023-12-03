@@ -95,7 +95,13 @@ namespace BookingTourWebApp_MVC.Controllers
                 // Tạo tài khoản
                 if (userByUsername == null)
                 {
-                    var user = new AppUser { UserName = registerViewModel.UserName };
+                    var user = new AppUser 
+                    { 
+                        UserName = registerViewModel.UserName,
+                        FullName = registerViewModel.FullName,
+                        PhoneNumber = registerViewModel.PhoneNumber,
+                        Email = registerViewModel.Email,
+                    };
                     var result = await _userManager.CreateAsync(user, registerViewModel.Password);
                     if (result.Succeeded)
                     {
