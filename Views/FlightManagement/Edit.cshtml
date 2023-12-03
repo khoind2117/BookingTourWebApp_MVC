@@ -1,0 +1,170 @@
+﻿@model BookingTourWebApp_MVC.ViewModels.FlightViewModel
+
+@{
+    ViewData["Title"] = "Chỉnh sửa thông tin chuyến bay";
+    Layout = "_LayoutAdminManagement";
+}
+<style>
+    .form-input {
+        padding: 7px;
+        border-radius: 10px;
+        border-color: #146C94;
+        border-width: 2px;
+    }
+    .button {
+        background-color: #146C94;
+        border: 1px solid #146C94;
+        color: white;
+        /*width: 50px;*/
+        padding: 5px;
+        border-radius: 5px;
+        transition: 0.3s;
+        text-decoration:none;
+        margin: 10px 20px 20px 0px;
+    }
+    .button:hover {
+        background-color: white;
+        border: 1px solid #146C94;
+        color: #146C94;
+        cursor: pointer;
+        /*width: 50px;*/
+        padding: 5px;
+        border-radius: 5px;
+        text-decoration:none
+    }
+    .edit-btn {
+        background-color:green;
+    }
+    .edit-btn:hover {
+        background-color:white;
+        border: 1px solid green;
+        color: green;
+    }
+    .form-group label {
+        margin-top: 10px;
+        margin-bottom: 10px
+    }
+</style>
+
+<h1 style="margin: 20px 0px 20px 0px">Chỉnh sửa thông tin chuyến bay</h1>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit" id="myForm" onsubmit="editAlert(event)">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Id" />
+            <div class="form-group">
+                <label class="control-label">Máy bay chuyên chở</label>
+                <select asp-for="PlaneId" class="form-input" style="padding-left:5px" asp-items="@(new SelectList(ViewBag.planeList, "Id", "Name"))" id="planeIdSelect">
+                </select>
+            </div>
+            <div class="form-group">
+                <label asp-for="Departure" class="control-label"></label>
+                <select asp-for="Departure" class="form-control form-input">
+                    <option value=""></option>
+                    <option value="Nha Trang">Nha Trang</option>
+                    <option value="Sài Gòn">Sài Gòn</option>
+                    <option value="Đà Nẵng">Đà Nẵng</option>
+                    <option value="Cà Mau">Cà Mau</option>
+                    <option value="Hà Nội">Hà Nội</option>
+                    <option value="Vinh">Vinh</option>
+                    <option value="Hội An">Hội An</option>
+                    <option value="Đà Lạt">Đà Lạt</option>
+                    <option value="Bắc Ninh">Bắc Ninh</option>
+                </select>
+                <span asp-validation-for="Departure" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Destination" class="control-label"></label>
+                <select asp-for="Destination" class="form-control form-input">
+                    <option value=""></option>
+                    <option value="Nha Trang">Nha Trang</option>
+                    <option value="Sài Gòn">Sài Gòn</option>
+                    <option value="Đà Nẵng">Đà Nẵng</option>
+                    <option value="Cà Mau">Cà Mau</option>
+                    <option value="Hà Nội">Hà Nội</option>
+                    <option value="Vinh">Vinh</option>
+                    <option value="Hội An">Hội An</option>
+                    <option value="Đà Lạt">Đà Lạt</option>
+                    <option value="Bắc Ninh">Bắc Ninh</option>
+                </select>
+                <span asp-validation-for="Destination" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="BusinessCapacity" class="control-label"></label>
+                <input asp-for="BusinessCapacity" class="form-control form-input" />
+                <span asp-validation-for="BusinessCapacity" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="EconomyCapacity" class="control-label"></label>
+                <input asp-for="EconomyCapacity" class="form-control form-input" />
+                <span asp-validation-for="EconomyCapacity" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DepartureTime" class="control-label"></label>
+                <input asp-for="DepartureTime" class="form-control form-input" />
+                <span asp-validation-for="DepartureTime" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label class="control-label">Giá vé hạng thương gia (đ)</label>
+                <input asp-for="BusinessPrice" class="form-control form-input" oninput="formatCurrency(this)"/>
+                <span asp-validation-for="BusinessPrice" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label class="control-label">Giá vé hạng phổ thông (đ)</label>
+                <input asp-for="EconomyPrice" class="form-control form-input" oninput="formatCurrency(this)"/>
+                <span asp-validation-for="EconomyPrice" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="UploadTime" class="control-label"></label>
+                <input asp-for="UploadTime" class="form-control form-input" />
+                <span asp-validation-for="UploadTime" class="text-danger"></span>
+            </div>
+            <div class="form-group" style="margin-top:20px">
+                <input type="submit" value="Lưu chỉnh sửa" class="button edit-btn"/>
+                <a class="button" asp-action="Index" style="padding:7px">Danh sách chuyến bay</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @*@{await Html.RenderPartialAsync("_ValidationScriptsPartial");}*@
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        function editAlert(e){
+            e.preventDefault();
+
+            Swal.fire({
+                title: "Chỉnh sửa thông tin chuyến bay này?",
+                text: "Bạn có chắc chắn muốn chỉnh sửa thông tin chuyến bay này không?",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "Đồng ý",
+                cancelButtonText: "Hủy"
+            }).then(result => {
+                if (result.isConfirmed) {
+                    const myForm = document.getElementById('myForm');
+                    myForm.submit();
+                }
+            });
+        }
+    </script>
+    <script>
+        function formatCurrency(input) {
+            // Lấy giá trị người dùng nhập vào
+            let value = input.value;
+
+            // Xóa bỏ tất cả các ký tự không phải số
+            value = value.replace(/[^0-9]/g, '');
+
+            // Định dạng số với dấu phẩy mỗi 3 chữ số
+            value = value.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+
+            // Gán giá trị đã định dạng trở lại ô nhập liệu
+            input.value = value;
+        }
+    </script>
+}

@@ -1,0 +1,236 @@
+﻿@model IEnumerable<BookingTourWebApp_MVC.Models.Booking>
+
+@{
+    ViewData["Title"] = "Danh sách vé";
+    Layout = "_LayoutAdminManagement";
+}
+<style>
+    th {
+        text-align: center;
+        text-wrap: wrap;
+    }
+    .form-label {
+        width: 30%
+    }
+    .form-input {
+        width: 70%;
+        padding: 5px;
+        border-radius: 10px;
+        border-color: #146C94;
+        border-width: 2px;
+    }
+    table {
+        vertical-align: bottom;
+        align-items:center;
+    }
+    table tr td {
+        justify-content: center;
+        align-items: center;
+        text-align:center;
+        vertical-align: middle;
+    }
+    tr th {
+        justify-content: center;
+        align-items: center;
+        text-align:center;
+        vertical-align: middle;
+    }
+    form div {
+        margin: 20px auto;
+        display: flex;
+        width:50%;
+        justify-content:center
+    }
+    td a {
+        background-color: #146C94;
+        border: 1px solid #146C94;
+        color: white;
+        width: 50px;
+        padding: 5px;
+        border-radius: 10px;
+        transition: 0.3s;
+        text-decoration:none
+    }
+    td a:hover {
+        background-color: white;
+        border: 1px solid #146C94;
+        color: #146C94;
+        cursor: pointer;
+        width: 50px;
+        padding: 5px;
+        border-radius: 10px;
+        text-decoration:none
+    }
+    .button {
+        background-color: #146C94;
+        border: 1px solid #146C94;
+        color: white;
+        /*width: 50px;*/
+        padding: 5px;
+        border-radius: 5px;
+        transition: 0.3s;
+        text-decoration:none
+    }
+    .button:hover {
+        background-color: white;
+        border: 1px solid #146C94;
+        color: #146C94;
+        cursor: pointer;
+        /*width: 50px;*/
+        padding: 5px;
+        border-radius: 5px;
+        text-decoration:none
+    }
+    select {
+        padding: 5px;
+        border-radius: 10px;
+        border-color: #146C94;
+        border-width: 2px;
+
+    }
+</style>
+<h1 style="margin: 20px 0px 20px 0px">Danh sách vé</h1>
+
+<hr />
+<div style="display:flex; flex-direction:column;margin: 0 auto; margin-top: 3%; border: 4px solid #146C94;border-radius:15px;width:70%;margin-bottom:20px">
+    <form asp-action="Index" asp-controller="TicketManagement" method="get">
+    
+    <div>
+        <label for="departure" class="form-label">Nơi xuất phát: </label>
+        <select name="departure" id="departure" class="form-input" style="text-align:center">
+            <option value=""></option>
+            <option value="Nha Trang">Nha Trang</option>
+            <option value="Sài Gòn">Sài Gòn</option>
+            <option value="Đà Nẵng">Đà Nẵng</option>
+            <option value="Cà Mau">Cà Mau</option>
+            <option value="Hà Nội">Hà Nội</option>
+            <option value="Vinh">Vinh</option>
+            <option value="Hội An">Hội An</option>
+            <option value="Đà Lạt">Đà Lạt</option>
+            <option value="Bắc Ninh">Bắc Ninh</option>
+        </select>
+    </div>
+
+    <div>
+        <label for="destination" class="form-label">Nơi đến: </label>
+        <select name="destination" id="destination" class="form-input" style="text-align:center">
+            <option value=""></option>
+            <option value="Nha Trang">Nha Trang</option>
+            <option value="Sài Gòn">Sài Gòn</option>
+            <option value="Đà Nẵng">Đà Nẵng</option>
+            <option value="Cà Mau">Cà Mau</option>
+            <option value="Hà Nội">Hà Nội</option>
+            <option value="Vinh">Vinh</option>
+            <option value="Hội An">Hội An</option>
+            <option value="Đà Lạt">Đà Lạt</option>
+            <option value="Bắc Ninh">Bắc Ninh</option>
+        </select>
+    </div>
+    <div>
+        <label for="departureTime" class="form-label">Ngày xuất phát: </label>
+        <input name="departureTime" id="departureTime" type="date" class="form-input" style="text-align:center"/>
+    </div>
+    <div>
+        <label for="bookingTime" class="form-label">Ngày đặt vé: </label>
+        <input name="bookingTime" id="bookingTime" type="date" class="form-input" style="text-align:center"/>
+    </div>
+
+    <div>
+        <label for="searchType" class="form-label">Tìm theo: </label>
+        <select name="searchType" id="searchType" class="form-input" style="width: 33%;margin-right:4%;text-align:center">
+            <option value="flightId">Mã chuyến</option>
+            <option value="ticketId">Mã vé</option>
+        </select>
+        <input name="searchValue" id="searchValue" class="form-input" style="width:33%; padding-left:10px"/>
+    </div>
+
+    <div style="justify-content:center">
+
+        <button style="margin:20px; padding:7px 20px" class="button">Tìm</button>
+        <button id="resetButton" style="width:40px;height:40px;background-color:#146C94;border:2px solid #146C94; border-radius:5px; margin: 20px">
+            <img src="~/src/refresh-icon.png" alt="Reset" style="width:20px;height:20px"/>
+        </button>
+    </div>
+    <br />
+</form>
+</div>
+<table class="table" style="border-color:black;">
+    <thead>
+        <tr>
+            <th style="background-color:#146C94;color:white;border-top-left-radius:15px">
+                Mã vé
+            </th>
+            <th style="background-color:#146C94;color:white">
+                Mã chuyến
+            </th>
+            <th style="background-color:#146C94;color:white">
+                Khách hàng
+            </th>
+            <th style="background-color:#146C94;color:white">
+                Số ghế hạng
+                <br />
+                thương gia đã đặt
+            </th>
+            <th style="background-color:#146C94;color:white">
+                Số ghế hạng
+                <br />
+                phổ thông đã đặt
+            </th>
+            
+            <th style="background-color:#146C94;color:white">
+                Thời điểm khởi hành
+            </th>
+            <th style="background-color:#146C94;color:white">
+                Thời điểm đặt vé
+            </th>
+            <th style="background-color:#146C94;color:white">
+                Tổng giá
+            </th>
+            <th style="background-color:#146C94;color:white;border-top-right-radius:15px"></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Flight.Id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AppUser.FullName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.BusinessTickets)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EconomyTickets)
+            </td>
+            <td>
+                @Convert.ToDateTime(item.Flight.DepartureTime).ToString("dd/MM/yyyy - HH:mm tt")
+            </td>
+            <td>
+                @*@Html.DisplayFor(modelItem => item.BookingTime)*@
+                @Convert.ToDateTime(item.BookingTime).ToString("dd/MM/yyyy - HH:mm tt")
+            </td>
+            <td>
+                @*@Html.DisplayFor(modelItem => item.TotalPrice)*@
+                @string.Format("{0:#,##0} đ", item.TotalPrice)
+            </td>
+            
+            <td>
+                <a asp-action="Details" asp-route-id="@item.Id">Chi tiết</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
+
+@section Scripts {
+    <script>
+        document.getElementById('resetButton').addEventListener('click', function () {
+            window.location.href = '@Url.Action("Index")';
+        });
+    </script>
+}
