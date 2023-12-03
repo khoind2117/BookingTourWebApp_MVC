@@ -43,7 +43,6 @@ namespace BookingTourWebApp_MVC.Controllers
                 var result = await _signInManager.PasswordSignInAsync(loginViewModel.UserName, loginViewModel.Password, isPersistent: true, lockoutOnFailure: false);
                 if (result.Succeeded)
                 {
-                    // Đăng nhập thành công, thực hiện hành động mong muốn
                     return RedirectToAction("Index", "Home");
                 }
                 if (result.IsLockedOut)
@@ -54,7 +53,7 @@ namespace BookingTourWebApp_MVC.Controllers
                 else
                 {
                     // Hiển thị lỗi khi người dùng nhập sai mật khẩu
-                    ModelState.AddModelError("", "Invalid login attempt");
+                    ModelState.AddModelError("", "Đăng nhập thất bại, vui lòng kiểm tra lại!");
                     return View(loginViewModel);
                 }
             }
@@ -87,7 +86,7 @@ namespace BookingTourWebApp_MVC.Controllers
                 // Kiểm tra Username
                 if (userByUsername != null)
                 {
-                    ModelState.AddModelError("Username", "Username already exists.");
+                    ModelState.AddModelError("Username", "Tên đăng nhập đã tồn tại, vui lòng chọn tên đăng nhập khác!");
                     return View(registerViewModel);
 
                 }
@@ -115,7 +114,7 @@ namespace BookingTourWebApp_MVC.Controllers
 
                 // Nếu tạo không thành công sẽ trả về
                 // Có thể là do mật khẩu chưa đúng quy định, cần làm rõ hơn cho người dùng
-                ModelState.AddModelError("Password", "User could not be created. Password not unique enough");
+                ModelState.AddModelError("Password", "Tạo tài khoản không thành công");
             }
             return View(registerViewModel);
         }
