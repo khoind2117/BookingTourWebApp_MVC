@@ -66,12 +66,15 @@
             </div>
         </a>
 
-
-        <a class="item-offcanvas" asp-controller="Statistical" asp-action="Index">
+        <a class="item-offcanvas" asp-controller="Home" asp-action="Index">
             <div class="div-a div-text-center">
-                Log Out
+                Back to Home
             </div>
         </a>
+
+        <form id="logoutForm" method="post" asp-controller="Account" asp-action="LogOut">
+            <button type="submit" class="btn btn-danger">Logout</button>
+        </form>
     </div>
 </div>
 
