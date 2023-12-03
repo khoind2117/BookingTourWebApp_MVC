@@ -9,6 +9,7 @@ namespace BookingTourWebApp_MVC.Controllers
 {
     public class HomeController : Controller
     {
+        private readonly ApplicationDbContext _context;
         private readonly ILogger<HomeController> _logger;
         private readonly ApplicationDbContext _context;
 
@@ -20,7 +21,12 @@ namespace BookingTourWebApp_MVC.Controllers
 
         public IActionResult Index()
         {
-            return View();
+            var latestFlights = _context.Flights
+            .OrderByDescending(f => f.DepartureTime)
+            .Take(3)
+            .ToList();
+
+            return View(latestFlights);
         }
 
         public IActionResult Privacy()

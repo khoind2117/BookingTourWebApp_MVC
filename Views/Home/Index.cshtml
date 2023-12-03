@@ -1,6 +1,9 @@
-﻿@{
+﻿@model List<BookingTourWebApp_MVC.Models.Flight>
+
+@{
     ViewData["Title"] = "Home Page";
 }
+   
 <div class="container">
     <div class="row">
         <div class="text-center">
@@ -61,6 +64,27 @@
     </div>
     
 </div>
+ 
+<h2>Chuyến bay mới nhất</h2>
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="card-deck">
+            @foreach (var flight in Model)
+            {
+                <div class="card">
+                    <img src="./Booking Flight/plane 1.png" class="card-img-top" alt="Flight Image" style="width: 700px; height: 300px;">
+                    <div class="card-body">
+                        <h5 class="card-title">@flight.Departure - @flight.Destination</h5>
+                        <p class="card-text">Nơi đi: @flight.Departure</p>
+                        <p class="card-text">Nơi đến: @flight.Destination</p>
+                        <p class="card-text">Khởi hành: @flight.DepartureTime.ToString("yyyy-MM-dd HH:mm")</p>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>
 
 <script>
     $(document).ready(function () {
@@ -86,5 +110,3 @@
         });
     });
 </script>
-    
-
