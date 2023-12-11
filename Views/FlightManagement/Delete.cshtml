@@ -80,6 +80,20 @@
         <dd class = "col-sm-9">
             @Html.DisplayFor(model => model.EconomyCapacity)
         </dd>
+
+        <dt class = "col-sm-3">
+            Số ghế thương gia đã đặt
+        </dt>
+        <dd class = "col-sm-9">
+            @Html.DisplayFor(model => model.BusinessBooked)
+        </dd>
+        <dt class = "col-sm-3">
+            Số ghế phổ thông đã đặt
+        </dt>
+        <dd class = "col-sm-9">
+            @Html.DisplayFor(model => model.EconomyBooked)
+        </dd>
+
         <dt class = "col-sm-3">
             Ngày khởi hành
         </dt>
@@ -126,7 +140,19 @@
         function deleteAlert(e){
             e.preventDefault();
 
-            Swal.fire({
+            var businessBooked = parseInt("@Model.BusinessBooked");
+            var economyBooked = parseInt("@Model.EconomyBooked");
+
+            if (businessBooked !== 0 || economyBooked !== 0) {
+                // Nếu có ghế đã đặt, hiển thị thông báo và không thực hiện xóa
+                Swal.fire({
+                    title: "Không thể xóa chuyến bay",
+                    text: "Chuyến bay đã có người đặt vé, không thể xóa!",
+                    icon: "error"
+                });
+            }
+            else {
+                Swal.fire({
                 title: "Xóa chuyến bay này?",
                 text: "Bạn có chắc chắn muốn xóa chuyến bay này không? Thông tin chuyến bay sau khi bị xóa không thể được khôi phục lại",
                 icon: "warning",
@@ -141,6 +167,8 @@
                     myForm.submit();
                 }
             });
+            }
+            
         }
     </script>
 }
