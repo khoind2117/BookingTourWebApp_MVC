@@ -28,6 +28,7 @@ namespace BookingTourWebApp_MVC.Migrations
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    FullName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     NormalizedUserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     Email = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
@@ -59,6 +60,25 @@ namespace BookingTourWebApp_MVC.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Plane", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Tour",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Departure = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Destination = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    DepartureDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    ReturnDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Price = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Tour", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -198,8 +218,10 @@ namespace BookingTourWebApp_MVC.Migrations
                 name: "Booking",
                 columns: table => new
                 {
-                    AppUserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    FlightId = table.Column<int>(type: "int", nullable: false),
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    AppUserId = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    FlightId = table.Column<int>(type: "int", nullable: true),
                     BusinessTickets = table.Column<int>(type: "int", nullable: false),
                     EconomyTickets = table.Column<int>(type: "int", nullable: false),
                     TotalPrice = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
@@ -207,7 +229,7 @@ namespace BookingTourWebApp_MVC.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Booking", x => new { x.AppUserId, x.FlightId });
+                    table.PrimaryKey("PK_Booking", x => x.Id);
                     table.ForeignKey(
                         name: "FK_Booking_AspNetUsers_AppUserId",
                         column: x => x.AppUserId,
@@ -262,6 +284,11 @@ namespace BookingTourWebApp_MVC.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Booking_AppUserId",
+                table: "Booking",
+                column: "AppUserId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Booking_FlightId",
                 table: "Booking",
                 column: "FlightId");
@@ -291,6 +318,9 @@ namespace BookingTourWebApp_MVC.Migrations
 
             migrationBuilder.DropTable(
                 name: "Booking");
+
+            migrationBuilder.DropTable(
+                name: "Tour");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
