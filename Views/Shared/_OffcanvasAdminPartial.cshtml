@@ -1,0 +1,86 @@
+﻿<style>
+    .offcanvas{
+        width:100px;
+    }
+
+    .item-offcanvas {
+        text-decoration:none;
+        font-size:16px;
+        font-weight:bold;
+        color: #F6F1F1;
+    }
+    .div-a{
+        height:48px;
+
+    }
+    .div-text-center{
+        margin: auto;
+        padding:10px
+    }
+    .div-a:hover {
+            background-color: #19A7CE;
+            border-radius:5px;
+    }
+
+    .item-offcanvas:hover {
+        color: #F6F1F1;
+    }
+</style>
+
+<button class="btn " type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasWithBothOptions" aria-controls="offcanvasWithBothOptions">
+    <img src="~/src/icons8-menu-48.png" alt="logo" height="36px" width="36px">
+</button>
+
+<div style="width:300px;background-color:black" class="offcanvas offcanvas-start text-bg-dark" data-bs-scroll="true" tabindex="-1" id="offcanvasWithBothOptions" aria-labelledby="offcanvasWithBothOptionsLabel">
+    <div class="offcanvas-header">
+        <h5 class="offcanvas-title" style="color:white;font-weight:bold" id="offcanvasWithBothOptionsLabel">FLIGHTDOT Management</h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body">
+
+        
+        <a class="item-offcanvas" asp-controller="FlightManagement" asp-action="Index">
+            <div class="div-a div-text-center">
+               Quản lý chuyến bay
+            </div>
+        </a>
+
+
+        <a class="item-offcanvas" asp-controller="TicketManagement" asp-action="Index">
+            <div class="div-a div-text-center">
+                Quản lý vé
+            </div>
+        </a>
+
+
+        <a class="item-offcanvas" asp-controller="CustomerManagement" asp-action="Index">
+            <div class="div-a div-text-center">
+                Quản lý hành khách
+            </div>
+        </a>
+
+
+        <a class="item-offcanvas" asp-controller="Statistical" asp-action="Index">
+            <div class="div-a div-text-center">
+                Quản lý thống kê
+            </div>
+        </a>
+
+        <a class="item-offcanvas" asp-controller="Tour" asp-action="TourManagement">
+            <div class="div-a div-text-center">
+                Quản lý vé
+            </div>
+        </a>
+
+        <a class="item-offcanvas" asp-controller="Home" asp-action="Index">
+            <div class="div-a div-text-center">
+                Quay về nhà
+            </div>
+        </a>
+
+        <form id="logoutForm" method="post" asp-controller="Account" asp-action="LogOut">
+            <button type="submit" class="btn btn-danger">Đăng xuất</button>
+        </form>
+    </div>
+</div>
+

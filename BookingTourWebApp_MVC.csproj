@@ -1,39 +1,43 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
+    <UserSecretsId>eba4b253-1bf6-46eb-ba2a-0dd3178f0f65</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Helpers\**" />
     <Compile Remove="Interfaces\**" />
     <Compile Remove="Repositories\**" />
-    <Content Remove="Helpers\**" />
     <Content Remove="Interfaces\**" />
     <Content Remove="Repositories\**" />
-    <EmbeddedResource Remove="Helpers\**" />
     <EmbeddedResource Remove="Interfaces\**" />
     <EmbeddedResource Remove="Repositories\**" />
-    <None Remove="Helpers\**" />
     <None Remove="Interfaces\**" />
     <None Remove="Repositories\**" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="12.0.1" />
+    <PackageReference Include="CloudinaryDotNet" Version="1.23.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.Facebook" Version="6.0.25" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.Google" Version="6.0.25" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="6.0.25" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="6.0.25" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.25" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="6.0.25">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="6.0.23" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="6.0.25" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="6.0.25">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="6.0.16" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
   </ItemGroup>
 
   <ItemGroup>

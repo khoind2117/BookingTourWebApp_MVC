@@ -1,0 +1,124 @@
+﻿@model BookingTourWebApp_MVC.ViewModels.FlightViewModel
+
+@{
+    ViewData["Title"] = "Thông tin chi tiết";
+    Layout = "_LayoutAdminManagement";
+}
+<style>
+    * {
+        text-wrap:nowrap;
+    }
+    .button {
+        background-color: #146C94;
+        border: 1px solid #146C94;
+        color: white;
+        /*width: 50px;*/
+        padding: 5px;
+        border-radius: 5px;
+        transition: 0.3s;
+        text-decoration:none;
+        margin: 10px 20px 20px 0px;
+    }
+    .button:hover {
+        background-color: white;
+        border: 1px solid #146C94;
+        color: #146C94;
+        cursor: pointer;
+        /*width: 50px;*/
+        padding: 5px;
+        border-radius: 5px;
+        text-decoration:none
+    }
+</style>
+<h1 style="margin: 20px 0px 20px 0px">Chi tiết chuyến bay</h1>
+<hr />
+<div>
+    <dl class="row">
+        <dt class = "col-sm-3">
+            @Html.DisplayNameFor(model => model.Id)
+        </dt>
+        <dd class = "col-sm-9">
+            @Html.DisplayFor(model => model.Id)
+        </dd>
+        <dt class = "col-sm-3">
+            Máy bay chuyên chở
+        </dt>
+        <dd class = "col-sm-9">
+            @Html.DisplayFor(model => model.PlaneName)
+        </dd>
+        <dt class = "col-sm-3">
+            @Html.DisplayNameFor(model => model.Departure)
+        </dt>
+        <dd class = "col-sm-9">
+            @Html.DisplayFor(model => model.Departure)
+        </dd>
+        <dt class = "col-sm-3">
+            @Html.DisplayNameFor(model => model.Destination)
+        </dt>
+        <dd class = "col-sm-9">
+            @Html.DisplayFor(model => model.Destination)
+        </dd>
+        <dt class = "col-sm-3">
+            @Html.DisplayNameFor(model => model.BusinessCapacity)
+        </dt>
+        <dd class = "col-sm-9">
+            @Html.DisplayFor(model => model.BusinessCapacity)
+        </dd>
+        <dt class = "col-sm-3">
+            @Html.DisplayNameFor(model => model.EconomyCapacity)
+        </dt>
+        <dd class = "col-sm-9">
+            @Html.DisplayFor(model => model.EconomyCapacity)
+        </dd>
+
+        <dt class = "col-sm-3">
+            Số ghế thương gia đã đặt
+        </dt>
+        <dd class = "col-sm-9">
+            @Html.DisplayFor(model => model.BusinessBooked)
+        </dd>
+        <dt class = "col-sm-3">
+            Số ghế phổ thông đã đặt
+        </dt>
+        <dd class = "col-sm-9">
+            @Html.DisplayFor(model => model.EconomyBooked)
+        </dd>
+
+
+        <dt class = "col-sm-3">
+            Ngày khởi hành
+        </dt>
+        <dd class = "col-sm-9">
+            @Model.DepartureTime.ToString("dd/MM/yyyy")
+        </dd>
+        <dt class = "col-sm-3">
+            Thời điểm khởi hành
+        </dt>
+        <dd class = "col-sm-9">
+            @Model.DepartureTime.ToString("HH:mm tt")
+        </dd>
+        <dt class = "col-sm-3">
+            @Html.DisplayNameFor(model => model.BusinessPrice)
+        </dt>
+        <dd class = "col-sm-9">
+            @string.Format("{0:#,##0} đ", Model.BusinessPrice)
+        </dd>
+        <dt class = "col-sm-3">
+            @Html.DisplayNameFor(model => model.EconomyPrice)
+        </dt>
+        <dd class = "col-sm-9">
+            @string.Format("{0:#,##0} đ", Model.EconomyPrice)
+        </dd>
+        <dt class = "col-sm-3">
+            @Html.DisplayNameFor(model => model.UploadTime)
+        </dt>
+        <dd class = "col-sm-9">
+            @*@Html.DisplayFor(model => model.UploadTime)*@
+            @Model.UploadTime.ToString("dd/MM/yyyy - HH:mm tt")
+        </dd>
+    </dl>
+</div>
+<div style="margin:10px 0px 20px 0px">
+    <a class="button" asp-action="Edit" asp-route-id="@Model?.Id">Chỉnh sửa</a>
+    <a class="button" asp-action="Index">Danh sách chuyến bay</a>
+</div>

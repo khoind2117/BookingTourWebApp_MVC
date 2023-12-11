@@ -4,9 +4,9 @@ namespace BookingTourWebApp_MVC.ViewModels
 {
     public class LoginViewModel
     {
-        [Required]
+        [Required(ErrorMessage = "Vui lòng điền tên đăng nhập")]
         public string UserName { get; set; }
-        [Required]
+        [Required(ErrorMessage = "Vui lòng điền mật khẩu")]
         [DataType(DataType.Password)]
         public string Password { get; set; }
         public string? ReturnUrl { get; set; }

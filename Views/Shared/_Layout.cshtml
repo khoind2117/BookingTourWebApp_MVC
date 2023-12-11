@@ -12,11 +12,34 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/BookingTourWebApp_MVC.styles.css" asp-append-version="true" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <style>
+        body {
+            width: 100%;
+            height: 100%;
+            margin: 0px;
+            padding: 0px;
+            overflow-x: hidden;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        .a-footer {
+            color:black!important;
+            border-radius: 0;
+            margin: 10px 0px 0px 0px;
+            box-shadow: none;
+            text-decoration:none;
+        }
+    </style>
 </head>
 <body>
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container-fluid">
+            <div class="container-fluid mx-5">
                 <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">BookingTourWebApp_MVC</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
@@ -31,35 +54,46 @@
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="User" asp-action="TicketHistory">TicketHistory</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="User" asp-action="ChangePassword">ChangePassword</a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Tour" asp-action="Index">Tour</a>
                         </li>
                     </ul>
                     <ul class="navbar-nav">
                         @if (SignInManager.IsSignedIn(User))
                         {
-                            @if (User.IsInRole("Admin"))
-                            {
 
-                            }
-                            <li class="nav-item">
-                                <span class="nav-link text-success">Hello @UserManager.GetUserName(User)</span>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle text-success" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Hello @UserManager.GetUserName(User)
+                                </a>
+                                <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                                    @if (User.IsInRole("Admin"))
+                                    {
+                                        <li>
+                                            <a class="dropdown-item text-primary" asp-controller="FlightManagement" asp-action="Index">Quản lý</a>
+                                        </li>
+                                    }
+                                    <li><a class="dropdown-item" asp-controller="Profile" asp-action="Index">Hồ sơ</a></li>
+                                    <li><a class="dropdown-item" asp-controller="User" asp-action="TicketHistory">Lịch sử đặt vé</a></li>
+
+                                    <li><a class="dropdown-item" href="#">Action</a></li>
+                                    <li><a class="dropdown-item" href="#">Another action</a></li>
+                                    <li><hr class="dropdown-divider"></li>
+                                    <li>
+                                        <form id="logoutForm" class="dropdown-item" method="post" asp-controller="Account" asp-action="LogOut">
+                                            <button type="submit" class="btn nav-link text-danger w-100">Đăng xuất</button>
+                                        </form>
+                                    </li>
+                                </ul>
                             </li>
-                            <li class="nav-item">
-                                <form id="logoutForm" method="post" class="form-inline" asp-controller="Account" asp-action="LogOut">
-                                    <button type="submit" class="btn nav-link">Logout</button>
-                                </form>
-                            </li>
+                            
                         }
                         else
                         {
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Register">Register</a>
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Register">Đăng ký</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Login">Login</a>
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Login">Đăng nhập</a>
                             </li>
                         }
                     </ul>
@@ -73,13 +107,56 @@
         </main>
     </div>
 
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2023 - BookingTourWebApp_MVC - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+    <footer class="container-fuild bg-white border-top box-shadow" style="background-color: #146c94;overflow: hidden;">
+    <div class="row" style="width: 100vw;">
+        <div class="col-12 col-xl-4" style="height: 350px;position: relative;padding: 36px;">
+            
+            <div style="font-weight:bold">
+                Quý khách có những gì thắc mắc hay muốn tư vấn hổ trợ đặt vé xin hãy liên hệ qua:
+            
+            <br>
+            <a class="a-footer" >
+                
+                1021 4333
+              </a>
+              <br>
+                    <a class="a-footer" >
+                
+                bookingnetflight.com@gmail.com
+              </a>
+            </div>
+                <div style="position: absolute;bottom: 0;left:15px;font-weight:bold">
+                Copyright 2023 UP - All Rights Reserved
+            </div>
         </div>
+        <div class="col-12 col-xl-4" style="height: 350px;padding: 36px;">
+
+                <div style="font-weight:bold">
+                Dia chi cac chi nhanh:
+            <br>
+              <a class="a-footer" style="font-weight:bold">
+                CN 1: xxx An Dương Vương, phường 4, quận 5, Hồ Chí Minh
+              </a>
+                    <br>
+                    <a class="a-footer" style="font-weight:bold">
+                
+                
+                CN 2: xxx Xã Đàn, phường Nam Đồng, quận Đống Đa, Hà Nội
+              </a>
+            </div>
+        </div>
+        <div class="col-12 col-xl-4" style="height: 350px;position: relative;display: flex;align-items: center;justify-content: center;">
+          <div class="map">
+            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3919.6558196267665!2d106.68001927469686!3d10.76098678938685!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31752f1b8e6575c3%3A0x48d253bde1931e59!2zxJDhuqFpIEjhu41jIFPGsCBQaOG6oW0gLSAyODAgQW4gRMawxqFuZyBWxrDGoW5n!5e0!3m2!1svi!2s!4v1697733897262!5m2!1svi!2s" width="400" height="250" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>          </div>
+                <div style="position: absolute;bottom: 0;right:10px;font-weight:bold">
+                Phat trien boi team nhom 5        
+            </div>
+        </div>
+    </div>
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>

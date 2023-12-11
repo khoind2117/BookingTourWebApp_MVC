@@ -1,5 +1,6 @@
 ﻿using BookingTourWebApp_MVC.Models;
 using BookingTourWebApp_MVC.ViewModels;
+using FlightBooking.ViewModel;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -43,7 +44,6 @@ namespace BookingTourWebApp_MVC.Controllers
                 var result = await _signInManager.PasswordSignInAsync(loginViewModel.UserName, loginViewModel.Password, isPersistent: true, lockoutOnFailure: false);
                 if (result.Succeeded)
                 {
-                    // Đăng nhập thành công, thực hiện hành động mong muốn
                     return RedirectToAction("Index", "Home");
                 }
                 if (result.IsLockedOut)
@@ -54,7 +54,7 @@ namespace BookingTourWebApp_MVC.Controllers
                 else
                 {
                     // Hiển thị lỗi khi người dùng nhập sai mật khẩu
-                    ModelState.AddModelError("", "Invalid login attempt");
+                    ModelState.AddModelError("", "Đăng nhập thất bại, vui lòng kiểm tra lại!");
                     return View(loginViewModel);
                 }
             }
@@ -87,7 +87,7 @@ namespace BookingTourWebApp_MVC.Controllers
                 // Kiểm tra Username
                 if (userByUsername != null)
                 {
-                    ModelState.AddModelError("Username", "Username already exists.");
+                    ModelState.AddModelError("Username", "Tên đăng nhập đã tồn tại, vui lòng chọn tên đăng nhập khác!");
                     return View(registerViewModel);
 
                 }
@@ -95,7 +95,13 @@ namespace BookingTourWebApp_MVC.Controllers
                 // Tạo tài khoản
                 if (userByUsername == null)
                 {
-                    var user = new AppUser { UserName = registerViewModel.UserName };
+                    var user = new AppUser 
+                    { 
+                        UserName = registerViewModel.UserName,
+                        FullName = registerViewModel.FullName,
+                        PhoneNumber = registerViewModel.PhoneNumber,
+                        Email = registerViewModel.Email,
+                    };
                     var result = await _userManager.CreateAsync(user, registerViewModel.Password);
                     if (result.Succeeded)
                     {
@@ -109,7 +115,7 @@ namespace BookingTourWebApp_MVC.Controllers
 
                 // Nếu tạo không thành công sẽ trả về
                 // Có thể là do mật khẩu chưa đúng quy định, cần làm rõ hơn cho người dùng
-                ModelState.AddModelError("Password", "User could not be created. Password not unique enough");
+                ModelState.AddModelError("Password", "Tạo tài khoản không thành công");
             }
             return View(registerViewModel);
         }
@@ -121,5 +127,94 @@ namespace BookingTourWebApp_MVC.Controllers
             await _signInManager.SignOutAsync();
             return RedirectToAction("Index", "Home");
         }
+
+        #region External Login
+        [HttpPost]
+        [AllowAnonymous]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> ExternalLoginConfirmation(ExternalLoginViewModel model, string? returnurl = null)
+        {
+            returnurl = returnurl ?? Url.Content("~/");
+
+            if (ModelState.IsValid)
+            {
+                var info = await _signInManager.GetExternalLoginInfoAsync();
+                if (info == null)
+                {
+                    return View("Error");
+                }
+                var user = new AppUser
+                {
+                    FullName = model.FullName,
+                    PhoneNumber = model.PhoneNumber,
+                    Email = model.Email,
+                };
+
+                var result = await _userManager.CreateAsync(user);
+                if (result.Succeeded)
+                {
+                    await _userManager.AddToRoleAsync(user, "User");
+                    result = await _userManager.AddLoginAsync(user, info);
+                    if (result.Succeeded)
+                    {
+                        await _signInManager.SignInAsync(user, isPersistent: false);
+                        await _signInManager.UpdateExternalAuthenticationTokensAsync(info);
+                        return LocalRedirect(returnurl);
+                    }
+                }
+                ModelState.AddModelError("Email", "User already exists");
+            }
+            ViewData["ReturnUrl"] = returnurl;
+            return View(model);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> ExternalLoginCallback(string returnurl = null, string remoteError = null)
+        {
+            // Xử lý lỗi nếu có
+            if (remoteError != null)
+            {
+                // Xử lý lỗi ở đây (ví dụ: hiển thị một trang lỗi)
+                ModelState.AddModelError(string.Empty, "Error from external provider");
+                return View("Login");
+            }
+            // Nhận thông tin đăng nhập từ nhà cung cấp
+            var info = await _signInManager.GetExternalLoginInfoAsync();
+            if (info == null)
+            {
+                // Xử lý lỗi nếu không nhận được thông tin đăng nhập
+                return RedirectToAction("Login");
+            }
+
+            // Kiểm tra xem người dùng đã đăng ký tài khoản trong ứng dụng của bạn hay chưa
+            // Cụ thể là đã điền đầy đủ thông tin trong trang ExternalLoginConfirmation
+            // Nếu chưa điền thông tin sẽ chuyển đến trang đó điền và tạo tài khoản
+            var result = await _signInManager.ExternalLoginSignInAsync(info.LoginProvider, info.ProviderKey, isPersistent: false);
+            if (result.Succeeded)
+            {
+                // Người dùng đã đăng nhập thành công, thực hiện các xử lý cần thiết
+                // Chuyển hướng về trang chính hoặc returnUrl
+                await _signInManager.UpdateExternalAuthenticationTokensAsync(info);
+                return LocalRedirect(returnurl);
+            }
+            else
+            {
+                ViewData["ReturnUrl"] = returnurl;
+                ViewData["ProviderDisplayName"] = info.ProviderDisplayName;
+                var email = info.Principal.FindFirstValue(ClaimTypes.Email);
+                return View("ExternalLoginConfirmation", new ExternalLoginViewModel { Email = email });
+            }
+        }
+
+        [HttpPost]
+        [AllowAnonymous]
+        [ValidateAntiForgeryToken]
+        public IActionResult ExternalLogin(string provider, string returnurl = null)
+        {
+            var redirect = Url.Action("ExternalLoginCallback", "Account", new { ReturnUrl = returnurl });
+            var properties = _signInManager.ConfigureExternalAuthenticationProperties(provider, redirect);
+            return Challenge(properties, provider);
+        }
+        #endregion
     }
 }

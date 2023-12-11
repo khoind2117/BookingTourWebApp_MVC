@@ -1,6 +1,7 @@
 ﻿using BookingTourWebApp_MVC.Models;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using BookingTourWebApp_MVC.ViewModels.VMofStatistical;
 
 namespace BookingTourWebApp_MVC.Data
 {
@@ -15,6 +16,7 @@ namespace BookingTourWebApp_MVC.Data
         public DbSet<Flight> Flights { get; set; }
         public DbSet<Booking> Bookings { get; set; }
         public DbSet<Plane> Planes { get; set; }
+        public DbSet<Tour> Tours { get; set; }
         #endregion
 
         #region FluentAPI
@@ -64,6 +66,16 @@ namespace BookingTourWebApp_MVC.Data
                     .WithMany(f => f.Bookings)
                     .HasForeignKey(b => b.FlightId)
                     .OnDelete(DeleteBehavior.Restrict);
+            });
+
+            // Tour
+            modelBuilder.Entity<Tour>(entity =>
+            {
+                entity.ToTable("Tour")
+                    .HasKey(t => t.Id);
+
+                entity.Property(t => t.Price)
+                    .HasColumnType("decimal(18, 2)");
             });
         }
         #endregion
