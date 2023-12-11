@@ -49,7 +49,7 @@ namespace BookingTourWebApp_MVC.Controllers
                                                 .ToListAsync();
             if (flights == null)
             {
-                TempData["NoFlightsMessage"] = "No flights available for the given criteria.";
+                TempData["NoFlightsMessage"] = "Hiện tại không có chuyến bay nào phù hợp với tiêu chí bạn đã chọn.";
                 return RedirectToAction("Index", "Booking");
             }
 

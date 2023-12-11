@@ -1,0 +1,117 @@
+﻿@using BookingTourWebApp_MVC.ViewModels;
+@model CreateTourViewModel
+
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success" role="alert">
+        @TempData["SuccessMessage"]
+    </div>
+}
+
+@if (TempData["ErrorMessage"] != null)
+{
+    <div class="alert alert-danger" role="alert">
+        @TempData["ErrorMessage"]
+    </div>
+}
+
+<h2>Tạo Tour du lịch</h2>
+
+<form asp-controller="Tour" asp-action="CreateTour" method="post" enctype="multipart/form-data">
+    <div class="form-group mb-2">
+        <label asp-for="Name">Tên Tour du lịch</label>
+        <input asp-for="Name" id="Name" class="form-control">
+        <span asp-validation-for="Name" class="text-danger"></span>
+    </div>
+    <div class="form-group mb-2">
+        <label asp-for="Departure">Điểm khởi hành</label>
+        <select asp-for="Departure" id="Departure" class="form-control">
+            <option selected disabled>Chọn điểm khởi hành</option>
+            <option value="Sài Gòn">Sài Gòn</option>
+            <option value="Hà Nội">Hà Nội</option>
+        </select>        
+        <span asp-validation-for="Departure" class="text-danger"></span>
+    </div>
+    <div class="form-group mb-2">
+        <label asp-for="Destination">Điểm đến</label>
+        <select asp-for="Destination" id="Destination" class="form-control">
+            <option selected disabled>Chọn điểm đến</option>
+            <option value="Hàn Quốc">Hàn Quốc</option>
+            <option value="Nhật Bản">Nhật Bản</option>
+            <option value="Thái Lan">Thái Lan</option>
+            <option value="Indonesia">Indonesia</option>
+            <option value="Singapore">Singapore</option>
+        </select>
+        <span asp-validation-for="Destination" class="text-danger"></span>
+    </div>
+    <div class="form-group mb-2">
+        <label asp-for="DepartureDate">Ngày đi</label>
+        <input asp-for="DepartureDate" id="DepartureDate" class="form-control">
+        <span type="date" asp-validation-for="DepartureDate" class="text-danger"></span>
+    </div>
+    <div class="form-group mb-2">
+        <label asp-for="ReturnDate">Ngày trở về</label>
+        <input asp-for="ReturnDate" id="ReturnDate" class="form-control">
+        <span type="date" asp-validation-for="ReturnDate" class="text-danger"></span>
+    </div>
+    <div class="form-group mb-2">
+        <label asp-for="Price">Giá tiền</label>
+        <input asp-for="Price" id="Price" class="form-control">
+        <span asp-validation-for="Price" class="text-danger"></span>
+    </div>
+    <div class="form-group mb-2">
+        <label asp-for="Description">Mô tả</label>
+        <textarea asp-for="Description" id="Description" class="form-control"></textarea>
+        <span asp-validation-for="Description" class="text-danger"></span>
+    </div>
+    <div class="form-group mb-2">
+        <label asp-for="Image">Hình ảnh</label>
+        <input asp-for="Image" id="Image" type="file" class="form-control" placeholder="Image">
+        <span asp-validation-for="Image" class="text-danger"></span>
+    </div>
+    <div>
+        <div class="col-md-2">
+            <button type="submit" id="submitBtn" class="btn btn-primary">Tạo</button>
+        </div>
+    </div>
+</form>
+
+<script>
+    $(document).ready(function () {
+        $('#submitBtn').click(function (event) {
+            var Departure = $('#Departure').val();
+            var Destination = $('#Destination').val();
+            var DepartureDate = $('#DepartureDate').val();
+            var ReturnDate = $('#ReturnDate').val();
+            var Price = $('#Price').val();
+            var Image = $('#Image')[0].files.length;
+
+            var currentDate = new Date().toISOString().split('T')[0];
+
+            if (!Departure || !Destination || !DepartureDate || !ReturnDate || !Price || Image === 0) 
+            {
+                alert('Vui lòng điền đầy đủ thông tin');
+                event.preventDefault(); // Ngăn chặn chuyển trang mặc định
+                return;
+            }
+
+            if (DepartureDate < currentDate) {
+                alert('Ngày đi phải lớn hơn hoặc bằng ngày hiện tại.');
+                event.preventDefault(); // Ngăn chặn chuyển trang mặc định
+                return;
+            }
+
+            if (ReturnDate < DepartureDate) {
+                alert('Ngày trở về phải lớn hơn hoặc bằng ngày đi.');
+                event.preventDefault(); // Ngăn chặn chuyển trang mặc định
+                return;
+            }
+
+            if (isNaN(Price) || parseFloat(Price) <= 0) {
+                alert('Giá tiền phải là số dương và lớn hơn 0.');
+                event.preventDefault(); // Ngăn chặn chuyển trang mặc định
+                return;
+            }
+        });
+    });
+</script>

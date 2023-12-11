@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BookingTourWebApp_MVC.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20231127064704_AddFullName")]
-    partial class AddFullName
+    [Migration("20231207041136_Add_Attr_UploadTime_to_Tour")]
+    partial class Add_Attr_UploadTime_to_Tour
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -95,11 +95,14 @@ namespace BookingTourWebApp_MVC.Migrations
 
             modelBuilder.Entity("BookingTourWebApp_MVC.Models.Booking", b =>
                 {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
                     b.Property<string>("AppUserId")
                         .HasColumnType("nvarchar(450)");
-
-                    b.Property<int?>("FlightId")
-                        .HasColumnType("int");
 
                     b.Property<DateTime>("BookingTime")
                         .HasColumnType("datetime2");
@@ -110,10 +113,15 @@ namespace BookingTourWebApp_MVC.Migrations
                     b.Property<int>("EconomyTickets")
                         .HasColumnType("int");
 
+                    b.Property<int?>("FlightId")
+                        .HasColumnType("int");
+
                     b.Property<decimal>("TotalPrice")
                         .HasColumnType("decimal(18,2)");
 
-                    b.HasKey("AppUserId", "FlightId");
+                    b.HasKey("Id");
+
+                    b.HasIndex("AppUserId");
 
                     b.HasIndex("FlightId");
 
@@ -179,6 +187,51 @@ namespace BookingTourWebApp_MVC.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Plane", (string)null);
+                });
+
+            modelBuilder.Entity("BookingTourWebApp_MVC.Models.Tour", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("Departure")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("DepartureDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Destination")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Image")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<decimal>("Price")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<DateTime>("ReturnDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("UploadTime")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Tour", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -319,14 +372,12 @@ namespace BookingTourWebApp_MVC.Migrations
                     b.HasOne("BookingTourWebApp_MVC.Models.AppUser", "AppUser")
                         .WithMany("Bookings")
                         .HasForeignKey("AppUserId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("BookingTourWebApp_MVC.Models.Flight", "Flight")
                         .WithMany("Bookings")
                         .HasForeignKey("FlightId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.Navigation("AppUser");
 

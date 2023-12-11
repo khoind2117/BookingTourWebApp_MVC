@@ -1,0 +1,59 @@
+﻿
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card box-shadow">
+                <div class="card-body">
+                    <h2>Tìm Tour du lịch</h2>
+                    <hr />
+
+                    @using (Html.BeginForm("SearchTour", "Tour", FormMethod.Post, new { id = "formId" }))
+                    {
+                        <div class="row justify-content-between align-items-center">
+                            <div class="col-md-4">
+                                <h5>Điểm khởi hành</h5>
+                                <select class="form-select" id="Departure" name="Departure">
+                                    <option selected disabled>Chọn điểm khởi hành</option>
+                                    <option value="Sài Gòn">Sài Gòn</option>
+                                    <option value="Hà Nội">Hà Nội</option>
+                                </select>
+                            </div>
+                            <div class="col-md-4">
+                                <h5>Điểm đến</h5>
+                                <select class="form-select" id="Destination" name="Destination">
+                                    <option selected disabled>Chọn điểm đến</option>
+                                    <option value="Hàn Quốc">Hàn Quốc</option>
+                                    <option value="Nhật Bản">Nhật Bản</option>
+                                    <option value="Thái Lan">Thái Lan</option>
+                                    <option value="Indonesia">Indonesia</option>
+                                    <option value="Singapore">Singapore</option>
+                                </select>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="">
+                                    <button id="searchBtn" class="btn-lg btn-primary" type="submit">Tìm ngay</button>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        $('#searchBtn').click(function (event) {
+            var Departure = $('#Departure').val();
+            var Destination = $('#Destination').val();
+
+            // Kiểm tra dữ liệu
+            if (!Departure || !Destination) {
+                alert('Vui lòng chọn điểm khởi hành, điểm đến.');
+                event.preventDefault(); // Ngăn chặn chuyển trang mặc định
+                return;
+            }
+        });
+    });
+</script>

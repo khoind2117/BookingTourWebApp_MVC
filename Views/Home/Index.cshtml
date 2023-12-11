@@ -62,7 +62,6 @@
             </div>
         </div>
     </div>
-    
 </div>
  
 <h2>Chuyến bay mới nhất</h2>
@@ -70,18 +69,32 @@
 <div class="container">
     <div class="row justify-content-center">
         <div class="card-deck">
-            @foreach (var flight in Model)
-            {
-                <div class="card">
-                    <img src="./Booking Flight/plane 1.png" class="card-img-top" alt="Flight Image" style="width: 700px; height: 300px;">
-                    <div class="card-body">
-                        <h5 class="card-title">@flight.Departure - @flight.Destination</h5>
-                        <p class="card-text">Nơi đi: @flight.Departure</p>
-                        <p class="card-text">Nơi đến: @flight.Destination</p>
-                        <p class="card-text">Khởi hành: @flight.DepartureTime.ToString("yyyy-MM-dd HH:mm")</p>
-                    </div>
+            <div id="flightCarousel" class="carousel carousel-dark slide" data-bs-ride="carousel" data-bs-md-slides="3">
+                <div class="carousel-inner">
+                    @foreach (var flight in Model)
+                    {
+                        <div class="carousel-item @if (flight == Model.First()) { <text>active</text> }">
+                            <div class="card">
+                                <img src="./Booking Flight/plane 1.png" class="card-img-top" alt="Flight Image" style="width: 700px; height: 300px;">
+                                <div class="card-body">
+                                    <h5 class="card-title">@flight.Departure - @flight.Destination</h5>
+                                    <p class="card-text">Nơi đi: @flight.Departure</p>
+                                    <p class="card-text">Nơi đến: @flight.Destination</p>
+                                    <p class="card-text">Khởi hành: @flight.DepartureTime.ToString("yyyy-MM-dd HH:mm")</p>
+                                </div>
+                            </div>
+                        </div>
+                    }
                 </div>
-            }
+                <button class="carousel-control-prev" type="button" data-bs-target="#flightCarousel" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#flightCarousel" data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Next</span>
+                </button>
+            </div>
         </div>
     </div>
 </div>
@@ -97,7 +110,7 @@
 
             // Kiểm tra dữ liệu
             if (!departure || !destination || !departureTime) {
-                alert('Vui lòng chọn nơi đi, nơi đến và ngày đi.');
+                alert('Vui lòng chọn điểm khởi hành, điểm đến và ngày đi.');
                 event.preventDefault(); // Ngăn chặn chuyển trang mặc định
                 return;
             }
@@ -107,6 +120,10 @@
                 event.preventDefault(); // Ngăn chặn chuyển trang mặc định
                 return;
             }
+        });
+
+        $('#flightCarousel').carousel({
+            interval: 2000 // Slide sau mỗi 2 giây
         });
     });
 </script>

@@ -41,39 +41,45 @@
         
         <a class="item-offcanvas" asp-controller="FlightManagement" asp-action="Index">
             <div class="div-a div-text-center">
-               Flight Management
+               Quản lý chuyến bay
             </div>
         </a>
 
 
         <a class="item-offcanvas" asp-controller="TicketManagement" asp-action="Index">
             <div class="div-a div-text-center">
-                Ticket Management
+                Quản lý vé
             </div>
         </a>
 
 
         <a class="item-offcanvas" asp-controller="CustomerManagement" asp-action="Index">
             <div class="div-a div-text-center">
-                Customer Management
+                Quản lý hành khách
             </div>
         </a>
 
 
         <a class="item-offcanvas" asp-controller="Statistical" asp-action="Index">
             <div class="div-a div-text-center">
-                Statistical Management
+                Quản lý thống kê
+            </div>
+        </a>
+
+        <a class="item-offcanvas" asp-controller="Tour" asp-action="TourManagement">
+            <div class="div-a div-text-center">
+                Quản lý vé
             </div>
         </a>
 
         <a class="item-offcanvas" asp-controller="Home" asp-action="Index">
             <div class="div-a div-text-center">
-                Back to Home
+                Quay về nhà
             </div>
         </a>
 
         <form id="logoutForm" method="post" asp-controller="Account" asp-action="LogOut">
-            <button type="submit" class="btn btn-danger">Logout</button>
+            <button type="submit" class="btn btn-danger">Đăng xuất</button>
         </form>
     </div>
 </div>

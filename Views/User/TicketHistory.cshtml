@@ -1,6 +1,6 @@
 ﻿@using BookingTourWebApp_MVC.ViewModels;
 @model IEnumerable<TicketHistoryViewModel>
-
+<h1 class="mb-3">Lịch sử đặt vé</h1>
 <div class="card-deck">
     @foreach (var item in Model)
     {
@@ -10,11 +10,10 @@
                     <input type="hidden" name="flightId" value="@item.FlightId" />
                     <div class="col-md-5">
                         <!-- Phần 1 -->
-                        <h5>Mã chuyến bay: @item.FlightId</h5>
-                        <h6>Nơi đi - Nơi đến</h6>
+                        <h6>Điểm khởi hành - Điểm đến</h6>
                         <h4>@item.Departure - @item.Destination</h4>
 
-                        <h6>Khởi hành: Ngày - Giờ</h6>
+                        <h6>Ngày đi</h6>
                         <h4>@item.DepartureTime.ToShortDateString() - @item.DepartureTime.ToLongTimeString()</h4>
                     </div>
                     <div class="col-md-5">
@@ -23,8 +22,8 @@
                         <p>Số vé: @item.BusinessTickets</p>
                         <strong>Vé hạng phổ thông</strong>
                         <p>Số vé: @item.EconomyTickets</p>
-                        <strong>Đã thanh toán</strong>
-                        <p>Tổng số tiền: @item.TotalPrice</p>
+                        <strong>Tổng số tiền:</strong>
+                        <p>@item.TotalPrice</p>
                     </div>
                 </form>
             </div>

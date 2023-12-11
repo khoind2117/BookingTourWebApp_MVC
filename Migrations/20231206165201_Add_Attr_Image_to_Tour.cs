@@ -4,13 +4,13 @@
 
 namespace BookingTourWebApp_MVC.Migrations
 {
-    public partial class AddFullName : Migration
+    public partial class Add_Attr_Image_to_Tour : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.AddColumn<string>(
-                name: "FullName",
-                table: "AspNetUsers",
+                name: "Image",
+                table: "Tour",
                 type: "nvarchar(max)",
                 nullable: false,
                 defaultValue: "");
@@ -19,8 +19,8 @@ namespace BookingTourWebApp_MVC.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropColumn(
-                name: "FullName",
-                table: "AspNetUsers");
+                name: "Image",
+                table: "Tour");
         }
     }
 }
