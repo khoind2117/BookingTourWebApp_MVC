@@ -1,0 +1,63 @@
+﻿@model Tour
+
+<!-- Page Content -->
+<div class="container">
+
+    <!-- Portfolio Item Heading -->
+    <h1 class="my-4">
+        <small>@Model.Name</small>
+    </h1>
+
+    <!-- Portfolio Item Row -->
+    <div class="row">
+
+        <div class="col-md-7">
+            <img class="img-fluid" src="@Model.Image" style="width:700px; height: 300px" alt="Ảnh tour du lịch">
+        </div>
+
+        <div class="col-md-5">
+            <h4>Tổng quan</h4>
+            <p>@Model.Description</p>
+            <h6>Điểm khởi hành: @Model.Departure</h6>
+            <h6>Điểm đến: @Model.Destination</h6>
+            <h6>Ngày đi: @Model.DepartureDate</h6>
+            <h6>Ngày trở về: @Model.ReturnDate</h6>
+            <button class="btn btn-sm btn-primary submitButton">Gửi yêu cầu</button>
+        </div>
+
+    </div>
+    <!-- /.row -->
+    <!-- Related Projects Row -->
+    <h3 class="my-4">Tour du lịch tương tự</h3>
+
+    <div class="row">
+
+        <div class="col-md-3 col-sm-6 mb-4">
+            <a href="#">
+                <img class="img-fluid" src="https://via.placeholder.com/500x300" alt="">
+            </a>
+        </div>
+
+        <div class="col-md-3 col-sm-6 mb-4">
+            <a href="#">
+                <img class="img-fluid" src="https://via.placeholder.com/500x300" alt="">
+            </a>
+        </div>
+
+        <div class="col-md-3 col-sm-6 mb-4">
+            <a href="#">
+                <img class="img-fluid" src="https://via.placeholder.com/500x300" alt="">
+            </a>
+        </div>
+
+        <div class="col-md-3 col-sm-6 mb-4">
+            <a href="#">
+                <img class="img-fluid" src="https://via.placeholder.com/500x300" alt="">
+            </a>
+        </div>
+
+    </div>
+    <!-- /.row -->
+
+</div>
+<!-- /.container -->

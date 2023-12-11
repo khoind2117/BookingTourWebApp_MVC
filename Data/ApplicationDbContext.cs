@@ -16,6 +16,7 @@ namespace BookingTourWebApp_MVC.Data
         public DbSet<Flight> Flights { get; set; }
         public DbSet<Booking> Bookings { get; set; }
         public DbSet<Plane> Planes { get; set; }
+        public DbSet<Tour> Tours { get; set; }
         #endregion
 
         #region FluentAPI
@@ -51,7 +52,6 @@ namespace BookingTourWebApp_MVC.Data
             // Booking n-n AppUser - Flight
             modelBuilder.Entity<Booking>(entity =>
             {
-                entity.ToTable("Booking").HasKey(b => b.Id);
                 entity.ToTable("Booking")
                     .HasKey(b => b.Id);
                 entity.Property(b => b.TotalPrice)
@@ -67,19 +67,17 @@ namespace BookingTourWebApp_MVC.Data
                     .HasForeignKey(b => b.FlightId)
                     .OnDelete(DeleteBehavior.Restrict);
             });
+
+            // Tour
+            modelBuilder.Entity<Tour>(entity =>
+            {
+                entity.ToTable("Tour")
+                    .HasKey(t => t.Id);
+
+                entity.Property(t => t.Price)
+                    .HasColumnType("decimal(18, 2)");
+            });
         }
-        #endregion
-
-        #region FluentAPI
-        public DbSet<BookingTourWebApp_MVC.ViewModels.CustomerInfo>? CustomerInfo { get; set; }
-        #endregion
-
-        #region FluentAPI
-        public DbSet<StatisticalFlightSales>? StatisticalFlightSales { get; set; }
-        #endregion
-
-        #region FluentAPI
-        public DbSet<StatisticalView>? StatisticalView { get; set; }
         #endregion
     }
 }
