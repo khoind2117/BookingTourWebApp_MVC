@@ -62,7 +62,9 @@ namespace BookingTourWebApp_MVC.Controllers
                 DepartureTime = f.DepartureTime,
                 BusinessPrice = f.BusinessPrice,
                 EconomyPrice = f.EconomyPrice,
-                UploadTime = f.UploadTime
+                UploadTime = f.UploadTime,
+                BusinessBooked = f.Bookings.Where(b => b.FlightId == f.Id).Sum(b => b.BusinessTickets),
+                EconomyBooked = f.Bookings.Where(c => c.FlightId == f.Id).Sum(c => c.EconomyTickets)
             }).ToListAsync();
 
             return View(flightList);
@@ -77,7 +79,8 @@ namespace BookingTourWebApp_MVC.Controllers
                 return NotFound();
             }
 
-            var query = _context.Flights.Include(f => f.Plane).AsQueryable();
+            var query = _context.Flights.Include(f => f.Plane).Include(c => c.Bookings).AsQueryable();
+            query = query.Where(f => f.Id == id);
             var flightDetail = await query.Select(f => new FlightViewModel
             {
                 Id = f.Id,
@@ -90,7 +93,9 @@ namespace BookingTourWebApp_MVC.Controllers
                 DepartureTime = f.DepartureTime,
                 BusinessPrice = f.BusinessPrice,
                 EconomyPrice = f.EconomyPrice,
-                UploadTime = f.UploadTime
+                UploadTime = f.UploadTime,
+                BusinessBooked = f.Bookings.Where(b => b.FlightId == f.Id).Sum(b => b.BusinessTickets),
+                EconomyBooked = f.Bookings.Where(c => c.FlightId == f.Id).Sum(c => c.EconomyTickets)
             }).FirstOrDefaultAsync();
             return View(flightDetail);
         }
@@ -254,7 +259,9 @@ namespace BookingTourWebApp_MVC.Controllers
                                         DepartureTime = f.DepartureTime,
                                         BusinessPrice = f.BusinessPrice,
                                         EconomyPrice = f.EconomyPrice,
-                                        UploadTime = f.UploadTime
+                                        UploadTime = f.UploadTime,
+                                        BusinessBooked = f.Bookings.Where(b => b.FlightId == f.Id).Sum(b => b.BusinessTickets),
+                                        EconomyBooked = f.Bookings.Where(c => c.FlightId == f.Id).Sum(c => c.EconomyTickets)
                                     }).FirstOrDefaultAsync();
             if (flightList == null)
             {
