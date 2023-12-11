@@ -169,6 +169,12 @@
                 @Html.DisplayNameFor(model => model.EconomyCapacity)
             </th>
             <th style="background-color:#146C94;color:white">
+                Ghế thương gia đã đặt
+            </th>
+            <th style="background-color:#146C94;color:white">
+                Ghế phổ thông đã đặt
+            </th>
+            <th style="background-color:#146C94;color:white">
                 @Html.DisplayNameFor(model => model.DepartureTime)
             </th>
             <th style="background-color:#146C94;color:white">
@@ -205,6 +211,12 @@
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.EconomyCapacity)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.BusinessBooked)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EconomyBooked)
             </td>
             <td>
                 @*@Html.DisplayFor(modelItem => item.DepartureTime)*@

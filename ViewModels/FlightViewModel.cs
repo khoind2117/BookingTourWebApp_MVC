@@ -63,6 +63,10 @@ namespace BookingTourWebApp_MVC.ViewModels
         [Range(1, int.MaxValue, ErrorMessage = "Số lượng ghế Economy không hợp lệ.")]
         public int EconomyCapacity { get; set; }
 
+        public int BusinessBooked { get; set; }
+
+        public int EconomyBooked { get; set; }
+
         [Display(Name = "Thời điểm khởi hành")]
         [Required(ErrorMessage = "Vui lòng nhập thời gian bay.")]
         public DateTime DepartureTime { get; set; }
