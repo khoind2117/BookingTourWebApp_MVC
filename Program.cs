@@ -48,15 +48,19 @@ builder.Services.Configure<IdentityOptions>(options =>
 builder.Services.AddAuthentication()
     .AddFacebook(facebookOptions =>
     {
-        facebookOptions.AppId = builder.Configuration["Authentication:Facebook:AppId"];
-        facebookOptions.AppSecret = builder.Configuration["Authentication:Facebook:AppSecret"];
+        //facebookOptions.AppId = builder.Configuration["Authentication:Facebook:AppId"];
+        //facebookOptions.AppSecret = builder.Configuration["Authentication:Facebook:AppSecret"];
+        facebookOptions.AppId = "895663108626722";
+        facebookOptions.AppSecret = "6345a4626bc26ec8de33547b30d2a146";
         //facebookOptions.AccessDeniedPath = "/AccessDeniedPathInfo";
         facebookOptions.AccessDeniedPath = "/";
     })
     .AddGoogle(googleOptions =>
     {
-        googleOptions.ClientId = builder.Configuration["Authentication:Google:ClientId"];
-        googleOptions.ClientSecret = builder.Configuration["Authentication:Google:ClientSecret"];
+        //googleOptions.ClientId = builder.Configuration["Authentication:Google:ClientId"];
+        //googleOptions.ClientSecret = builder.Configuration["Authentication:Google:ClientSecret"];
+        googleOptions.ClientId = "779825606353-11hrtlfgf3kk7nusjc9vj02fmjeu7lhv.apps.googleusercontent.com";
+        googleOptions.ClientSecret = "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";
     });
 #endregion
 
