@@ -17,6 +17,7 @@ namespace BookingTourWebApp_MVC.Data
         public DbSet<Booking> Bookings { get; set; }
         public DbSet<Plane> Planes { get; set; }
         public DbSet<Tour> Tours { get; set; }
+        public DbSet<UserTour> UserTours { get; set; }
         #endregion
 
         #region FluentAPI
@@ -76,6 +77,23 @@ namespace BookingTourWebApp_MVC.Data
 
                 entity.Property(t => t.Price)
                     .HasColumnType("decimal(18, 2)");
+            });
+
+            //UserTour
+            modelBuilder.Entity<UserTour>(entity =>
+            {
+                entity.ToTable("UserTour")
+                    .HasKey(u => u.Id);
+
+                entity.HasOne(u => u.AppUser)
+                    .WithMany(a => a.UserTours)
+                    .HasForeignKey(u => u.AppUserId)
+                    .OnDelete(DeleteBehavior.Restrict);
+
+                entity.HasOne(u => u.Tour)
+                    .WithMany(t => t.UserTours)
+                    .HasForeignKey(u => u.TourId)
+                    .OnDelete(DeleteBehavior.Restrict);
             });
         }
         #endregion

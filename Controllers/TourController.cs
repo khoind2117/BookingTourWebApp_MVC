@@ -3,6 +3,7 @@ using BookingTourWebApp_MVC.Models;
 using BookingTourWebApp_MVC.Services.Interfaces;
 using BookingTourWebApp_MVC.ViewModels;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
@@ -13,11 +14,15 @@ namespace BookingTourWebApp_MVC.Controllers
     {
         private readonly ApplicationDbContext _context;
         private readonly IPhotoService _photoService;
+        private readonly UserManager<AppUser> _userManager;
 
-        public TourController(ApplicationDbContext context, IPhotoService photoService)
+        public TourController(ApplicationDbContext context,
+            IPhotoService photoService,
+            UserManager<AppUser> userManager)
         {
             _context = context;
             _photoService = photoService;
+            _userManager = userManager;
         }
         public async Task<IActionResult> Index()
         {
@@ -62,6 +67,40 @@ namespace BookingTourWebApp_MVC.Controllers
             return View(tours);
         }
 
+        [HttpPost]
+        public async Task<IActionResult> BuyTour(int id)
+        {
+            var appUser = await _userManager.GetUserAsync(User);
+            var tour = await _context.Tours.FindAsync(id);
+
+            if(tour == null)
+            {
+                TempData["ErrorMessage"] = "Đặt tour thất bại!";
+                return RedirectToAction("Index", "Tour");
+            }
+
+            var userTour = new UserTour
+            {
+                AppUserId = appUser.Id,
+                AppUser = appUser,
+                TourId = tour.Id,
+                Tour = tour,
+            };
+
+            _context.UserTours.Add(userTour);
+            await _context.SaveChangesAsync();
+
+            TempData["SuccessMessage"] = "Đặt tour thành công!";
+            return RedirectToAction("Index", "Tour");
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> TourManagement()
+        {
+            var tours = await _context.Tours.ToListAsync();
+            return View(tours);
+        }
+
 
         [HttpGet]
         public async Task<IActionResult> CreateTour()
@@ -91,7 +130,8 @@ namespace BookingTourWebApp_MVC.Controllers
                             Price = tourVM.Price,
                             Description = tourVM.Description,
                             Image = result.Url.ToString(),
-                            UploadTime = DateTime.UtcNow
+                            UploadTime = DateTime.UtcNow,
+                            Discount = tourVM.Discount,
                         };
 
                         _context.Tours.Add(newTour);
@@ -120,6 +160,100 @@ namespace BookingTourWebApp_MVC.Controllers
         {
             Tour tour = await _context.Tours.FirstOrDefaultAsync(t => t.Id == id);
             return View(tour);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> UpdateTour(int id)
+        {
+            var tour = await _context.Tours.FirstOrDefaultAsync(t => t.Id == id);
+            if (tour == null)
+            {
+                return View("Error");
+            }
+
+            var tourVM = new UpdateTourViewModel
+            {
+                Name = tour.Name,
+                Departure = tour.Departure,
+                Destination = tour.Destination,
+                DepartureDate = tour.DepartureDate,
+                ReturnDate = tour.ReturnDate,
+                Description = tour.Description,
+                Price = tour.Price,
+                URL = tour.Image,
+                Discount = tour.Discount,
+            };
+            return View(tourVM);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> UpdateTour(int id, UpdateTourViewModel tourVM)
+        {
+            if (!ModelState.IsValid)
+            {
+                TempData["ErrorMessage"] = "Tạo Tour du lịch thất bại. Vui lòng thử lại sau.";
+                return View("UpdateTour", tourVM);
+            }
+
+            var tour = await _context.Tours.Where(t => t.Id == id).AsNoTracking().FirstOrDefaultAsync();
+
+            if (tour != null)
+            {
+                try
+                {
+                    await _photoService.DeletePhotoASync(tour.Image);
+                }
+                catch (Exception ex)
+                {
+                    TempData["ErrorMessage"] = "Tạo Tour du lịch thất bại. Vui lòng thử lại sau.";
+                    return View(tourVM);
+                }
+                var photoResult = await _photoService.AddPhotoASync(tourVM.Image);
+
+                var updatedtour = new Tour
+                {
+                    Name = tourVM.Name,
+                    Departure = tourVM.Departure,
+                    Destination = tourVM.Destination,
+                    DepartureDate = tourVM.DepartureDate,
+                    ReturnDate = tourVM.ReturnDate,
+                    Description = tourVM.Description,
+                    Price = tourVM.Price,
+                    Image = photoResult.Url.ToString(),
+                    UploadTime = DateTime.UtcNow
+                };
+
+                _context.Tours.Update(updatedtour);
+                _context.SaveChanges();
+                TempData["SuccessMessage"] = "Tạo Tour du lịch thành công.";
+
+                return RedirectToAction("UpdateTour");
+            }
+            else
+            {
+                return View(tourVM);
+            }
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> DeleteTour(int id)
+        {
+            var tour = await _context.Tours.Where(t => t.Id == id).AsNoTracking().FirstOrDefaultAsync();
+
+            try
+            {
+                await _photoService.DeletePhotoASync(tour.Image);
+            }
+            catch (Exception ex)
+            {
+                TempData["ErrorMessage"] = "Xóa Tour du lịch thất bại.";
+                return View("TourManagement");
+            }
+
+            _context.Tours.Remove(tour);
+            _context.SaveChanges();
+            TempData["SuccessMessage"] = "Xóa Tour du lịch thành công.";
+            return RedirectToAction("TourManagement");
         }
     }
 }

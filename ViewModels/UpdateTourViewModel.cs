@@ -2,8 +2,9 @@
 
 namespace BookingTourWebApp_MVC.ViewModels
 {
-    public class CreateTourViewModel
+    public class UpdateTourViewModel
     {
+        public int Id { get; set; } 
         [Required(ErrorMessage = "Vui lòng nhập tên.")]
         public string Name { get; set; }
 
@@ -24,9 +25,9 @@ namespace BookingTourWebApp_MVC.ViewModels
 
         [Required(ErrorMessage = "Vui lòng nhập giá tiền.")]
         public decimal Price { get; set; }
-
         [Required(ErrorMessage = "Vui lòng chọn hình ảnh.")]
         public IFormFile Image { get; set; }
+        public string? URL { get; set; }
         public int? Discount { get; set; }
         public DateTime UploadTime { get; set; }
     }
