@@ -212,6 +212,7 @@ namespace BookingTourWebApp_MVC.Controllers
 
                 var updatedtour = new Tour
                 {
+                    Id = tourVM.Id,
                     Name = tourVM.Name,
                     Departure = tourVM.Departure,
                     Destination = tourVM.Destination,
@@ -225,7 +226,7 @@ namespace BookingTourWebApp_MVC.Controllers
 
                 _context.Tours.Update(updatedtour);
                 _context.SaveChanges();
-                TempData["SuccessMessage"] = "Tạo Tour du lịch thành công.";
+                TempData["SuccessMessage"] = "Cập nhật Tour du lịch thành công.";
 
                 return RedirectToAction("UpdateTour");
             }
