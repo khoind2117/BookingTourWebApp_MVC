@@ -1,1 +1,85 @@
-﻿
+﻿@model IEnumerable<Tour>
+
+@{
+    Layout = "_LayoutAdminManagement";
+}
+
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success" role="alert">
+        @TempData["SuccessMessage"]
+    </div>
+}
+
+@if (TempData["ErrorMessage"] != null)
+{
+    <div class="alert alert-danger" role="alert">
+        @TempData["ErrorMessage"]
+    </div>
+}
+
+<h2>Quản lý Tour du lịch</h2>
+
+<a asp-asp-controller="Tour" asp-action="CreateTour" class="btn btn-primary my-3">Tạo tour du lịch</a>
+
+<div class="album bg-light">
+    <div class="container">
+        <div class="row">
+            @foreach (var item in Model)
+            {
+                <div class="col-md-3">
+                    <div class="card mb-4 box-shadow">
+                        <img class="card-img-top" src="@item.Image" width="100" height="200" alt="Card image cap">
+                        <div class="card-body">
+                            <strong class="card-text">@item.Name</strong>
+                            <hr />
+                            <span class="card-text">Điểm khởi hành: @item.Departure</span>
+                            <br />
+                            <span class="card-text">Điểm đến: @item.Destination</span>
+                            <br />
+                            <span class="card-text">Ngày khởi hành:<br /> @item.DepartureDate</span>
+                            <br />
+                            <span class="card-text">Ngày trở về:<br /> @item.ReturnDate</span>
+
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div class="btn-group">
+                                    <a asp-controller="Tour" asp-action="DetailTour" asp-route-id="@item.Id" type="button" class="btn btn-sm btn-outline-primary">Chi tiết</a>
+                                    @if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
+                                    {
+                                        <a asp-controller="Tour" asp-action="UpdateTour" asp-route-id="@item.Id" type="button" type="button" class="btn btn-sm btn-outline-success">Cập nhật</a>
+                                        <form id="deleteForm_@item.Id" method="post" asp-controller="Tour" asp-action="DeleteTour" asp-route-id="@item.Id">
+                                            <input type="hidden" name="X-HTTP-Method-Override" value="DELETE" />
+                                            <button type="submit" class="btn btn-sm btn-outline-danger" onclick="return confirm('Are you sure you want to delete this tour?')">Delete</button>
+                                        </form>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+<script>
+    function deleteTour(id) {
+        if (confirm('Bạn có muốn xóa tour du lịch này không ?')) {
+            $.ajax({
+                url: '/Tour/DeleteTour/' + id,
+                type: 'POST',
+                headers: {
+                    'X-HTTP-Method-Override': 'DELETE'
+                },
+                success: function (result) {
+                    // Xử lý kết quả trả về nếu cần
+                    // Ví dụ: cập nhật giao diện sau khi xóa thành công
+                    location.reload(); // Refresh trang sau khi xóa
+                },
+                error: function (error) {
+                    // Xử lý lỗi nếu có
+                }
+            });
+        }
+    }
+</script>

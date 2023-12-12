@@ -1,0 +1,38 @@
+﻿@using BookingTourWebApp_MVC.ViewModels;
+@model IEnumerable<TourHistoryViewModel>
+
+<h1 class="mb-3">Lịch sử đặt tour</h1>
+<div class="card-deck">
+    @foreach (var item in Model)
+    {
+        <div class="card mb-4 box-shadow">
+            <div class="card-body">
+                <div class="row"> 
+                    <div class="col-md-4">
+                        <!-- Phần 2 -->
+                        <img class="img-fluid" src="@item.Image" style="width:300px; height: 200px" alt="Ảnh tour du lịch">
+                    </div>
+                    <div class="col-md-4">
+                        <!-- Phần 2 -->
+                        <strong>Tên Tour:</strong>
+                        <p>@item.Name</p>
+                        <strong>Tổng số tiền:</strong>
+                        <p>@item.Price</p>
+                    </div>
+                    <div class="col-md-4">
+                        <!-- Phần 1 -->
+                        <h6>Điểm khởi hành - Điểm đến</h6>
+                        <h4>@item.Departure - @item.Destination</h4>
+
+                        <h6>Ngày khởi hành </h6>
+                        <h4>@item.DepartureDate.ToShortDateString() - @item.DepartureDate.ToLongTimeString()</h4>
+
+                        <h6>Ngày trở về </h6>
+                        <h4>@item.ReturnDate.ToShortDateString() - @item.ReturnDate.ToLongTimeString()</h4>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    }
+</div>

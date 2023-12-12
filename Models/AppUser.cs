@@ -7,5 +7,6 @@ namespace BookingTourWebApp_MVC.Models
     {
         public string FullName { get; set; }
         public virtual ICollection<Booking>? Bookings { get; set; }
+        public virtual ICollection<UserTour>? UserTours { get; set; }
     }
 }

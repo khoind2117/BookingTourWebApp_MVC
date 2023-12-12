@@ -82,5 +82,30 @@ namespace BookingTourWebApp_MVC.Controllers
 
             return View(ticketHistoryVMs);
         }
+
+        [HttpGet]
+        [Authorize]
+        public async Task<IActionResult> TourHistory()
+        {
+            var userId = _userManager.GetUserId(User);
+
+            var userTours = await _context.UserTours
+                .Where(u => u.AppUserId == userId)
+                .Include(u => u.Tour)
+                .ToListAsync();
+
+            var tourHistoryVMs = userTours.Select(t => new TourHistoryViewModel
+            {
+                Image = t.Tour.Image,
+                Name = t.Tour.Name,
+                Departure = t.Tour.Departure,
+                Destination = t.Tour.Destination,
+                DepartureDate = t.Tour.DepartureDate,
+                ReturnDate = t.Tour.ReturnDate,
+                Price = t.Tour.Price
+            }).ToList();
+
+            return View(tourHistoryVMs);
+        }
     }
 }
